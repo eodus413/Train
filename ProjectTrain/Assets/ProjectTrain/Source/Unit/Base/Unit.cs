@@ -4,15 +4,15 @@ namespace ProjectTrain
 {
     public abstract partial class Unit : MonoBehaviour, IAttackable, IInitilaizable
     {
+        public int layer { get; private set; }
+        private int deadLayer;
         /// <summary>
         /// 데이터
         /// </summary>
-        protected State state = new State();
-        [SerializeField]
         private int _hp;            //property 있음 Unit.inteface
         Direction _moveDirection;
         Direction _lookingDirection;//보고 있는 방향 property 있음 Unit.interface
-
+        
         /// <summary>
         /// 컴포넌트
         /// </summary>

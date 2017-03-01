@@ -11,7 +11,7 @@ namespace ProjectTrain.Weapon
         }
 
         IAttackable target;
-        public void Shot()
+        public virtual void Shot()
         {
             //currentCoolTime > 0 return;
             animator.Play(shotAnimationName);

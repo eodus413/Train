@@ -7,8 +7,8 @@ namespace ProjectTrain.Weapon
         protected abstract void Start();
 
         public virtual void Initialize
-            (GameObject bullet,AudioClip[] shotClips,AudioClip reloadClip,
-            float coolTime,float startDelay,int damage,int maxAmmo)
+            (AudioClip[] shotClips,AudioClip reloadClip,
+            float coolTime,int damage,int maxAmmo)
         {
             this.magazine = new Magazine(maxAmmo);
 
@@ -16,14 +16,12 @@ namespace ProjectTrain.Weapon
             this.animator = owner.GetComponent<Animator>();         //가져온 부모에서 aniamtor 가져옴
 
             this.shotPoint = transform.GetChild(0);             
-
-            this.bullet = bullet;
+            
             this.shotClips = shotClips;
             this.reloadClip = reloadClip;
             this.reloadDelay = animator.GetClip(reloadAnimationName).length;
 
             this.coolTime = coolTime;
-            this.startDelay = startDelay;
 
             this.damage = damage;
 

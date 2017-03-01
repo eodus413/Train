@@ -4,49 +4,45 @@ namespace ProjectTrain
 {
     public partial class MonsterBase : Unit
     {
-        protected override bool isDoingAction()
+        public override void Attacked(AttackData data)
         {
-            return true;
+            base.Attacked(data);
+            Vector3 attackerPos = data.attacker.transform.position;
+            if (attackerPos.isLeft(transform.position))
+            {
+                lookingDirection = Direction.Left;
+            }
+            else
+            {
+                lookingDirection = Direction.Right;
+            }
         }
-        protected override void Action()
-        {
-        }
-
 
         protected override bool isDoingAttack()
         {
             if (targeting.target == null) return false;
-            
-            return TargetIsInArea();
+            if (TargetIsInArea() == false) return false;
+            return true;
         }
         protected override void Attack()
         {
-            state.Set(State.attack);
+            prevAttackData.Set(damage, lookingDirection.DirToVec2(), this);
 
             animation.SetAttacking(true);
-
-
-            if (targeting.target == null) return;
-            targeting.target.GetComponent<Unit>().Attacked(damage);
+            
+            targeting.target.GetComponent<Unit>().Attacked(prevAttackData);
         }
-        protected override bool isIdle()
-        {
-            if (targeting.target != null) return false;
 
-            return true;
-        }
         protected override void Idle()
         {
-            targeting.Execute(lookingDirection.DirToVec2());
-            movement.Idle();
-            state.SetIdle();
+            if (targeting.target != null) return;
+
+            TargetingExecute();
         }
-
-
+        
         protected override bool isDoingMove()
         {
             if (targeting.target == null) return false;
-
             if (TargetIsInArea()) return false;
 
             if (targeting.TargetIsLeft())
@@ -63,9 +59,6 @@ namespace ProjectTrain
         }
         protected override void Move()
         {
-            if (state.Is(State.attack)) return;
-            state.Set(State.move);
-            
             movement.Move(moveDirection.DirToVec2());
 
             animation.SetMoving(true);

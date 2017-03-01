@@ -4,6 +4,6 @@
     {
         bool isLive { get; }
         int hp { get; }
-        void Attacked(int damage);
+        void Attacked(AttackData data);
     }
 }

@@ -13,10 +13,6 @@ namespace ProjectTrain.InGame
             Transform target = GameObject.Find("Player").transform;
             this.camera2D = new Camera2DFollow(target);
         }
-        void Start()
-        {
-
-        }
         Transform[] FindParallax()
         {
             List<Transform> parallaxs = new List<Transform>();

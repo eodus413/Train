@@ -10,8 +10,8 @@ namespace ProjectTrain
         Transform parent;
 
         bool isGrow;
-        public int size { get { return pool.Count; } }
-
+        public int size;
+        
         private void Remove(int amount = 1, bool active = true)
         {
             GameObject target;
@@ -25,6 +25,7 @@ namespace ProjectTrain
                     pool.Remove(target);
                 }
             }
+            size = pool.Count;
         }
         private void Append(int amount = 1, bool active = false)
         {
@@ -35,7 +36,7 @@ namespace ProjectTrain
                 instance.SetActive(active);
                 pool.Add(instance);
             }
-
+            size = pool.Count;
         }
     }
 }

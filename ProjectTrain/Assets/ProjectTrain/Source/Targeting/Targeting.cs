@@ -16,6 +16,7 @@ namespace ProjectTrain
         public void Execute(Vector2 direction)
         {
             hit = Physics2D.Raycast(owner.position, direction,sight,mask);
+            
             if (!hit) return;
 
             hitobj = hit.transform.gameObject;
@@ -33,7 +34,7 @@ namespace ProjectTrain
             {
                 if (_target == null) return null;
 
-                if (DistanceToTarget() < sight)
+                if (DistanceToTarget() > sight)
                 {
                     _target = null;
                 }

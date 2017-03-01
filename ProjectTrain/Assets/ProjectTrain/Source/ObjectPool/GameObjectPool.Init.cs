@@ -20,6 +20,7 @@ namespace ProjectTrain
                 instance.SetActive(false);
                 pool.Add(instance);
             }
+            size = pool.Count;
         }
     }
 }

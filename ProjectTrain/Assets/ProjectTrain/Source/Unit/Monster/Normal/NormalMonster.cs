@@ -4,10 +4,18 @@ namespace ProjectTrain
 {
     public class NormalMonster : MonsterBase
     {
+        const int orgHp = 15;
+        const float orgSpeed = 0.3f;
+        const int orgDamage = 1;
+        const float orgSight = 1.5f;
+        const float orgAttackrange = 0.1f;
         public override void Initialize()
         {
             base.Initialize();
-            Initialize(10, new MovementBase(transform, 0.3f),new MonsterAnimation(animator),1,0.5f,0.1f);
+            Initialize(orgHp
+                , new MovementBase(transform, orgSpeed)
+                ,new MonsterAnimation(animator),
+                orgDamage,orgSight,orgAttackrange);
         }
     }
 }

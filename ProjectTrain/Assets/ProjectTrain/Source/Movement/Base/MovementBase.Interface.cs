@@ -4,11 +4,12 @@ namespace ProjectTrain
 {
     public partial class MovementBase
     {
-        public void Idle()
+
+        public float deltaSpeed
         {
-            isMoving = false;
-            this.direction = Vector3.zero;
+            get { return speed * Time.deltaTime; }
         }
+
         public virtual void Move(Vector3 direction)
         {
             if (direction == Vector3.zero) return;
@@ -16,16 +17,14 @@ namespace ProjectTrain
             transform.position += direction * deltaSpeed;
             
             this.direction = direction;
-            isMoving = true;
         }
-        public virtual void MoveBack(Vector3 direction)
+        public void Move(Vector3 direction,float newSpeed)
         {
             if (direction == Vector3.zero) return;
 
-            transform.position += direction * (deltaSpeed * 0.5f);
+            transform.position += direction * newSpeed;
 
             this.direction = direction;
-            isMoving = true;
         }
     }
 }

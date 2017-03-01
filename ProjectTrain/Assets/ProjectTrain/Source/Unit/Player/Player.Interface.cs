@@ -1,54 +1,40 @@
 ﻿using UnityEngine;
 using ProjectTrain.Weapon;
+using System.Collections;
 
 namespace ProjectTrain
 {
     public partial class Player : Unit
     {
-        float halfBar;
-        public override Direction lookingDirection
-        {
-            get
-            {
-                halfBar = Camera.main.WorldToScreenPoint(transform.position).x;
-                if(Input.mousePosition.x < halfBar)
-                {
-                    return Direction.Left;
-                }
-                return Direction.Right;
-            }
-            protected set
-            {
-                base.lookingDirection = value;
-            }
-        }
-
-        int weaponNumber = 0;
+       int weaponNumber = 0;
         public WeaponBase currentWeapon
         {
             get { return weapons[weaponNumber]; }
         }
+        #region Dead
+        protected override IEnumerator DoDead()
+        {
+            //게임 시스템에 플레이어 사망에 대한 정보 넘기기
+            return base.DoDead();
+        }
+        #endregion
 
 
         #region Attack
         protected override bool isDoingAttack()
         {
-            bool result;
-            if (Input.GetMouseButtonDown(1) == false) result = false;
-            else result = true;
-
-            if (result) animation.SetAttacking(true);
-            else animation.SetAttacking(false);
-
-            return result;
+            if (Input.GetMouseButtonDown(1) == false) return false;
+            
+            return true;
         }
         protected override void Attack()
         {
+            animation.SetAttacking(true);
             currentWeapon.Shot();
         }
         #endregion
         #region Action
-        protected override bool isDoingAction()
+        public bool isDoingAction()
         {
             bool result;
             //if(근처에 상호작용 오브젝트가 있다)
@@ -57,32 +43,33 @@ namespace ProjectTrain
 
             return result;
         }
-        protected override void Action()
+        public void Action()
         {
             //action
         }
         #endregion
+        #region Idle
+        protected override void Idle()
+        {
+            if (isDoingAction()) Action();
+        }
+        #endregion
+
         #region Move
         protected override bool isDoingMove()
         {
-            bool result = false;
-            if (Input.anyKey == false) result = false;
-
             if (Input.GetKey(KeyCode.A))
             {
                 moveDirection = Direction.Left;
-                result = true;
+                return true;
             }
 
             else if (Input.GetKey(KeyCode.D))
             {
                 moveDirection = Direction.Right;
-                result = true;
+                return true;
             }
-
-            if (!result) animation.SetMoving(false);
-
-            return result;
+            else return false;
         }
         protected override void Move()
         {
@@ -90,13 +77,12 @@ namespace ProjectTrain
             movement.Move(moveDirection.DirToVec2());
         }
         #endregion
-
-        protected override void Flip(Direction direction)
+        
+        public void Look(Direction direction)
         {
-            base.Flip(direction);
+            lookingDirection = direction;
             if (direction == Direction.Left) hand.transform.eulerAngles = new Vector3(0, 180, 0);
             else if (direction == Direction.Right) hand.transform.eulerAngles = new Vector3(0, 0, 0);
-
         }
     }
 }

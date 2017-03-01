@@ -12,9 +12,5 @@ namespace ProjectTrain
         {
             //No Way to move
         }
-        public override void MoveBack(Vector3 direction)
-        {
-            //No Way to move
-        }
     }
 }

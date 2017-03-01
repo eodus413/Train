@@ -13,11 +13,19 @@ namespace ProjectTrain
                 _moveDirection = value;
             }
         }
-        public virtual Direction lookingDirection
+        public Direction lookingDirection
         {
             get { return _lookingDirection; }
             protected set
             {
+                if (value == Direction.Left)
+                {
+                    renderer.flipX = true;
+                }
+                else if (value == Direction.Right)
+                {
+                    renderer.flipX = false;
+                }
                 _lookingDirection = value;
             }
         }
@@ -39,36 +47,26 @@ namespace ProjectTrain
             private set
             {
                 _hp = value;
-                if (hp < 0) Dead();
+                if (hp <= 0) Dead();
             }
         }               
-        public void Attacked(int damage)                //공격 받음 함수
+        public virtual void Attacked(AttackData data)
         {
-            if (damage < 0) return;
-            hp -= damage;
+            if (isLive == false) return;
+            if (data.damage < 0) return;
+            hp -= data.damage;
             animation.SetDamaged(true);
+            
+            KnockBack(data);
         }
         #endregion
-
+        
         protected abstract bool isDoingAttack();
-        protected abstract bool isDoingAction();
-        protected abstract bool isIdle();
         protected abstract bool isDoingMove();
 
         protected abstract void Attack();           //공격
-        protected abstract void Action();           //줍기등
         protected abstract void Idle();
         protected abstract void Move();             //움직임
-        protected virtual void Flip(Direction direction)
-        {
-            if (direction == Direction.Left)
-            {
-                renderer.flipX = true;
-            }
-            else if (direction == Direction.Right)
-            {
-                renderer.flipX = false;
-            }
-        }
+        
     }
 }

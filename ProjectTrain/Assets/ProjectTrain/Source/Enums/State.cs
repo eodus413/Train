@@ -22,6 +22,10 @@
         {
             current = idle;
         }
+        public bool IsIdle()
+        {
+            return current == idle;
+        }
         public void Remove(int state)
         {
             current -= state;

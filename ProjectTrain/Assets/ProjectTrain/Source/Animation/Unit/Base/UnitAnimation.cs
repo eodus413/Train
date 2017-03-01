@@ -11,7 +11,8 @@ namespace ProjectTrain
 
             private set { _animator = value; }
         }
-        
+
+        const string Idle = "Idle";
         const string IsDead = "IsDead";
         const string Moving = "Moving";
         const string Attacking = "Attacking";

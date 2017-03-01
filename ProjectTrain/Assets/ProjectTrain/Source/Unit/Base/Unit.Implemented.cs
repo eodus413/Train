@@ -8,29 +8,28 @@ namespace ProjectTrain
         {
             if (isLive == false) return;
 
-            if (isDoingAction()) Action();
-            else { state.Remove(State.action); }
-
             if (isDoingAttack()) Attack();
-            else { state.Remove(State.attack); }
-
-            Flip(lookingDirection);
+            else animation.SetAttacking(false);
             
-            
-
-            //if(state is idle)
-            // idle();
+            Idle();
         }
         void FixedUpdate()
         {
             if (isLive == false) return;
+
             if (isDoingMove()) Move();
-            else { state.Remove(State.move); }
+            else animation.SetMoving(false);
         }
 
         private void Dead()
-        {
+        {   
+            gameObject.layer = deadLayer;
             StartCoroutine(DoDead());
+        }
+        const float knockBackVelocity = 40f;
+        private void KnockBack(AttackData data)
+        {
+            rigidbody.AddForce(data.direction * knockBackVelocity);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace ProjectTrain
     {
         Transform hand;
 
-        [SerializeField] List<WeaponBase> weapons = new List<WeaponBase>();
-        const string backMoveAnimationName = "MoveBack";
+        List<WeaponBase> weapons = new List<WeaponBase>();
     }
 }

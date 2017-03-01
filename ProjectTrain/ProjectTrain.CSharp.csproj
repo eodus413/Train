@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.4.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,6 +67,9 @@
   <ItemGroup>
     <Compile Include="Assets\ProjectTrain\Scripts\InGame\InGameSystem\InGameSystem.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\InGame\InGameSystem\InGameSystem.cs" />
+    <Compile Include="Assets\ProjectTrain\Scripts\PlayerController\PlayerController.cs" />
+    <Compile Include="Assets\ProjectTrain\Scripts\SceneSystem\SceneSystem.cs" />
+    <Compile Include="Assets\ProjectTrain\Scripts\TimeSystem\TimeSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.cs" />
@@ -87,11 +92,13 @@
     <Compile Include="Assets\ProjectTrain\Source\Movement\Base\MovementBase.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Movement\Base\MovementBase.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Movement\NoWay\NoWayMovement.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Movement\Player\PlayerMovement.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\ObjectPool\MovementBase.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Movement\Base\MovementBase.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Targeting\Targeting.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Time\CoolTime.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Implemented.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Interface.cs" />
@@ -101,6 +108,7 @@
     <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Normal\NormalMonster.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Upgrade\UpgradeMonster.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Implemented.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Interface.cs" />
@@ -109,6 +117,7 @@
     <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.Implemented.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Weapon\AttackData\AttackData.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Implemented.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Interface.cs" />

@@ -9,41 +9,48 @@ namespace ProjectTrain.Weapon
         const float coolTime = 1f;
         const float startDelay = 1f;
         const int damage = 5;
-
-        const string bulletPath = "Prefabs/Weapon/Pistol/Bullet";
+        
         const string shotClipPath_1 = "Sounds/Weapon/Pistol/Shot_1";
         const string shotClipPath_2 = "Sounds/Weapon/Pistol/Shot_2";
         const string shotClipPath_3 = "Sounds/Weapon/Pistol/Shot_3";
         const string reloadClipPath = "Sounds/Weapon/Pistol/Reload";
+
+        const string emptyCatridgePath = "Prefabs/Weapon/EmptyCateridge";
         #endregion
+
 
         protected override void Start()
         {
             Initialize(
-                Resources.Load<GameObject>(bulletPath),
                 new AudioClip[] {   Resources.Load<AudioClip>(shotClipPath_1),
                                     Resources.Load<AudioClip>(shotClipPath_2),
                                     Resources.Load<AudioClip>(shotClipPath_3) },
                 Resources.Load<AudioClip>(reloadClipPath),
                 coolTime,
-                startDelay,
                 damage,
                 maxAmmo
                 );
+
+            emptyCatridge = Resources.Load<GameObject>(emptyCatridgePath);
+            emptyCatridges = new GameObjectPool(emptyCatridge,30);
+
         }
 
         public override void Initialize
-            (GameObject bullet, AudioClip[] shotClips, AudioClip reloadClip,
-            float coolTime, float startDelay,int damage,int maxAmmo)
+            (AudioClip[] shotClips, AudioClip reloadClip,
+            float coolTime,int damage,int maxAmmo)
         {
-            base.Initialize(    bullet,
+            base.Initialize(
                                 shotClips,
                                 reloadClip,
                                 coolTime,
-                                startDelay,
                                 damage,
                                 maxAmmo
                                 );
+
+            this.mask += 1 << LayerMask.NameToLayer("Enemy");
+            this.mask += 1 << LayerMask.NameToLayer("Ground");
+            this.mask += 1 << LayerMask.NameToLayer("Object");
         }
     }
 }

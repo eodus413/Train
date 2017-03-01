@@ -10,7 +10,7 @@ namespace ProjectTrain.Weapon
         }
         protected virtual void Attack(IAttackable target)
         {
-            target.Attacked(damage);
+            target.Attacked(new AttackData(damage,transform.right,owner));
         }
     }
 }

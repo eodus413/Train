@@ -7,9 +7,11 @@ namespace ProjectTrain
         public override void Initialize()
         {
         }
-        protected override void Initialize(int hp, MovementBase movement, UnitAnimation animation)
+
+        const string turretLayer = "Enemy";
+        protected override void Initialize(int layer,int hp, MovementBase movement, UnitAnimation animation)
         {
-            base.Initialize(hp, new NoWayMovement(transform),new UnitAnimation(animator));
+            base.Initialize(LayerMask.NameToLayer(turretLayer), hp, new NoWayMovement(transform),new UnitAnimation(animator));
         }
     }
 }
