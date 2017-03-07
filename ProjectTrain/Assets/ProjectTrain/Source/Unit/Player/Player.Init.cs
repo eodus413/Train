@@ -6,13 +6,15 @@ namespace ProjectTrain
 {
     public partial class Player : Unit
     {
-        const int orgHp = 10;
+        public const int orgHp = 10;
         const float orgSpeed = 0.5f;
-
-        const string playerLayer = "Player";
+        
         public override void Initialize()
         {
-            Initialize(LayerMask.NameToLayer(playerLayer),orgHp, new PlayerMovement(transform,this, orgSpeed),new PlayerAnimation(this,animator));
+            Initialize( Layers.Player,
+                        orgHp,
+                        new PlayerMovement(transform,this, orgSpeed),
+                        new PlayerAnimation(this,animator));
         }
 
         protected override void Initialize(int layer,int hp, MovementBase movement, UnitAnimation animation)

@@ -14,6 +14,10 @@ namespace ProjectTrain
                     return pool[i];
                 }
             }
+            if(isGrow)
+            {
+                return Create();
+            }
             return null;
         }
     }

@@ -5,7 +5,6 @@ namespace ProjectTrain
     public abstract partial class Unit : MonoBehaviour, IAttackable, IInitilaizable
     {
         public int layer { get; private set; }
-        private int deadLayer;
         /// <summary>
         /// 데이터
         /// </summary>

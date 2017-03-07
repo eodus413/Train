@@ -22,15 +22,12 @@ namespace ProjectTrain
         {
             if (targeting.target == null) return false;
             if (TargetIsInArea() == false) return false;
-            return true;
+            return attack.Attackable();
         }
         protected override void Attack()
         {
-            prevAttackData.Set(damage, lookingDirection.DirToVec2(), this);
-
-            animation.SetAttacking(true);
-            
-            targeting.target.GetComponent<Unit>().Attacked(prevAttackData);
+            StartCoroutine(attack.DoAttack(targeting.target.GetComponent<Unit>(), this));
+            animation.SetAttacking(true);           
         }
 
         protected override void Idle()
@@ -44,6 +41,7 @@ namespace ProjectTrain
         {
             if (targeting.target == null) return false;
             if (TargetIsInArea()) return false;
+            if (attack.isAttacking) return false;
 
             if (targeting.TargetIsLeft())
             {

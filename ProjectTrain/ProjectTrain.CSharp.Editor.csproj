@@ -99,7 +99,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\MovementEditor.cs" />
+    <Compile Include="Assets\Editor\UnitEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ProjectTrain\Read.txt" />

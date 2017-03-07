@@ -25,14 +25,12 @@ namespace ProjectTrain
         public abstract void Initialize();
         //무조건 override 한 함수에서 base를 호출해야함
         const string unitTag = "Unit";
-        const string deadLayerName = "Dead";
         protected virtual void Initialize(int layer,int hp, MovementBase movement, UnitAnimation animation)
         {
             gameObject.tag = unitTag;
             gameObject.layer = layer;
             this.layer = layer;
-            this.deadLayer = LayerMask.NameToLayer(deadLayerName);
-
+            
             this._hp = hp;
             this.movement = movement;
             this.animation = animation;

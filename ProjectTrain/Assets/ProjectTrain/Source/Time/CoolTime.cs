@@ -2,30 +2,37 @@
 
 namespace ProjectTrain
 {
-    public class CoolTIme
+    public class CoolTime
     {
-        public float percent
+        public float startTime { get; private set; }
+        public float coolTime { get; private set; }
+
+        private float flowTime
         {
             get
             {
-                return coolTime / (TimeSystem.time.playTime - startTime);
+                return Time.realtimeSinceStartup - startTime;
+            }
+
+        }
+        public bool isEnd
+        {
+            get
+            {
+                return (coolTime - flowTime) <= 0;
             }
         }
-        public bool isEnd()
-        {
-            return (coolTime - TimeSystem.time.playTime - startTime) <= 0;
-        }
+
         public void Start()
         {
-            startTime = TimeSystem.time.playTime;
-        }
-        private float startTime;
-        readonly float coolTime;
+            if (!isEnd) return;
 
-        public CoolTIme(float coolTime)
+            startTime = Time.realtimeSinceStartup;
+        }
+
+        public CoolTime(float coolTime)
         {
             this.coolTime = coolTime;
-            startTime = TimeSystem.time.playTime;
         }       
     }
 }

@@ -4,25 +4,27 @@ namespace ProjectTrain
 {
     public class Targeting
     {
-        GameObject _target = null;
-        private Transform owner;
+        protected GameObject _target { get; set; }
+        protected Transform owner { get; private set;}
 
-        float sight;
+
+        public float sight { get; private set; }
         
         LayerMask mask;             //Targeting 할 layer
+        LayerMask denyMask;         
         GameObject hitobj;
         RaycastHit2D hit;
 
-        public void Execute(Vector2 direction)
+        public void Execute(Vector2 direction)  
         {
             hit = Physics2D.Raycast(owner.position, direction,sight,mask);
             
             if (!hit) return;
-
+            
             hitobj = hit.transform.gameObject;
 
             if (hitobj == null) return;
-
+            if (hitobj.layer == denyMask) return;
             _target = hitobj;
 
             return;
@@ -34,10 +36,8 @@ namespace ProjectTrain
             {
                 if (_target == null) return null;
 
-                if (DistanceToTarget() > sight)
-                {
-                    _target = null;
-                }
+                if (TargetIsInSight() == false) _target = null;
+                
                 return _target;
             }
             private set
@@ -53,10 +53,15 @@ namespace ProjectTrain
         {
             return Vector2.Distance(_target.transform.position, owner.position);
         }
-        public Targeting(Transform owner, LayerMask mask,float sight)
+        public virtual bool TargetIsInSight()
+        {
+            return DistanceToTarget() < sight;
+        }
+        public Targeting(Transform owner, LayerMask mask,int denyMask,float sight)
         {
             this.owner = owner;
-            this.mask = mask;
+            this.mask = mask + Layers.ToMask(denyMask);
+            this.denyMask = denyMask;
             this.sight = sight;
         }
     }

@@ -11,6 +11,7 @@ namespace ProjectTrain
         }
         void Update()
         {
+            if (player.isLive == false) return;
             Handling();
         }
 

@@ -32,7 +32,7 @@ namespace ProjectTrain.Weapon
                 );
 
             emptyCatridge = Resources.Load<GameObject>(emptyCatridgePath);
-            emptyCatridges = new GameObjectPool(emptyCatridge,30);
+            emptyCatridges = new GameObjectPool(emptyCatridge,30,null,true);
 
         }
 
@@ -48,9 +48,9 @@ namespace ProjectTrain.Weapon
                                 maxAmmo
                                 );
 
-            this.mask += 1 << LayerMask.NameToLayer("Enemy");
-            this.mask += 1 << LayerMask.NameToLayer("Ground");
-            this.mask += 1 << LayerMask.NameToLayer("Object");
+            this.mask += Layers.EnemyMask;
+            this.mask += Layers.GroundMask;
+            this.mask += Layers.ObjectMask;
         }
     }
 }

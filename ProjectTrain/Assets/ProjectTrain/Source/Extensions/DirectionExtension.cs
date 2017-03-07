@@ -12,5 +12,13 @@ namespace ProjectTrain
 
             return Vector2.zero;
         }
+        public static Vector3 DirToVec3(this Direction dir)
+        {
+            if (dir == Direction.Left) return Vector3.left;
+            else if (dir == Direction.Right) return Vector3.right;
+
+
+            return Vector3.zero;
+        }
     }
 }

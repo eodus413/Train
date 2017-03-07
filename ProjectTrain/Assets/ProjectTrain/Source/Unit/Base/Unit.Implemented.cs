@@ -22,8 +22,10 @@ namespace ProjectTrain
         }
 
         private void Dead()
-        {   
-            gameObject.layer = deadLayer;
+        {
+
+
+            gameObject.layer = Layers.Dead;
             StartCoroutine(DoDead());
         }
         const float knockBackVelocity = 40f;

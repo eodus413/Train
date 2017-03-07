@@ -29,12 +29,9 @@ namespace ProjectTrain
         }
         private void Append(int amount = 1, bool active = false)
         {
-            GameObject instance;
             for (int i = 0; i < amount; ++i)
             {
-                instance = GameObject.Instantiate(obj, parent) as GameObject;
-                instance.SetActive(active);
-                pool.Add(instance);
+                Create(active);
             }
             size = pool.Count;
         }

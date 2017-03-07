@@ -8,21 +8,18 @@ namespace ProjectTrain
         public override void Initialize()
         { 
         }
-        protected override void Initialize(int layer,int hp, MovementBase movement,UnitAnimation animation)
+        protected sealed override void Initialize(int layer,int hp, MovementBase movement,UnitAnimation animation)
         {
             base.Initialize(layer, hp, movement,animation);
         }
 
-        const string enemyLayer = "Enemy";
-        protected void Initialize(int hp,MovementBase movement, UnitAnimation animation,int damage,float sight,float attackRange)
+        protected void Initialize(int hp,MovementBase movement, UnitAnimation animation,int damage,float sight,float attackRange,CoolTime startDelay,CoolTime attackCoolTime)
         {
-            Initialize(LayerMask.NameToLayer(enemyLayer),hp, movement,animation);
+            Initialize(Layers.Enemy,hp, movement,animation);
+                        
+            this.targeting = new TargettingInRect(transform,Layers.PlayerMask,Layers.Ground, sight);
 
-            this.prevAttackData = new AttackData(damage, Vector2.zero, this);
-            this.damage = damage;
-            this.attackRange = attackRange;
-
-            this.targeting = new Targeting(transform, 1 << LayerMask.NameToLayer("Player"), sight);
+            this.attack = new MonsterAttack(damage, attackRange, startDelay, attackCoolTime);
         }
     }
 }
