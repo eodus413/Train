@@ -4,6 +4,8 @@ namespace ProjectTrain
 {
     public static class Layers
     {
+        public static int Nothing       = LayerMask.NameToLayer("Nothing");
+        public static int Everything    = LayerMask.NameToLayer("Everything");
         public static int Player        = LayerMask.NameToLayer("Player");
         public static int Enemy         = LayerMask.NameToLayer("Enemy");
         public static int Ground        = LayerMask.NameToLayer("Ground");
@@ -26,6 +28,17 @@ namespace ProjectTrain
         public static int ToMask(int value)
         {
             return 1 << value;
+        }
+        public static int ToValue(int mask)
+        {
+            int count = 0;
+            bool result = true;
+            while(result)
+            {
+                ++count;
+                if ((mask = mask >> 1) <= 1) result = false;
+            }
+            return count;
         }
     }
 

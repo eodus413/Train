@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.4.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -63,29 +65,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ProjectCatMan\Sources\Enums\UnitType.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Extension\TransformExtension.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Manager\InGameManager.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Manager\RayManager.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Manager\SceneManager.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\IAttackable\IAttackable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\IDamageable\IDamageData.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\IDamageable\IDamageable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\IKillable\IKillable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\IMovable\IMovable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Damageables\DamageableHarder.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Killables\KillableUnit.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Movables\MoveToTarget.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Abstracts\ISeeable\ISeeable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Damageables\DamageableUnit.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Killables\Revivable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Killables\UnKillable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Movables\UnMovable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Seeables\SeeableFoward.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Concepts\Seeables\UnSeeable.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Properties\IProperty\IUnitProperty.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Abstract\IUnitFactory.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Concepts\BossMonsterFactory.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Concepts\NormalMonsterFactory.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Concepts\UpgradeMonsterFactory.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\Base\UnitBase.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\FactoryMethod\ChinaUnitFactoryMethod.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\FactoryMethod\KoreaUnitFactoryMethod.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\FactoryMethod\UnitFactoryMethod.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\CameraFollow\Camera2DFollow.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\CameraFollow\CameraFollow.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\CameraFollow\CameraFollow.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Scripts\Controller\UnitController.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\Monster\MonsterUI.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\Parallax\Parallax.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\Parallax\Parallax.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\Parallax\Parallax.cs" />
-    <Compile Include="Assets\ProjectTrain\Scripts\PlayerController\PlayerController.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\SystemLoad\SystemLoad.cs" />
-    <Compile Include="Assets\ProjectTrain\Scripts\UI\PlayerUI.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Base\UnitAnimation.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Monster\MonsterAnimation.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Animation\Unit\Player\PlayerAnimation.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Enums\Direction.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Enums\ItemCode.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Enums\ItemType.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Enums\Layers.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Enums\State.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Extensions\AnimatorExtension.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Extensions\DirectionExtension.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Extensions\GameObjectExtension.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Extensions\Vector3Extension.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Interfaces\IAttackable.cs" />
+    <Compile Include="Assets\ProjectTrain\Source\Interfaces\IBehavior.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\IInitializable.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\System\IExecuteSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\System\IInitializeSystem.cs" />
@@ -94,57 +124,22 @@
     <Compile Include="Assets\ProjectTrain\Source\Movement\Base\MovementBase.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Movement\Base\MovementBase.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Movement\NoWay\NoWayMovement.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Movement\Player\PlayerMovement.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.Init.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.Interface.cs" />
     <Compile Include="Assets\ProjectTrain\Source\ObjectPool\GameObjectPool.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Scene\SceneData.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Singleton\Singleton.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Systems\InGameSystem.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Systems\PlayerSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Systems\SceneSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Systems\Systems.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Systems\UnitControlSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Targeting\Targeting.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Targeting\TargetingHorizontal.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Targeting\TargettingInRect.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Time\CoolTime.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Base\Unit.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Behaviors\Attackable\Attackable.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Factory\IUnitFactory.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Factory\MonsterFactory.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Archer\ArcherMonster.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Attack\MonsterAttack.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Base\MonsterBase.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Normal\NormalMonster.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Monster\Upgrade\UpgradeMonster.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Player\Player.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\Turret.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Unit\Turret\Base\TurretBase.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\AttackData\AttackData.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Base\WeaponBase.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Magazine\Magazine.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Pistol\Pistol.Implemented.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Pistol\Pistol.Init.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Pistol\Pistol.Interface.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Weapon\Pistol\Pistol.cs" />
+    <Compile Include="Assets\Singleton\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ProjectTrain\Read.txt" />
+    <None Include="Assets\ProjectTrain\Temp.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

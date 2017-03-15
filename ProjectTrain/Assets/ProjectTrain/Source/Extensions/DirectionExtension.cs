@@ -20,5 +20,14 @@ namespace ProjectTrain
 
             return Vector3.zero;
         }
+        static Vector3 eulerLeft = new Vector3(0, 180, 0);
+        static Vector3 eulerRight = new Vector3(0, 0, 0);
+        public static Vector3 DirToEuler(this Direction dir)
+        {
+            if (dir == Direction.Left) return eulerLeft;
+            else if (dir == Direction.Right) return eulerRight;
+
+            return Vector3.zero;
+        }
     }
 }

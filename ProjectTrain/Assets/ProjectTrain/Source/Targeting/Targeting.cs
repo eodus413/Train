@@ -17,17 +17,17 @@ namespace ProjectTrain
 
         public void Execute(Vector2 direction)  
         {
-            hit = Physics2D.Raycast(owner.position, direction,sight,mask);
-            
+            hit = Physics2D.Raycast(owner.position, direction,sight, mask);
+            Debug.DrawRay(owner.position, direction, Color.red);
+
             if (!hit) return;
-            
+
             hitobj = hit.transform.gameObject;
 
             if (hitobj == null) return;
-            if (hitobj.layer == denyMask) return;
-            _target = hitobj;
+            if (hitobj.layer == Layers.ToValue(denyMask)) return;
 
-            return;
+            _target = hitobj;
         }
         
         public GameObject target
@@ -49,6 +49,10 @@ namespace ProjectTrain
         {
             return _target.transform.position.x < owner.position.x;
         }
+        public Direction ReactivePosition()
+        {
+            return target.RelativeDirection(owner.gameObject);
+        }
         public float DistanceToTarget()
         {
             return Vector2.Distance(_target.transform.position, owner.position);
@@ -57,10 +61,11 @@ namespace ProjectTrain
         {
             return DistanceToTarget() < sight;
         }
-        public Targeting(Transform owner, LayerMask mask,int denyMask,float sight)
+        public Targeting(Transform owner, LayerMask mask, LayerMask denyMask,float sight)
         {
             this.owner = owner;
-            this.mask = mask + Layers.ToMask(denyMask);
+            this.mask = mask + denyMask;
+
             this.denyMask = denyMask;
             this.sight = sight;
         }

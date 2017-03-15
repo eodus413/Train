@@ -8,7 +8,7 @@ namespace ProjectTrain
         {
 
         }
-        public override void Move(Vector3 direction)
+        protected override void Move(Vector3 direction,float newSpeed)
         {
             //No Way to move
         }
