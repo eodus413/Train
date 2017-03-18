@@ -6,21 +6,42 @@ namespace ProjectCatMan
     {
         public static bool isLeft(this Transform lv,Transform rv)
         {
+            if (rv == null)
+            {
+                Debug.Log(rv + "is null, TransformExtension Direction return false");
+                return false;
+            }
             return lv.position.x < rv.position.y;
         }
         public static bool isLeft(this Transform lv,GameObject rv)
         {
+            if (rv == null)
+            {
+                Debug.Log(rv + "is null, TransformExtension Direction return false");
+                return false;
+            }
             return lv.position.x < rv.transform.position.y;
         }
-        public static Vector2 HorizontalDirection(this Transform lv,Transform rv)
+        public static Direction Location(this Transform lv,Transform rv)
         {
-            if (lv.isLeft(rv)) return Vector2.left;
-            else return Vector2.right;
+            if (rv == null)
+            {
+                Debug.Log(rv + "is null, TransformExtension Direction return Vector2.zero");
+                return Direction.None;
+            }
+            if (lv.isLeft(rv)) return Direction.Right;
+            else return Direction.Left;
         }
-        public static Vector2 HorizontalDirection(this Transform lv, GameObject rv)
+        public static Direction Location(this Transform lv, GameObject rv)
         {
-            if (lv.isLeft(rv)) return Vector2.left;
-            else return Vector2.right;
+            if(rv == null)
+            {
+                Debug.Log(rv + "is null, TransformExtension Direction return Vector2.zero");
+                return Direction.None;
+            }
+
+            if (lv.isLeft(rv)) return Direction.Right;    //호출자가 타겟보다 왼쪽에 있으면 타겟의 위치는 오른쪽
+            else return Direction.Left;
         }
     }
 }

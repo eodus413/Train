@@ -13,5 +13,7 @@ namespace ProjectCatMan
         IKillable SetKillable(UnitBase unit);
         ISeeable SetSeeable(UnitBase unit);
         IMovable SetMovable(UnitBase unit);
+
+        IController SetController(UnitBase unit);
     }
 }

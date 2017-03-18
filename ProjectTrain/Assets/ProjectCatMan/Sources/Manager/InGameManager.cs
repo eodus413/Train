@@ -4,9 +4,16 @@ using UnityEngine.SceneManagement;
 
 namespace ProjectCatMan
 {
-    public class InGameManager
+    public static class InGameManager
     {
-        static UnitFactoryMethod factoryMethod;
+        /// <summary>
+        /// 고쳐야함 
+        /// </summary>
+        static UnitFactoryMethod factoryMethod = new KoreaUnitFactoryMethod();
+
+        static UnitFactoryMethod koreaFactory = new KoreaUnitFactoryMethod();
+        static UnitFactoryMethod chinaFactory = new ChinaUnitFactoryMethod();
+
         public static IUnitFactory currentFactory(UnitType type)
         {
             return factoryMethod.GetFactory(type);
@@ -15,11 +22,11 @@ namespace ProjectCatMan
         {
             if (sceneName == "Korea")
             {
-                factoryMethod = new KoreaUnitFactoryMethod();
+                factoryMethod = koreaFactory;
             }
             else if (sceneName == "China")
             {
-                factoryMethod = new ChinaUnitFactoryMethod();
+                factoryMethod = chinaFactory;
             }
         }
     }  

@@ -10,21 +10,30 @@ namespace ProjectCatMan
         public IMovable movable { get; private set; }
 
         private int armor = 1;
+
         public IDamageable SetDamageable(UnitBase unit)
         {
-            return new DamageableHarder(unit,10,armor);
+            damageable = new DamageableUnit(unit, 100, armor);
+            return damageable;
         }
         public IKillable SetKillable(UnitBase unit)
         {
-            return new Revivable(unit);
+            killable = new Revivable(unit);
+            return killable;
         }
         public ISeeable SetSeeable(UnitBase unit)
         {
-            return new SeeableFoward(unit, 0.5f);
+            seeable = new SeeableForth(unit, 1.0f,Layers.PlayerMask,Layers.GroundMask);
+            return seeable;
         }
         public IMovable SetMovable(UnitBase unit)
         {
-            return new UnMovable(unit.transform, 0);
+            movable = new MoveToTarget(unit, 1f);
+            return movable;
+        }
+        public IController SetController(UnitBase unit)
+        {
+            return new BasicMonsterController(unit);
         }
     }
 }

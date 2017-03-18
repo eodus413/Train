@@ -6,7 +6,7 @@ namespace ProjectTrain
     {
         public override bool TargetIsInSight()
         {
-            Vector2 curPos = owner.position;
+            Vector3 curPos = owner.position;
             float horizontalDistance = Mathf.Abs(owner.position.x - _target.transform.position.x);
             if (horizontalDistance > sight) return false;
 

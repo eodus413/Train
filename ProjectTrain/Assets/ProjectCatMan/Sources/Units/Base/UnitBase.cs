@@ -12,19 +12,31 @@ namespace ProjectCatMan
         [SerializeField]
         UnitType type;
         IUnitFactory factory;
+        IController controller;
 
+        public Animator animator { get; private set; }
         void Awake()
         {
-            factory = InGameManager.currentFactory(type); 
+            animator = GetComponent<Animator>();
+
+            factory = InGameManager.currentFactory(type);
+  
+            damageable  =       factory.SetDamageable(this);
+            killable    =       factory.SetKillable(this);
+            seeable     =       factory.SetSeeable(this);
+            movable     =       factory.SetMovable(this);
+
+            controller  =       factory.SetController(this);
+
+            controller.Initialize();
         }
         void Update()
         {
-            if (!killable.isLive) return;
-
-            movable.Move();
-
- 
-            seeable.Seeing();
+            controller.Execute();
+        }
+        void FixedUpdate()
+        {
+            controller.PhysicsExecute();
         }
     }
 }

@@ -7,9 +7,12 @@
         public Revivable(UnitBase unit)
         {
             this.unit = unit;
+            this.damageable = unit.damageable;
         }
         public UnitBase unit { get; private set; }
-        public bool isLive { get; private set; }
+
+        public IDamageable damageable;
+        public bool isLive { get { return damageable.hp > 0; } }
         public void Killed()
         {                    
         }

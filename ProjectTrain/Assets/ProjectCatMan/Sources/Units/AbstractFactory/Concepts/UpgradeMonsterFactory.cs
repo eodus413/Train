@@ -18,16 +18,20 @@ namespace ProjectCatMan
         {
             killable = new Revivable(unit);
             return killable;
-        }
+        } 
         public ISeeable SetSeeable(UnitBase unit)
         {
-            seeable = new SeeableFoward(unit, 1.0f);
+            seeable = new SeeableForth(unit, 1.0f, Layers.PlayerMask, Layers.GroundMask);
             return seeable;
         }
         public IMovable SetMovable(UnitBase unit)
         {
-            movable = new MoveToTarget(unit, 1f);
+            movable = new MoveToTarget(unit, 0.1f);
             return movable;
+        }
+        public IController SetController(UnitBase unit)
+        {
+            return new BasicMonsterController(unit);
         }
     }
 }

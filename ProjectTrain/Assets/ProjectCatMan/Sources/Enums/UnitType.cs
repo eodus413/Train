@@ -4,6 +4,7 @@
     {
         Normal,
         Upgrade,
-        Boss
+        Boss,
+        Player
     }
 }
