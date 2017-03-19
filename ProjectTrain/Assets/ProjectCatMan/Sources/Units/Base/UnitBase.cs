@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace ProjectCatMan
 {
     public class UnitBase : MonoBehaviour
     {
-        public IDamageable damageable { get; private set; }
+        List<IItem> inventory = new List<IItem>();  //unit 마다 inventory 보유 
+        
+        public IAttackable attackable { get; private set; }
         public IKillable killable { get; private set; }
-        public ISeeable seeable { get; private set; }
+        public ISee see { get; private set; }
         public IMovable movable { get; private set; }
-
+        
+        [SerializeField]
+        Team team;
+        [SerializeField]
+        Friendly friendly;
         [SerializeField]
         UnitType type;
         IUnitFactory factory;
@@ -20,10 +27,13 @@ namespace ProjectCatMan
             animator = GetComponent<Animator>();
 
             factory = InGameManager.currentFactory(type);
-  
-            damageable  =       factory.SetDamageable(this);
+
+            team        =       factory.SetTeam();
+            friendly    =       factory.SetFriendly();
+            
+            attackable  =       factory.SetAttackable(this);
             killable    =       factory.SetKillable(this);
-            seeable     =       factory.SetSeeable(this);
+            see         =       factory.SetSee(this);
             movable     =       factory.SetMovable(this);
 
             controller  =       factory.SetController(this);

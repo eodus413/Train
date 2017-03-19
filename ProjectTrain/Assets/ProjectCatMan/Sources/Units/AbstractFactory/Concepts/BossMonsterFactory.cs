@@ -4,27 +4,34 @@ namespace ProjectCatMan
 {
     public class BossMonsterFactory : IUnitFactory
     {
-        public IDamageable damageable { get; private set; }
+        public IAttackable attackable { get; private set; }
         public IKillable killable { get; private set; }
-        public ISeeable seeable { get; private set; }
+        public ISee see { get; private set; }
         public IMovable movable { get; private set; }
 
-        private int armor = 1;
-
-        public IDamageable SetDamageable(UnitBase unit)
+        public Team SetTeam()
         {
-            damageable = new DamageableUnit(unit, 100, armor);
-            return damageable;
+            return Team.Monster;
+        }
+        public Friendly SetFriendly()
+        {
+            return Friendly.Hostile;
+        }
+        public IAttackable SetAttackable(UnitBase unit)
+        {
+            int armor = 1;
+            attackable = new AttackableUnit(100, armor, unit);
+            return attackable;
         }
         public IKillable SetKillable(UnitBase unit)
         {
             killable = new Revivable(unit);
             return killable;
         }
-        public ISeeable SetSeeable(UnitBase unit)
+        public ISee SetSee(UnitBase unit)
         {
-            seeable = new SeeableForth(unit, 1.0f,Layers.PlayerMask,Layers.GroundMask);
-            return seeable;
+            see = new SeeForth(unit, 1.0f,Layers.UnitMask,Layers.GroundMask);
+            return see;
         }
         public IMovable SetMovable(UnitBase unit)
         {

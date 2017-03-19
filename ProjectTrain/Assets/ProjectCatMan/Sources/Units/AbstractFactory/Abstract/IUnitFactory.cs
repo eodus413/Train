@@ -4,14 +4,16 @@ namespace ProjectCatMan
 {
     public interface IUnitFactory
     {
-        IDamageable damageable { get; }
+        IAttackable attackable { get; }
         IKillable killable { get; }
-        ISeeable seeable { get; }
+        ISee see { get; }
         IMovable movable { get; }
 
-        IDamageable SetDamageable(UnitBase unit);
+        Team SetTeam();
+        Friendly SetFriendly();
+        IAttackable SetAttackable(UnitBase unit);
         IKillable SetKillable(UnitBase unit);
-        ISeeable SetSeeable(UnitBase unit);
+        ISee SetSee(UnitBase unit);
         IMovable SetMovable(UnitBase unit);
 
         IController SetController(UnitBase unit);

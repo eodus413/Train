@@ -4,10 +4,7 @@ namespace ProjectCatMan
 {
     public static class Layers
     {
-        public static int Nothing = LayerMask.NameToLayer("Nothing");
-        public static int Everything = LayerMask.NameToLayer("Everything");
-        public static int Player = LayerMask.NameToLayer("Player");
-        public static int Enemy = LayerMask.NameToLayer("Enemy");
+        public static int Unit = LayerMask.NameToLayer("Unit");
         public static int Ground = LayerMask.NameToLayer("Ground");
         public static int Dead = LayerMask.NameToLayer("Dead");
         public static int Object = LayerMask.NameToLayer("Object");
@@ -16,8 +13,7 @@ namespace ProjectCatMan
         public static int Stairs = LayerMask.NameToLayer("Stairs");
 
 
-        public static int PlayerMask = 1 << LayerMask.NameToLayer("Player");
-        public static int EnemyMask = 1 << LayerMask.NameToLayer("Enemy");
+        public static int UnitMask = 1 << LayerMask.NameToLayer("Unit");
         public static int GroundMask = 1 << LayerMask.NameToLayer("Ground");
         public static int DeadMask = 1 << LayerMask.NameToLayer("Dead");
         public static int ObjectMask = 1 << LayerMask.NameToLayer("Object");
@@ -40,6 +36,7 @@ namespace ProjectCatMan
             }
             return count;
         }
+        
     }
 
 }
