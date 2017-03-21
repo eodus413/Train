@@ -13,7 +13,7 @@ namespace ProjectCatMan
             }
             return lv.x < rv.position.y;
         }
-        public static Vector3 Location(this Vector3 lv,Vector3 rv)
+        public static Vector3 LocationOf(this Vector3 lv,Vector3 rv)
         {
             if (lv.x < rv.x) return Vector3.left;
             return Vector3.right;

@@ -27,12 +27,12 @@
         }
         public ISee SetSee(UnitBase unit)
         {
-            see = new CantSee();
+            see = new CanSee();
             return see;
         }
         public IMovable SetMovable(UnitBase unit)
         {
-            movable = new MoveToTarget(unit,0.3f);
+            movable = new MovableUnit(unit,0.3f);
             return movable;
         }
         public IController SetController(UnitBase unit)

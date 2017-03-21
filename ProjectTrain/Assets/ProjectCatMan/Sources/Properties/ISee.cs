@@ -26,22 +26,18 @@ namespace ProjectCatMan
         public Transform eye { get; private set; }
         
         public float sight { get; private set; }
-        public GameObject current
-        {
-            get { return currentObj; }
-        }
+        public GameObject current { get; private set; }
         public UnitBase currentSeeingUnit
         {
-            get { return currentObj.GetComponent<UnitBase>(); }
+            get { return current.GetComponent<UnitBase>(); }
         }
         public bool Nothing()
         {
             return current == null;
         }
+        //ISee interface 서브 클래스에서 구현해야함
         public abstract void Seeing();
-
-
-        private GameObject currentObj;  //current property의 반환 객체
+        
 
         public UnitBase unit { get; private set; }
         public Transform transform { get; private set; }
@@ -50,13 +46,13 @@ namespace ProjectCatMan
 
         public void DoRaycast(Vector3 direction)
         {
-            currentObj = RayManager.hitObj(transform.position, direction, sight, detectLayerMask);
+            current = RayManager.hitObj(transform.position, direction, sight, detectLayerMask);
 
-            if (currentObj == null) return;
+            if (current == null) return;
 
-            if (currentObj.layer == Layers.ToValue(denyLayerMask))
+            if (current.layer == Layers.ToValue(denyLayerMask))
             {
-                currentObj = null;
+                current = null;
             }
         }
 
@@ -66,6 +62,7 @@ namespace ProjectCatMan
             return "SeeToRaycast";
         }
     }
+
     // 앞을 보는
     public class SeeForth : SeeToRaycast
     {
@@ -86,6 +83,57 @@ namespace ProjectCatMan
     }
 
     #endregion
+    
+
+    public class SeeTarget : ISee
+    {
+        public SeeTarget()
+        {
+
+        }
+
+        public float sight { get; private set; }
+        public GameObject current { get; private set; }
+        public UnitBase currentSeeingUnit { get; private set; }
+
+        public bool Nothing()
+        {
+            return current == null;
+        }
+        public void Seeing()
+        {
+            current = targering.target;
+        }
+
+        ITargeting targering;
+
+    }
+    public class CanSee : ISee
+    {
+        public float sight
+        {
+            get { return 0f; }
+        }
+        public GameObject current
+        {
+            get { return null; }
+        }
+        public UnitBase currentSeeingUnit
+        {
+            get { return null; }
+        }
+
+        public bool Nothing()
+        {
+            return true;
+        }
+
+        public void Seeing()
+        {
+            return;
+        }
+    }
+
     //볼 수 없는
     public class CantSee : ISee
     {

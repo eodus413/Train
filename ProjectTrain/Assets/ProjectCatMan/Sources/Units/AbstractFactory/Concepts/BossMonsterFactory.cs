@@ -35,7 +35,7 @@ namespace ProjectCatMan
         }
         public IMovable SetMovable(UnitBase unit)
         {
-            movable = new MoveToTarget(unit, 1f);
+            movable = new MovableUnit(unit, 1f);
             return movable;
         }
         public IController SetController(UnitBase unit)

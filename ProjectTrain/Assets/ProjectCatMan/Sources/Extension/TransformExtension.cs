@@ -22,7 +22,7 @@ namespace ProjectCatMan
             }
             return lv.position.x < rv.transform.position.y;
         }
-        public static Direction Location(this Transform lv,Transform rv)
+        public static Direction LocationOf(this Transform lv,Transform rv)
         {
             if (rv == null)
             {
@@ -32,7 +32,7 @@ namespace ProjectCatMan
             if (lv.isLeft(rv)) return Direction.Right;
             else return Direction.Left;
         }
-        public static Direction Location(this Transform lv, GameObject rv)
+        public static Direction LocationOf(this Transform lv, GameObject rv)
         {
             if(rv == null)
             {

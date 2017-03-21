@@ -7,7 +7,7 @@ namespace ProjectCatMan
     public static class InGameManager
     {
         /// <summary>
-        /// 고쳐야함 
+        /// 고쳐야함 초기화해주는 시점 결정
         /// </summary>
         static UnitFactoryMethod factoryMethod = new KoreaUnitFactoryMethod();
 

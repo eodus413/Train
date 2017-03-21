@@ -8,16 +8,17 @@ namespace ProjectCatMan
 
         float range { get; }
         GameObject target { get; }
+        Direction targetLocation { get;}
     }
     public class TargetingToRaycast : ITargeting
     {
-        public TargetingToRaycast(Transform center, float range,int detectLayerMask,int denyLayerMask)
+        public TargetingToRaycast(Transform center, float range, int detectLayerMask, int denyLayerMask)
         {
             detectLayerMask += denyLayerMask;
             this.center = center;
             this.range = range;
         }
-        
+
         public Transform center { get; private set; }
 
         public float range { get; private set; }
@@ -25,18 +26,24 @@ namespace ProjectCatMan
         {
             get
             {
-                GameObject hitObj = RayManager.hitObj(center.position, center.right, range,detectLayerMask);
+                GameObject hitObj = RayManager.hitObj(center.position, center.right, range, detectLayerMask);
 
                 if (hitObj.layer == denyLayerMask) return null;
 
                 return hitObj;
             }
         }
-
+        Direction targetLocation
+        {
+            get
+            {
+                if (target == null) return Direction.None;
+                return target.transform.LocationOf(target.transform);
+            }
+        }
 
 
         int detectLayerMask;
         int denyLayerMask;
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ProjectCatMan
 {
@@ -13,7 +14,7 @@ namespace ProjectCatMan
         void Stop();
     }
     #region MovableUnit
-    public abstract class MovableUnit : IMovable
+    public class MovableUnit : IMovable
     {
         public MovableUnit(UnitBase unit, float speed)
         {
@@ -26,8 +27,14 @@ namespace ProjectCatMan
         public Direction moveDirection { get; private set; }
         public float speed { get; private set; }
 
-        public abstract void Move();
-        public abstract void Move(Direction direction);
+        public void Move()
+        {
+            DoMove(transform.right);
+        }
+        public void Move(Direction direction)
+        {
+            DoMove(direction);
+        }
         public void Stop()
         {
             isMoving = false;
@@ -48,29 +55,15 @@ namespace ProjectCatMan
             moveDirection = direction;
             transform.position += direction.DirToVec3() * moveSpeed;
         }
-        
+        protected void DoMove(Vector3 direction)
+        {
+            isMoving = true;
+            moveDirection = direction.Vec3ToDir();
+            transform.position += direction * moveSpeed;
+        }
     }
-
-    public class MoveToTarget : MovableUnit
-    {
-        public MoveToTarget(UnitBase unit, float speed) : base(unit, speed)
-        {
-            this.see = unit.see;
-        }
-
-        public override void Move(Direction direction)
-        {
-            DoMove(direction);
-        }
-        public override void Move()
-        {
-            if (see.Nothing()) return;
-            Direction direction = transform.Location(see.current);
-            DoMove(direction);
-        }
-
-        private ISee see;
-    }
+    
+    
     #endregion
     public class UnMovable : IMovable
     {
