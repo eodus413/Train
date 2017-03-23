@@ -9,6 +9,9 @@ namespace ProjectCatMan
         float range { get; }
         GameObject target { get; }
         Direction targetLocation { get;}
+
+        void Targeted();    //타게팅   - 실행
+        void UnTargeted();  //         - 해제
     }
     public class TargetingToRaycast : ITargeting
     {
@@ -33,7 +36,7 @@ namespace ProjectCatMan
                 return hitObj;
             }
         }
-        Direction targetLocation
+        public Direction targetLocation
         {
             get
             {
@@ -42,6 +45,14 @@ namespace ProjectCatMan
             }
         }
 
+        public void Targeted()
+        {
+
+        }
+        public void UnTargeted()
+        {
+
+        }
 
         int detectLayerMask;
         int denyLayerMask;

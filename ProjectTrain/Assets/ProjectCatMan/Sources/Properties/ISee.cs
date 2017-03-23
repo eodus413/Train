@@ -3,9 +3,13 @@ namespace ProjectCatMan
 {
     public interface ISee
     {
+        Direction direction { get; }
         float sight { get; }
+
         GameObject current { get; }
         UnitBase currentSeeingUnit { get; }
+
+        Transform transform { get; }
 
         bool Nothing();
 
@@ -15,22 +19,26 @@ namespace ProjectCatMan
     #region SeeableToRaycast
     public abstract class SeeToRaycast : ISee
     {
-        public SeeToRaycast(UnitBase unit, float sight, int detectLayerMask, int denyLayerMask = 0)
+        public SeeToRaycast(Transform transform)
         {
-            this.unit = unit;
-            this.transform = unit.transform.GetChild(0); ;
+            this.transform = transform;
+
             this.sight = sight;
             this.detectLayerMask = detectLayerMask;
             this.denyLayerMask = denyLayerMask;
         }
-        public Transform eye { get; private set; }
-        
+                
+        public Direction direction { get; private set; }
         public float sight { get; private set; }
+
         public GameObject current { get; private set; }
         public UnitBase currentSeeingUnit
         {
             get { return current.GetComponent<UnitBase>(); }
         }
+
+        public Transform transform { get; private set; }
+
         public bool Nothing()
         {
             return current == null;
@@ -38,15 +46,13 @@ namespace ProjectCatMan
         //ISee interface 서브 클래스에서 구현해야함
         public abstract void Seeing();
         
-
-        public UnitBase unit { get; private set; }
-        public Transform transform { get; private set; }
+        
         public int detectLayerMask { get; private set; }
         public int denyLayerMask { get; private set; }
 
         public void DoRaycast(Vector3 direction)
         {
-            current = RayManager.hitObj(transform.position, direction, sight, detectLayerMask);
+            current = RayManager.hitObj(RayManager.New);
 
             if (current == null) return;
 
@@ -66,8 +72,7 @@ namespace ProjectCatMan
     // 앞을 보는
     public class SeeForth : SeeToRaycast
     {
-        public SeeForth(UnitBase unit, float sight, int detectLayerMask, int denyLayerMask = 0) :
-            base(unit, sight, detectLayerMask, denyLayerMask)
+        public SeeForth(RayData data) : base(data)
         {
         }
 
@@ -92,9 +97,22 @@ namespace ProjectCatMan
 
         }
 
+        public Direction direction
+        {
+            get
+            {
+                if (targeting.target == null) return Direction.None;
+                
+                Direction targetLocation = transform.LocationOf(targeting.target.transform);    //타겟을 바라봄
+                return targetLocation;
+            }
+        }
         public float sight { get; private set; }
+
         public GameObject current { get; private set; }
         public UnitBase currentSeeingUnit { get; private set; }
+        
+        public Transform transform { get; private set; }
 
         public bool Nothing()
         {
@@ -102,45 +120,30 @@ namespace ProjectCatMan
         }
         public void Seeing()
         {
-            current = targering.target;
+            current = targeting.target;
         }
 
-        ITargeting targering;
+        ITargeting targeting;
 
-    }
-    public class CanSee : ISee
-    {
-        public float sight
-        {
-            get { return 0f; }
-        }
-        public GameObject current
-        {
-            get { return null; }
-        }
-        public UnitBase currentSeeingUnit
-        {
-            get { return null; }
-        }
-
-        public bool Nothing()
-        {
-            return true;
-        }
-
-        public void Seeing()
-        {
-            return;
-        }
     }
 
     //볼 수 없는
     public class CantSee : ISee
     {
+        public CantSee(Transform transform)
+        {
+            this.transform = transform;
+        }
+
+        public Direction direction
+        {
+            get { return Direction.None; }
+        }
         public float sight
         {
             get { return 0f; }
         }
+
         public GameObject current
         {
             get { return null; }
@@ -150,6 +153,8 @@ namespace ProjectCatMan
             get { return null; }
         }
         
+        public Transform transform { get; private set; }
+
         public bool Nothing()
         {
             return false;

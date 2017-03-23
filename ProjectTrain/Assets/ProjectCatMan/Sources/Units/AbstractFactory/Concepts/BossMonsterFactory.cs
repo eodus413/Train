@@ -30,7 +30,7 @@ namespace ProjectCatMan
         }
         public ISee SetSee(UnitBase unit)
         {
-            see = new SeeForth(unit, 1.0f,Layers.UnitMask,Layers.GroundMask);
+            see = new SeeForth(unit.transform, 1.0f,Layers.PlayerMask,Layers.GroundMask);
             return see;
         }
         public IMovable SetMovable(UnitBase unit)

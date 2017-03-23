@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,13 +80,19 @@
     <Compile Include="Assets\ProjectCatMan\Sources\Command\Command.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Command\Concepts\MonsterCommand.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Command\Concepts\SkillCommand.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Controller\AnimationController.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Controller\Controller.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Enums\AnimationParameter.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Enums\Animations.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\Direction.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\Friendly.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\Layers.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Enums\Team.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\UnitType.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Extension\AnimationParameterExtension.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Extension\DirectionExtension.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Extension\GameObjectExtension.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Extension\TeamExtension.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Extension\TransformExtension.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Extension\Vector3Extension.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Interfaces\IUse.cs" />
@@ -161,5 +169,6 @@
     <None Include="Assets\ProjectTrain\Read.txt" />
     <None Include="Assets\ProjectTrain\Temp.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

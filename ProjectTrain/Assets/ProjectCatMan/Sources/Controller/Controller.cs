@@ -4,13 +4,18 @@ namespace ProjectCatMan
 {
     public interface IController
     {
+    }
+    public interface IInitializableController
+    {
         void Initialize();
+    }
+    public interface IExecutableController
+    {
         void Execute();
     }
-
     #region Unit
 
-    public abstract class UnitController : IController
+    public abstract class UnitController : IController,IInitializableController,IExecutableController
     {
         public UnitController(UnitBase unit)
         {
@@ -26,7 +31,6 @@ namespace ProjectCatMan
 
         public abstract void Initialize();
         public abstract void Execute();
-
 
 
         public UnitBase unit { get; private set; }
@@ -65,9 +69,8 @@ namespace ProjectCatMan
     public partial class PlayerController : UnitController
     {
         #region Interface
-        public PlayerController(UnitBase unit, Animator animator) : base(unit)
+        public PlayerController(UnitBase unit) : base(unit)
         {
-            this.animator = animator;
             lookAtTheMouse = new LookAtTheMouse(gameObject);
         }
 
@@ -82,7 +85,6 @@ namespace ProjectCatMan
             InputCommand();
 
             lookAtTheMouse.Looking();
-            AnimatorParameterUpdate();
         }
         #endregion
 
@@ -90,24 +92,7 @@ namespace ProjectCatMan
         LookAtTheMouse lookAtTheMouse;
         #endregion
 
-        #region Animations
-        public Animator animator { get; private set; }
 
-        // A_ 는 Animation 약자
-        const string A_isMoving = "isMoving";
-        const string A_isBackMoving = "isBackMoving";
-        const string A_isDead = "isDead";
-        
-        void AnimatorParameterUpdate()
-        {
-            bool isBack = lookAtTheMouse.direction != movable.moveDirection;   //isBack 은 player가 보고잇는 방향과 움직이는 방향이 다르면 true
-           
-            animator.SetBool(A_isBackMoving, movable.isMoving & isBack);
-            animator.SetBool(A_isMoving, movable.isMoving);
-
-            animator.SetBool(A_isDead, !(killable.isLive));
-        }
-        #endregion
 
         #region Input
         //button command

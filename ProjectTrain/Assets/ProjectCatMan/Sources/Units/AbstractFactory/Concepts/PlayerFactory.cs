@@ -27,7 +27,7 @@
         }
         public ISee SetSee(UnitBase unit)
         {
-            see = new CanSee();
+            see = new SeeForth;
             return see;
         }
         public IMovable SetMovable(UnitBase unit)
@@ -37,7 +37,7 @@
         }
         public IController SetController(UnitBase unit)
         {
-            return new PlayerController(unit,unit.animator);
+            return new PlayerController(unit);
         }
     }
 }

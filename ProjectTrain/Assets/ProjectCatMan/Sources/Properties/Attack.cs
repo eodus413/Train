@@ -31,7 +31,7 @@ namespace ProjectCatMan
 
         public void Attack(IAttackable target)
         {
-            target.Attacked(data);
+            target.BeAttacked(data);
         }
     }
 
@@ -62,7 +62,7 @@ namespace ProjectCatMan
 
             if (distanceToTarget > range) return;    //사거리 밖에 있다면
 
-            target.Attacked(data);
+            target.BeAttacked(data);
         }
         
         public float range { get; private set; }

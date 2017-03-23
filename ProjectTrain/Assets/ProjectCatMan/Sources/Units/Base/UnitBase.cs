@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectCatMan
 {
-    public class UnitBase : MonoBehaviour
+    public partial class UnitBase : MonoBehaviour
     {
         List<IItem> inventory = new List<IItem>();  //unit 마다 inventory 보유 
         
@@ -18,6 +18,8 @@ namespace ProjectCatMan
         Friendly friendly;
         [SerializeField]
         UnitType type;
+        
+
         IUnitFactory factory;
         IController controller;
 
@@ -44,9 +46,30 @@ namespace ProjectCatMan
         {
             controller.Execute();
         }
-        void FixedUpdate()
-        {
-            controller.PhysicsExecute();
-        }
     }
+
+    #region Interfaces
+    public partial class UnitBase : MonoBehaviour
+    {
+        public bool isMoving
+        {
+            get { return movable.isMoving; }
+        }
+        public bool isBack
+        {
+            get
+            {
+                return see.direction != movable.moveDirection;
+            }
+        }
+        public bool isBackMoving
+        {
+            get
+            {
+                return movable.isMoving & isBack;
+            }
+        }
+
+    }
+    #endregion
 }

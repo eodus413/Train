@@ -12,7 +12,7 @@ namespace ProjectCatMan
         public Gun(UnitBase attacker, int damage, float range)
         {
             attack = new AttackDirect(attacker, damage);
-            targeting = new TargetingToRaycast(shotPoint, range, Layers.UnitMask, Layers.GroundMask);
+            targeting = new TargetingToRaycast(shotPoint, range, Team.Monster.LayerMask(), Layers.GroundMask);
 
             GameObject prefab = Resources.Load<GameObject>("Prefab/Weapon/Gun");
 

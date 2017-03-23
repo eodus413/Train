@@ -13,9 +13,8 @@ namespace ProjectCatMan
         public void Execute()
         {
             if (targeting.target == null) return;
-
-            Vector3 targetLocation = targeting.
-            movable.Move();
+            
+            movable.Move(targeting.targetLocation);
         }
         public void Undo()
         {

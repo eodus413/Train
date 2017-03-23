@@ -8,7 +8,7 @@ namespace ProjectCatMan
         int armor { get; }
         Transform transform { get; }
 
-        void Attacked(AttackData damageTaken);
+        void BeAttacked(AttackData damageTaken);
     }
 
     public class AttackableHarder : IAttackable
@@ -29,7 +29,7 @@ namespace ProjectCatMan
             get { return unit.transform; }
         }
 
-        public void Attacked(AttackData damageTaken)
+        public void BeAttacked(AttackData damageTaken)
         {
             int damaged = (int)((float)damageTaken.damage * 0.5f);
             armor -= damaged;
@@ -63,7 +63,7 @@ namespace ProjectCatMan
             get { return unit.transform; }
         }
 
-        public void Attacked(AttackData damageTaken)
+        public void BeAttacked(AttackData damageTaken)
         {
             hp -= damageTaken.damage;
         }
