@@ -29,5 +29,13 @@ namespace ProjectCatMan
 
             return Vector3.zero;
         }
+
+        public static void /*이름 고치기 영어로 반전으로*/Reverse(this Direction dir)
+        {
+            if (dir == Direction.Left) dir = Direction.Right;
+            else if (dir == Direction.Right) dir = Direction.Left;
+            return;
+        }
+
     }
 }

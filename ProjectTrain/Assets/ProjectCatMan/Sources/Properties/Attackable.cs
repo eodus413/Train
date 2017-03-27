@@ -2,76 +2,39 @@
 
 namespace ProjectCatMan
 {
-    public interface IAttackable : IUnitProperty
+    public interface IAttackable 
     {
-        int hp { get; }
-        int armor { get; }
-        Transform transform { get; }
+        int value { get; }
 
-        void BeAttacked(AttackData damageTaken);
+        void Attacked(AttackData data);
     }
+    
 
-    public class AttackableHarder : IAttackable
+    public class Health : IAttackable
     {
-        public AttackableHarder(int hp, int armor, UnitBase unit, bool isEnemy)
+        public Health(int hp)
         {
-            this.hp = hp;
-            this.armor = armor;
-
-            this.isEnemy = isEnemy;
-            this.unit = unit;
+            this.value = hp;
         }
         
-        public int hp { get; private set; }
-        public int armor { get; private set; }
-        public Transform transform
-        {
-            get { return unit.transform; }
-        }
+        public int value { get; private set; }
 
-        public void BeAttacked(AttackData damageTaken)
+        public void Attacked(AttackData data)
         {
-            int damaged = (int)((float)damageTaken.damage * 0.5f);
-            armor -= damaged;
-            if (armor < 0) return;
-
-            hp -= damaged;
-        }
-
-        public bool isEnemy { get; private set; }
-        public UnitBase unit { get; private set; }
-        public override string ToString()
-        {
-            return "AttackableHarder";
+            value -= data.damage;
         }
     }
-
-    public class AttackableUnit : IAttackable
+    public class Durabilty : IAttackable
     {
-        public AttackableUnit(int hp, int armor, UnitBase unit)
+        public Durabilty(int durabilty)
         {
-            this.hp = hp;
-            this.armor = armor;
-
-            this.unit = unit;
+            this.value = durabilty;
         }
+        public int value { get; private set; }
 
-        public int hp { get; private set; }
-        public int armor { get; private set; }
-        public Transform transform
+        public void Attacked(AttackData data)
         {
-            get { return unit.transform; }
-        }
-
-        public void BeAttacked(AttackData damageTaken)
-        {
-            hp -= damageTaken.damage;
-        }
-
-        public UnitBase unit { get; private set; }
-        public override string ToString()
-        {
-            return "AttackableUnit";
+            value -= data.damage;
         }
     }
 }

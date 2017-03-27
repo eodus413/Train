@@ -77,11 +77,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Entity\Behavior\Behavior.cs" />
+    <Compile Include="Assets\Entity\Component\DamageData.cs" />
+    <Compile Include="Assets\Entity\Objects\Weapon.cs" />
+    <Compile Include="Assets\Entity\Property\IAttackable.cs" />
+    <Compile Include="Assets\Entity\Property\IDamageable.cs" />
+    <Compile Include="Assets\Entity\Property\IMovable.cs" />
+    <Compile Include="Assets\Entity\Property\IProperty.cs" />
+    <Compile Include="Assets\Entity\Property\ISeeable.cs" />
+    <Compile Include="Assets\Entity\Property\IUnseeable.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Command\Command.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Command\Concepts\MonsterCommand.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Command\Concepts\MoveCommand.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Command\Concepts\SkillCommand.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Controller\AnimationController.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Controller\Controller.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Controller\FSM.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Controller\UnitController.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\AnimationParameter.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\Animations.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Enums\Direction.cs" />
@@ -101,17 +110,14 @@
     <Compile Include="Assets\ProjectCatMan\Sources\Item\Base\ItemType.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Item\FactoryMethod\ItemFactoryMethod.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Manager\InGameManager.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Manager\RayManager.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Manager\SceneManager.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\Attack.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\Attackable.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\DamageData.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\ISee.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\IUnitProperty.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Killable.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\LookAtTheMouse.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\Movable.cs" />
-    <Compile Include="Assets\ProjectCatMan\Sources\Properties\Targeting.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Properties\Weapon.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Skill\Abstract\ISkill.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Skill\Concepts\JumpSkill.cs" />
@@ -122,6 +128,7 @@
     <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Concepts\PlayerFactory.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Units\AbstractFactory\Concepts\UpgradeMonsterFactory.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Units\Base\UnitBase.cs" />
+    <Compile Include="Assets\ProjectCatMan\Sources\Units\Components\Life.cs" />
     <Compile Include="Assets\ProjectCatMan\Sources\Units\FactoryMethod\UnitFactoryMethod.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\CameraFollow\Camera2DFollow.cs" />
     <Compile Include="Assets\ProjectTrain\Scripts\CameraFollow\CameraFollow.Init.cs" />
@@ -144,7 +151,6 @@
     <Compile Include="Assets\ProjectTrain\Source\Extensions\DirectionExtension.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Extensions\GameObjectExtension.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Extensions\Vector3Extension.cs" />
-    <Compile Include="Assets\ProjectTrain\Source\Interfaces\IBehavior.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\IInitializable.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\System\IExecuteSystem.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Interfaces\System\IInitializeSystem.cs" />
@@ -163,6 +169,8 @@
     <Compile Include="Assets\ProjectTrain\Source\Targeting\TargetingHorizontal.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Targeting\TargettingInRect.cs" />
     <Compile Include="Assets\ProjectTrain\Source\Time\CoolTime.cs" />
+    <Compile Include="Assets\Raycast2DManager\RayData.cs" />
+    <Compile Include="Assets\Raycast2DManager\RayManager.cs" />
     <Compile Include="Assets\Singleton\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>

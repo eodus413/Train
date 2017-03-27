@@ -12,7 +12,11 @@ namespace ProjectCatMan
         public Gun(UnitBase attacker, int damage, float range)
         {
             attack = new AttackDirect(attacker, damage);
-            targeting = new TargetingToRaycast(shotPoint, range, Team.Monster.LayerMask(), Layers.GroundMask);
+
+            float sight = 1f;
+            int detectMask = attacker.team.AttackLayerMask();
+            int denyMask = Layers.GroundMask;
+            see = new SeeFoward(attacker.transform, sight, detectMask, denyMask);
 
             GameObject prefab = Resources.Load<GameObject>("Prefab/Weapon/Gun");
 
@@ -36,7 +40,7 @@ namespace ProjectCatMan
 
         public void Use()
         {
-            attack.Attack(target.attackable);
+            target.Attacked(new AttackData(attack.attacker, attack.damage));
         }
         #endregion
 
@@ -51,7 +55,7 @@ namespace ProjectCatMan
 
 
         #region Gun
-        public ITargeting targeting { get; private set; }
+        public ISee see { get; private set; }
         public Transform shotPoint { get; private set; }
         
         public float range { get; private set; }
@@ -60,7 +64,7 @@ namespace ProjectCatMan
         {
             get
             {
-                return targeting.target.GetComponent<UnitBase>();
+                return see.current.GetComponent<UnitBase>();
             }
         }
         #endregion

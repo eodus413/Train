@@ -1,37 +1,40 @@
 ﻿using System;
 using UnityEngine;
-
+//movable클래스가 어떤 동작만 정의하는지 (동작 클래스)
+//아니면 다른 객체의 상태를 체크해 다른 동작을 실행하는지
+//확실히 하도록
 namespace ProjectCatMan
 {
     public interface IMovable
     {
+        Transform transform { get; }
+
         bool isMoving { get; }
         Direction moveDirection { get; }
         float speed { get; }
-        
-        void Move();
-        void Move(Direction direction);
+
+        void Move(Vector3 direction);
         void Stop();
     }
     #region MovableUnit
-    public class MovableUnit : IMovable
+    public class MoveToDirection : IMovable
     {
-        public MovableUnit(UnitBase unit, float speed)
+        public MoveToDirection(Transform transform, float speed)
         {
-            this.unit = unit;
-            this.transform = unit.transform;
+            this.transform = transform;
+
+            this.isMoving = false;
+            this.moveDirection = Direction.None;
             this.speed = speed;
         }
-        
+
+        public Transform transform { get; private set; }
+
         public bool isMoving { get; private set; }
         public Direction moveDirection { get; private set; }
         public float speed { get; private set; }
 
-        public void Move()
-        {
-            DoMove(transform.right);
-        }
-        public void Move(Direction direction)
+        public void Move(Vector3 direction)
         {
             DoMove(direction);
         }
@@ -40,21 +43,12 @@ namespace ProjectCatMan
             isMoving = false;
             moveDirection = Direction.None;
         }
-        
 
-        public UnitBase unit { get; private set; }
-        public Transform transform { get; private set; }
         public float moveSpeed
         {
             get { return speed * Time.deltaTime; }
         }
-       
-        protected void DoMove(Direction direction)
-        {
-            isMoving = true;
-            moveDirection = direction;
-            transform.position += direction.DirToVec3() * moveSpeed;
-        }
+
         protected void DoMove(Vector3 direction)
         {
             isMoving = true;
@@ -62,27 +56,30 @@ namespace ProjectCatMan
             transform.position += direction * moveSpeed;
         }
     }
-    
-    
     #endregion
     public class UnMovable : IMovable
     {
-        public UnMovable(float speed)
+        public UnMovable(Transform transform, float speed)
         {
+            this.transform = transform;
+            //this.isMoving = false;
+            
             this.speed = 0;
         }
 
-        public bool isMoving { get { return false; } }
-        public Direction moveDirection { get; private set; }
+        public Transform transform { get; private set; }
+
+        public bool isMoving
+        {
+            get { return false; }
+        }
+        public Direction moveDirection
+        {
+            get { return Direction.None; }
+        }
         public float speed { get; private set; }
 
-        public void Move(Direction direction) { }
-        public void Move() { }
+        public void Move(Vector3 direction) { }
         public void Stop() { }
-
-        public override string ToString()
-        {
-            return "UnMovable";
-        }
     }
 }

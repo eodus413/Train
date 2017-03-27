@@ -2,15 +2,15 @@
 {
     public static class TeamExtension
     {
-        public static int LayerMask(this Team team)
+        public static int AttackLayerMask(this Team team)
         {
             if(team == Team.Player)
             {
-                return Layers.PlayerMask;
+                return Layers.MonsterMask;
             }
             else if(team == Team.Monster)
             {
-                return Layers.MonsterMask;
+                return Layers.PlayerMask;
             }
             return Layers.Noting;
         }

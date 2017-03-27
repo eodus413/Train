@@ -5,15 +5,12 @@ namespace ProjectCatMan
 {
     public partial class UnitBase : MonoBehaviour
     {
-        List<IItem> inventory = new List<IItem>();  //unit 마다 inventory 보유 
-        
-        public IAttackable attackable { get; private set; }
-        public IKillable killable { get; private set; }
+        Life life;
         public ISee see { get; private set; }
         public IMovable movable { get; private set; }
         
         [SerializeField]
-        Team team;
+        public Team team { get; private set; }
         [SerializeField]
         Friendly friendly;
         [SerializeField]
@@ -21,30 +18,22 @@ namespace ProjectCatMan
         
 
         IUnitFactory factory;
-        IController controller;
 
-        public Animator animator { get; private set; }
+        UnitController controller;
         void Awake()
         {
             animator = GetComponent<Animator>();
 
-            factory = InGameManager.currentFactory(type);
+            factory     =       InGameManager.currentFactory(type);
 
             team        =       factory.SetTeam();
             friendly    =       factory.SetFriendly();
             
-            attackable  =       factory.SetAttackable(this);
-            killable    =       factory.SetKillable(this);
             see         =       factory.SetSee(this);
             movable     =       factory.SetMovable(this);
-
-            controller  =       factory.SetController(this);
-
-            controller.Initialize();
-        }
-        void Update()
-        {
-            controller.Execute();
+            
+            life        = 
+            controller  = 
         }
     }
 
@@ -59,7 +48,7 @@ namespace ProjectCatMan
         {
             get
             {
-                return see.direction != movable.moveDirection;
+                return see.direction.Vec3ToDir() != movable.moveDirection;
             }
         }
         public bool isBackMoving
@@ -69,7 +58,65 @@ namespace ProjectCatMan
                 return movable.isMoving & isBack;
             }
         }
+        public bool isAttacking
+        {
+            get
+            {
+                return false;
+            }
+        }
 
+        public bool isLive
+        {
+            get { return life.isLive; }
+        }
+        public bool isDead
+        {
+            get { return !life.isDead; }
+        }
+
+        public void Attacked(AttackData data)
+        {
+            life.Attacked(data);
+        }
+    }
+    #endregion
+
+    #region Animation
+    public partial class UnitBase : MonoBehaviour
+    {
+        Animator animator;
+    }
+    #endregion
+
+    #region Implemented
+    public partial class UnitBase : MonoBehaviour
+    {
+        readonly string A_isDead = AnimationParameters.isDead.ToString();
+        void Dead()
+        {
+            animator.SetBool(A_isDead, true);
+        }
     }
     #endregion
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

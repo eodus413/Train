@@ -5,7 +5,7 @@
         isMoving,
         isBackMoving,
         isDead,
-        Attacking,
-        Damaged
+        isAttacking,
+        isDamaged
     }
 }

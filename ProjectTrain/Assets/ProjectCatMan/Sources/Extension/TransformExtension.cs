@@ -4,6 +4,15 @@ namespace ProjectCatMan
 {
     public static class TransformExtension
     {
+        public static bool isLeft(this Transform lv, Vector3 rv)
+        {
+            if (rv == null)
+            {
+                Debug.Log(rv + "is null, TransformExtension Direction return false");
+                return false;
+            }
+            return lv.position.x < rv.x;
+        }
         public static bool isLeft(this Transform lv,Transform rv)
         {
             if (rv == null)
@@ -11,7 +20,7 @@ namespace ProjectCatMan
                 Debug.Log(rv + "is null, TransformExtension Direction return false");
                 return false;
             }
-            return lv.position.x < rv.position.y;
+            return lv.position.x < rv.position.x;
         }
         public static bool isLeft(this Transform lv,GameObject rv)
         {
@@ -20,7 +29,12 @@ namespace ProjectCatMan
                 Debug.Log(rv + "is null, TransformExtension Direction return false");
                 return false;
             }
-            return lv.position.x < rv.transform.position.y;
+            return lv.position.x < rv.transform.position.x;
+        }
+        public static Direction LocationOf(this Transform lv, Vector3 rv)
+        {
+            if (lv.isLeft(rv)) return Direction.Right;
+            else return Direction.Left;
         }
         public static Direction LocationOf(this Transform lv,Transform rv)
         {
