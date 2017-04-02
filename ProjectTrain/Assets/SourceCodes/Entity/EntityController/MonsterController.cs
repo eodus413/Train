@@ -6,39 +6,71 @@ namespace Entity.Controller
 {
     public partial class MonsterController : EntityController
     {
+        public bool NoTarget { get { return sight.target == null; } }
+        public bool isChasing
+        {
+            get
+            {
+                return !NoTarget && !isReadyForAttack;
+            }
+        }
+        public bool isReadyForAttack
+        {
+            get
+            {
+                return sight.DistanceToTarget <= entity.attackRange;
+            }
+        }
         public override IEnumerator Start()
         {
             while (isActive)
             {
-                if (target == null) yield return Targeting();
+                if (NoTarget) yield return Targeting();
+                else if (isChasing) yield return Chasing();
+                else if (isReadyForAttack) yield return Attack();
+
                 yield return new WaitForSeconds(routineDelay);
             }
         }
+        
 
-        GameObject target;
+        private float reactionVelocity;
+        private float targetingDelay
+        {
+            get { return reactionVelocity; }
+        }
+        private float checkTargetDelay
+        {
+            get { return reactionVelocity; }
+        }
 
-        private float targetingDelay;
+
         IEnumerator Targeting()
         {
-            sight.Seeing();
             yield return new WaitForSeconds(targetingDelay);
+            sight.Seeing();
         }
         
-        //Coroutine _currentCoroutine;
-        //Coroutine SetState(IEnumerator state)
-        //{
-        //    if (_currentCoroutine != null)
-        //        entity.StopCoroutine(_currentCoroutine);
-        //    return _currentCoroutine = entity.StartCoroutine(state);
-        //}
 
-        //IEnumerator AI()
-        //{
-        //    do
-        //    {
-        //        if (isA == true) yield return SetState();
-        //    } while ();
-        //}
+        IEnumerator Chasing()
+        {
+            while (sight.targetIsInSight)
+            {
+                entity.Move(entityTransform.TargetLocation(sight.target));
+                yield return new WaitForSeconds(moveRoutineDelay);
+            }    
+        }
+        EntityBase targetEntity
+        {
+            get { return sight.target.GetComponent<EntityBase>(); }
+        }
+        IEnumerator Attack()
+        {
+            Debug.Log("A");
+            yield return new WaitForSeconds(entity.attack.a);
+
+            entity.attack.AttackTo(targetEntity);
+        }
     }
 
 
@@ -47,8 +79,8 @@ namespace Entity.Controller
         EntitySight sight;
         public MonsterController(EntityBase entity,float reactionVelocity = 1f) : base(entity)
         {
-            sight = entity.sight;
-            targetingDelay = reactionVelocity;
+            sight = entity.eye;
+            this.reactionVelocity = reactionVelocity;
         }
     }
 }

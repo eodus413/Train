@@ -5,6 +5,8 @@ namespace Entity.Controller
 {
     public abstract partial class EntityController
     {
+        public const float moveRoutineDelay = 0.01f;
+
         public float routineDelay { get; private set; }
         public void SlowDownDelay(float value)
         {
@@ -41,13 +43,13 @@ namespace Entity.Controller
     public abstract partial class EntityController
     {
         public EntityBase entity { get; private set; }
-        public Transform transform { get; private set; }
+        public Transform entityTransform { get; private set; }
         public EntityController(EntityBase entity,float routineDelay = 0.05f)
         {
             isActive = true;
             this.entity = entity;
             this.routineDelay = routineDelay;
-            this.transform = entity.transform;
+            this.entityTransform = entity.transform;
         }
     }
 }

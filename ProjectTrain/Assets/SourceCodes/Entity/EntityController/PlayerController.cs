@@ -17,19 +17,26 @@ namespace Entity.Controller
         }
         void GetInput()
         {
-            if (Input.GetKey(KeyCode.A)) entity.Move(Vector3.left);
-            if (Input.GetKey(KeyCode.D)) entity.Move(Vector3.right);
+            Vector3 direction = Vector3.zero;
+            if (Input.GetKey(KeyCode.A)) direction += Vector3.left;
+            if (Input.GetKey(KeyCode.D)) direction += Vector3.right;
+            if (Input.GetMouseButtonDown(0)) Attack();
+            entity.Move(direction);
         }
         void Look()
         {
-            if(Input.mousePosition.x < Camera.main.WorldToViewportPoint(transform.position).x)
-            {
-                entity.LookAt(Vector3.left);
+            if(Input.mousePosition.x < Screen.width * 0.5f)
+            {   
+                entity.eye.LookAt(Vector3.left);
             }
             else
             {
-                entity.LookAt(Vector3.right);
+                entity.eye.LookAt(Vector3.right);
             }
+        }
+        void Attack()
+        {
+            entity.attack.AttackTo();
         }
     }
 

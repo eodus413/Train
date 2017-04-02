@@ -4,6 +4,9 @@ namespace Entity
 {
     public struct Direction
     {
+        public static Direction left = new Direction(Vector3.left);
+        public static Direction right = new Direction(Vector3.right);
+        public static Direction zero = new Direction(Vector3.zero);
         Vector3 value;
 
         public Direction(Vector3 value)

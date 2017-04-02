@@ -22,6 +22,7 @@ namespace Entity
             ComponentInitialize();
             Initialize();
             StartCoroutine(controller.Start());
+            EntityData.AddEntity(this);
         }
     }
     #endregion
@@ -42,23 +43,25 @@ namespace Entity
         const string EntityCategoryName = " (Entity)";
         void ComponentInitialize()
         {
-            factory = EntitySetter.GetFactory(type);
+            factory = EntitySetter.GetFactory(_type);
 
             gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
 
-            baseRigidbody = GetComponent<Rigidbody2D>();
-            baseRigidbody.freezeRotation = true;
-            
+            baseRigidbody = factory.SetRigidbody(this);
             bodyCollider = factory.SetCollider(this);
 
-            sight = factory.SetSight(this);
+            animator = GetComponent<Animator>();
         }
     }
 
     public partial class EntityBase : MonoBehaviour
     {
         [SerializeField]
-        EntityType type;
+        EntityType _type;
+        public EntityType type
+        {
+            get { return _type;}
+        }
 
         [SerializeField]
         private int _hp;
@@ -90,7 +93,34 @@ namespace Entity
         {
             get { return speed * Time.deltaTime; }
         }
-        Direction moveDirection;
+        Direction _moveDirection;
+        public Direction moveDirection
+        {
+            get { return _moveDirection; }
+            private set
+            {
+                _moveDirection = value;
+                if (_moveDirection == Vector3.zero)
+                {
+                    isMoving = false;
+                }
+                else
+                {
+                    isMoving = true;
+                }
+            }
+        }
+        private readonly string id_isMoving = "IsMoving";
+        private bool _isMoving = false;
+        public bool isMoving
+        {
+            get { return _isMoving; }
+            private set
+            {
+                _isMoving = value;
+                animator.SetBool(id_isMoving, isMoving);
+            }
+        }
         public void Move(Direction direction)
         {
             moveDirection = direction;
@@ -98,98 +128,87 @@ namespace Entity
         }
         #endregion
 
-        #region Attack
-        public bool isAttacking { get; private set; }
-
-        [SerializeField]
-        private int _damage;
-        public int damage
-        {
-            get { return _damage; }
-            private set { _damage = value; }
-        }
-
-        [SerializeField]
-        private float _attackRange;
-        public float attackRange
-        {
-            get { return _attackRange; }
-            private set
-            {
-                _attackRange = value;
-            }
-        }
+        #region Attacked
         public void Attacked(int damage)
         {
             hp -= damage;
         }
-        public void Attack()
-        {
-            if (sight.target == null) return;
-            if (sight.DistanceToTarget > attackRange) return;
-            if (isAttacking) return;
-
-            StartCoroutine(DoAttack());
-        }
-        float attackDelay = 0.5f;
-        IEnumerator DoAttack()
-        {
-            isAttacking = true;
-
-            yield return new WaitForSeconds(attackDelay);
-
-            if (sight.DistanceToTarget > attackRange) yield break;
-
-            EntityBase entity = sight.target.GetComponent<EntityBase>();
-            entity.Attacked(damage);
-
-            isAttacking = true;
-        }
-
         #endregion
 
         #region Sight
-        [SerializeField]
-        private EntitySight _sight; //sight => eye
-        public EntitySight sight
-        {
-            get { return _sight; }
-            private set { _sight = value; }
-        }
 
-        public Direction lookDirection { get; private set; }
-        public void LookAt(Direction direction)
+        public EntitySight eye { get; private set; } //sight => eye
+
+        private readonly string id_lookFoward = "LookFoward";
+        private bool _lookFoward;
+        public bool lookFoward
         {
-            lookDirection = direction;
-            gameObject.Turn2D(direction);
+            get { return _lookFoward; }
+            private set
+            {
+                _lookFoward = value;
+                animator.SetBool(id_lookFoward, _lookFoward);
+            }
+        }
+        public Direction lookDirection
+        {
+            get { return eye.lookDirection; }
+            private set
+            {
+                eye.LookAt(value);
+                lookFoward = lookDirection == moveDirection;
+            }
         }
         #endregion
+
+        #region Attack
+
+        public EntityAttack attack { get; private set; }
+
+        
+
+        #endregion
+
+
+
         #region Initialize
 
         public void Initialize()
         {
-            isAttacking = false;
-            
+            eye = factory.SetSight(this);
+            attack = factory.SetAttack(this);
+
+            //isAttacking = false;
+
             hp = factory.SetHp();
-            damage = factory.SetDamage();
-            attackRange = factory.SetAttackRange();
+            //damage = factory.SetDamage();
+            //attackRange = factory.SetAttackRange();
             speed = factory.SetSpeed();
             
-            gameObject.layer = EntitySetter.GetLayer(type);
+            gameObject.layer = EntitySetter.GetLayer(_type);
 
-            controller = EntitySetter.GetController(this,type);
+            controller = EntitySetter.GetController(this,_type);
         }
 
         #endregion
-
-
         #region CallBacks
 
         void Dead()
         {
-
         }
 
         #endregion
+    }
+    public partial class EntityBase : MonoBehaviour
+    {
+        public readonly float attackRange = 0.1f;
+        public bool isReadyForAttack
+        {
+            get
+            {
+                if (eye.target == null) return false;
+                return eye.DistanceToTarget <= attackRange;
+            }
+        }
     }
 }

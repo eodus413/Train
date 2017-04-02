@@ -78,19 +78,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SourceCodes\Background\FieldGenerator.cs" />
+    <Compile Include="Assets\SourceCodes\Camera2D\CameraController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\Direction.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityBase.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntityAttack.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntityComponent.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntitySight.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\EntityController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\MonsterController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\PlayerController.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityData.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityFactory.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityType.cs" />
+    <Compile Include="Assets\SourceCodes\Extensions\EntityBaseExtension.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\GameObject2DExtension.cs" />
+    <Compile Include="Assets\SourceCodes\Extensions\TransformExtension.cs" />
     <Compile Include="Assets\SourceCodes\Layers\Layers.cs" />
     <Compile Include="Assets\SourceCodes\Raycast2DManager\Raycast2DManager.cs" />
     <Compile Include="Assets\SourceCodes\SceneManager\LoadLoadingScene.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\AttackMethod.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\Weapon.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\WeaponFactory.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\AmmoType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

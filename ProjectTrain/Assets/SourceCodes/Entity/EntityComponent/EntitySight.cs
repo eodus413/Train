@@ -5,35 +5,28 @@ using Raycast2DManager;
 
 namespace Entity
 {
-    public class EntitySight : EntityComponent
+    public abstract class EntitySight
     {
-        [SerializeField]
-        private float _distance;
-        public float distance
+        public EntitySight(Transform transform,float distance)
         {
-            get { return _distance; }
-            set
-            {
-                if (value < 0) return;
-                _distance = value;
-            }
-        }
-        
-        [SerializeField]
-        LayerMask _detect;
-        public int detect
-        {
-            get { return _detect; }
-        }
-        [SerializeField]
-        LayerMask _deny;
-        public int deny
-        {
-            get { return _deny; }
+            this.transform = transform;
+            this.distance = distance;
+            this.target = null;
         }
 
+        public float distance { get; private set; }
+        public Transform transform { get; private set; }
+
+        public void SetTarget(GameObject target)
+        {
+            if (target == null) return;
+            this.target = target;
+        }
         public GameObject target { get; private set; }
-
+        public void ReleaseTarget()
+        {
+            target = null;
+        }
         public bool targetIsInSight
         {
             get
@@ -43,7 +36,6 @@ namespace Entity
                 return DistanceToTarget <= distance;
             }
         }
-
         public float DistanceToTarget
         {
             get
@@ -51,10 +43,40 @@ namespace Entity
                 return Vector3.Distance(target.transform.position, transform.position);
             }
         }
-
-        public void Seeing()
+        public abstract void Seeing();
+        
+        public Direction lookDirection { get; private set; }
+        public void LookAt(Direction direction)
         {
-            target = Ray2DManager.CastObject( transform.position, transform.right,distance,LayerManager.Layers.PlayerMask,deny);
+            lookDirection = direction;
+            transform.Turn2D(direction);
+        }
+
+    }
+    public class MonsterSight : EntitySight
+    {
+        public MonsterSight(Transform transform, float distance, LayerMask detect, LayerMask deny) : base(transform,distance)
+        {
+            this.detect = detect;
+            this.deny = deny;
+        }
+
+        public LayerMask detect { get; private set; }
+        public LayerMask deny { get; private set; }
+        public override void Seeing()
+        {
+            GameObject hitObj = Ray2DManager.CastObject(transform.position, transform.right, distance, LayerManager.Layers.PlayerMask, deny);
+            SetTarget(hitObj);
+        }
+    }
+    public class PlayerSight : EntitySight
+    {
+        public PlayerSight(Transform transform,float distance) : base(transform,distance)
+        {
+
+        }
+        public override void Seeing()
+        {
         }
     }
 }
