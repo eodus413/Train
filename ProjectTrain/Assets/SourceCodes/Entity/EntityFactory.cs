@@ -15,7 +15,6 @@ namespace Factory
 
         #endregion
 
-
         public static IEntityFactory GetFactory(EntityType type)
         {
             if(type == EntityType.Player)
@@ -76,7 +75,6 @@ namespace Factory
         float SetSpeed();
 
         EntitySight SetSight(EntityBase entity);
-        EntityAttack SetAttack(EntityBase entity);
         Collider2D SetCollider(EntityBase entity);
         Rigidbody2D SetRigidbody(EntityBase entity);
     }
@@ -88,25 +86,19 @@ namespace Factory
         public int SetDamage() { return 1; }
         public float SetAttackRange() { return 0.2f; }
         public float SetSpeed() { return 0.3f; }
-
-        //Attack
-        public EntityAttack SetAttack(EntityBase entity)
-        {
-            return entity.gameObject.AddComponent<PlayerAttack>(); 
-        }
-
+        
 
         //Sight
         public EntitySight SetSight(EntityBase entity)
         {
-            return new PlayerSight(entity.transform, 1f);
+            return new PlayerSight(entity.transform, 0.2f);
         }
 
         // Collider
-        static Vector2 size = new Vector2(0.09f, 0.155f);
+        static Vector2 size = new Vector2(0.05f, 0.11f);
         public Collider2D SetCollider(EntityBase entity)
         {
-            CapsuleCollider2D collider = entity.gameObject.AddComponent<CapsuleCollider2D>();
+            BoxCollider2D collider = entity.gameObject.AddComponent<BoxCollider2D>();
 
             collider.size = size;
             collider.isTrigger = false;
@@ -131,14 +123,8 @@ namespace Factory
         public int SetHp() { return 10; }
         public int SetDamage() { return 1; }
         public float SetAttackRange() { return 0.2f; }
-        public float SetSpeed() { return 0.5f; }
+        public float SetSpeed() { return 0.2f; }
 
-
-        public EntityAttack SetAttack(EntityBase entity)
-        {
-            EntityAttack attack = entity.gameObject.AddComponent<MonsterAttack>();
-            return attack;
-        }
 
         static Vector2 eyePosition = new Vector2(0.02f, 0.04f);
         public EntitySight SetSight(EntityBase entity)
@@ -180,12 +166,7 @@ namespace Factory
         public int SetDamage() { return 1; }
         public float SetAttackRange() { return 0.2f; }
         public float SetSpeed() { return 0.1f; }
-
-        public EntityAttack SetAttack(EntityBase entity)
-        {
-            EntityAttack attack = entity.gameObject.AddComponent<MonsterAttack>();
-            return attack;
-        }
+        
 
         static Vector2 eyePosition = new Vector2(0.02f, 0.04f);
         public EntitySight SetSight(EntityBase entity)

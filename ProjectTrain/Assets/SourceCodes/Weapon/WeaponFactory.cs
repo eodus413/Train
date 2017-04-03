@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using LayerManager;
-
+using Entity;
 
 namespace Weapon
 {
@@ -30,7 +30,7 @@ namespace Weapon
     }
     public interface IWeaponFactory
     {
-        IAttackMethod SetAttackMethod(Transform transform);
+        IAttackMethod SetAttackMethod(EntityBase entity);
         
         int SetDamage();
         float SetAttackRange();
@@ -41,9 +41,13 @@ namespace Weapon
     }
     public class PistolFactory : IWeaponFactory
     {
-        public IAttackMethod SetAttackMethod(Transform transform)
+        Vector2 shotPointPosition = new Vector2(0.06f,0.11f);
+        public IAttackMethod SetAttackMethod(EntityBase entity)
         {
-            return new AttackToRaycast(transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask,SetDamage());
+            GameObject shotPoint = new GameObject("ShotPoint");
+            shotPoint.transform.SetParent(entity.transform);
+            shotPoint.transform.localPosition = shotPointPosition;
+            return new AttackToRaycast(entity,shotPoint.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask,SetDamage());
         }
 
         public int SetDamage()
@@ -52,7 +56,7 @@ namespace Weapon
         }
         public float SetAttackRange()
         {
-            return 2f;
+            return 1f;
         }
         public float SetAttackDelay()
         {
@@ -70,9 +74,9 @@ namespace Weapon
     }
     public class ShotGunFactory : IWeaponFactory
     {
-        public IAttackMethod SetAttackMethod(Transform transform)
+        public IAttackMethod SetAttackMethod(EntityBase entity)
         {
-            return new AttackToRaycast(transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
+            return new AttackToRaycast(entity,entity.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
         }
 
         public int SetDamage()
@@ -81,7 +85,7 @@ namespace Weapon
         }
         public float SetAttackRange()
         {
-            return 1f;
+            return 0.5f;
         }
         public float SetAttackDelay()
         {
@@ -99,9 +103,9 @@ namespace Weapon
     }
     public class MachineGunFactory : IWeaponFactory
     {
-        public IAttackMethod SetAttackMethod(Transform transform)
+        public IAttackMethod SetAttackMethod(EntityBase entity)
         {
-            return new AttackToRaycast(transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
+            return new AttackToRaycast(entity,entity.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
         }
 
         public int SetDamage()

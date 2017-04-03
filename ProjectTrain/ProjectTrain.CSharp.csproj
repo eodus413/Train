@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.2f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SourceCodes\Background\FieldGenerator.cs" />
+    <Compile Include="Assets\SourceCodes\Background\Parallaxing.cs" />
     <Compile Include="Assets\SourceCodes\Camera2D\CameraController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\Direction.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityBase.cs" />
@@ -93,13 +92,15 @@
     <Compile Include="Assets\SourceCodes\Extensions\EntityBaseExtension.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\GameObject2DExtension.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\TransformExtension.cs" />
+    <Compile Include="Assets\SourceCodes\FieldObject\Door.cs" />
+    <Compile Include="Assets\SourceCodes\FieldObject\FieldObjectBase.cs" />
     <Compile Include="Assets\SourceCodes\Layers\Layers.cs" />
     <Compile Include="Assets\SourceCodes\Raycast2DManager\Raycast2DManager.cs" />
     <Compile Include="Assets\SourceCodes\SceneManager\LoadLoadingScene.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\AmmoType.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\AttackMethod.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\Weapon.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\WeaponFactory.cs" />
-    <Compile Include="Assets\SourceCodes\Weapon\AmmoType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

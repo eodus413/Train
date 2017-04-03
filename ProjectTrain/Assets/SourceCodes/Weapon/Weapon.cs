@@ -13,6 +13,7 @@ namespace Weapon
         float attackRange { get; }
         float attackDelay { get; }
         Transform transform { get; }
+        EntityBase entity { get; }
 
         void Attack();
     }
@@ -28,6 +29,7 @@ namespace Weapon
         public float attackRange { get; private set; }
         public float attackDelay { get; private set; }
         public Transform transform { get; private set;}
+        public EntityBase entity { get; private set; }
 
         public void Attack()
         {
@@ -44,14 +46,15 @@ namespace Weapon
         public readonly int maxAmmoAmount;
 
 
-        public Gun(GunType gunType,Transform transform)
+        public Gun(GunType gunType,EntityBase entity)
         {
             this.gunType = gunType;
-            this.transform = transform;
+            this.entity = entity;
+            this.transform = entity.transform;
 
             IWeaponFactory factory = WeaponSetter.GetFactory(gunType);
 
-            attackMethod = factory.SetAttackMethod(transform);
+            attackMethod = factory.SetAttackMethod(entity);
 
             damage = factory.SetDamage();
             attackRange = factory.SetAttackRange();

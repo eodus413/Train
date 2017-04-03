@@ -9,15 +9,16 @@ namespace LayerManager
         public static int Ground = LayerMask.NameToLayer("Ground");
         public static int Player = LayerMask.NameToLayer("Player");
         public static int Monster = LayerMask.NameToLayer("Monster");
+        public static int Object = LayerMask.NameToLayer("Object");
 
         public static LayerMask GroundMask = 1 << Ground;
         public static LayerMask PlayerMask = 1 << Player;
         public static LayerMask MonsterMask = 1 << Monster;
-
+        public static LayerMask ObjectMask = 1 << Object;
 
         public static int ToMask(LayerMask layerMask)
         {
             return 1 << layerMask;
         }
-    }
+    } 
 }

@@ -10,8 +10,9 @@ namespace Weapon
     }
     public class AttackToRaycast : IAttackMethod
     {
-        public AttackToRaycast(Transform transform, float distance,LayerMask detect,LayerMask deny,int damage)
+        public AttackToRaycast(EntityBase entity,Transform transform, float distance,LayerMask detect,LayerMask deny,int damage)
         {
+            this.entity = entity;
             this.transform = transform;
             this.distance = distance;
             this.detect = detect;
@@ -23,14 +24,15 @@ namespace Weapon
         public int damage { get; private set; }
         public void Attack()
         {
-            GameObject hitObj = Ray2DManager.CastObject(transform.position, transform.right, distance,detect,deny);
+            GameObject hitObj = Ray2DManager.CastObject(transform.position, entity.lookDirection, distance,detect,deny);
 
+            if (hitObj == null) return;
             EntityBase targetEntity = hitObj.GetComponent<EntityBase>();
 
             targetEntity.Attacked(damage);
         }
 
-
+        EntityBase entity;
         Transform transform;
         float distance;
         LayerMask detect;

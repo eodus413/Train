@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Raycast2DManager;
+using LayerManager;
+using FieldObject;
 
 namespace Entity
 {
@@ -44,14 +46,6 @@ namespace Entity
             }
         }
         public abstract void Seeing();
-        
-        public Direction lookDirection { get; private set; }
-        public void LookAt(Direction direction)
-        {
-            lookDirection = direction;
-            transform.Turn2D(direction);
-        }
-
     }
     public class MonsterSight : EntitySight
     {
@@ -65,7 +59,7 @@ namespace Entity
         public LayerMask deny { get; private set; }
         public override void Seeing()
         {
-            GameObject hitObj = Ray2DManager.CastObject(transform.position, transform.right, distance, LayerManager.Layers.PlayerMask, deny);
+            GameObject hitObj = Ray2DManager.CastObject(transform.position, transform.right, distance, detect, deny);
             SetTarget(hitObj);
         }
     }
@@ -73,10 +67,15 @@ namespace Entity
     {
         public PlayerSight(Transform transform,float distance) : base(transform,distance)
         {
-
         }
         public override void Seeing()
         {
+            GameObject hitObj = Ray2DManager.CastObject(transform.position,transform.right, distance, Layers.ObjectMask,Layers.GroundMask);
+            Debug.Log(hitObj);
+            if (hitObj == null) return;
+            FieldObjectBase obj = hitObj.GetComponent<FieldObjectBase>();
+
+            obj.Interact();
         }
     }
 }

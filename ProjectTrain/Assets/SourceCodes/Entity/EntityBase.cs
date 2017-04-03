@@ -100,7 +100,7 @@ namespace Entity
             private set
             {
                 _moveDirection = value;
-                if (_moveDirection == Vector3.zero)
+                if (_moveDirection == Direction.zero)
                 {
                     isMoving = false;
                 }
@@ -150,25 +150,24 @@ namespace Entity
                 animator.SetBool(id_lookFoward, _lookFoward);
             }
         }
+        private Direction _lookDirection = Direction.zero;
         public Direction lookDirection
         {
-            get { return eye.lookDirection; }
+            get { return _lookDirection; }
             private set
             {
-                eye.LookAt(value);
-                lookFoward = lookDirection == moveDirection;
+                _lookDirection = value;
+
+                gameObject.Turn2D(_lookDirection);
+                lookFoward = _lookDirection == moveDirection;
             }
         }
+        public void LookAt(Direction direction)
+        {
+            lookDirection = direction;
+            gameObject.Turn2D(direction);
+        }
         #endregion
-
-        #region Attack
-
-        public EntityAttack attack { get; private set; }
-
-        
-
-        #endregion
-
 
 
         #region Initialize
@@ -176,7 +175,6 @@ namespace Entity
         public void Initialize()
         {
             eye = factory.SetSight(this);
-            attack = factory.SetAttack(this);
 
             //isAttacking = false;
 
@@ -209,6 +207,14 @@ namespace Entity
                 if (eye.target == null) return false;
                 return eye.DistanceToTarget <= attackRange;
             }
+        }
+    }
+
+    public partial class EntityBase : MonoBehaviour
+    {
+        public static implicit operator Transform(EntityBase entity)
+        {
+            return entity.transform;
         }
     }
 }
