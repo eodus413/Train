@@ -2,8 +2,9 @@
 using Entity;
 using Entity.Controller;
 using LayerManager;
+using System.Collections.Generic;
 
-namespace Factory
+namespace Entity
 {
     public static class EntitySetter
     {
@@ -69,129 +70,100 @@ namespace Factory
 
     public interface IEntityFactory
     {
-        int SetHp();
-        int SetDamage();
-        float SetAttackRange();
-        float SetSpeed();
-
-        EntitySight SetSight(EntityBase entity);
-        Collider2D SetCollider(EntityBase entity);
-        Rigidbody2D SetRigidbody(EntityBase entity);
+        IHealth             GetNewHealth();
+        IMoveBehavior       GetNewMoveBehavior(Transform mover);
+        List<IAttackBehavior>     GetNewAttackBehavior(EntityBase attacker);
     }
+}
 
-    #region PlayerFactory
+namespace Entity
+{
+    using Weapon;
+    using Weapon.Factory;
     public class PlayerFactory : IEntityFactory
     {
-        public int SetHp() { return 10; }
-        public int SetDamage() { return 1; }
-        public float SetAttackRange() { return 0.2f; }
-        public float SetSpeed() { return 0.3f; }
-        
+        const int hp = 10;
+        const float speed = 1f;
 
-        //Sight
-        public EntitySight SetSight(EntityBase entity)
+        public IHealth GetNewHealth()
         {
-            return new PlayerSight(entity.transform, 0.2f);
+            return new DefaultHealth(hp);
         }
-
-        // Collider
-        static Vector2 size = new Vector2(0.05f, 0.11f);
-        public Collider2D SetCollider(EntityBase entity)
+        public IMoveBehavior GetNewMoveBehavior(Transform mover)
         {
-            BoxCollider2D collider = entity.gameObject.AddComponent<BoxCollider2D>();
-
-            collider.size = size;
-            collider.isTrigger = false;
-
-            return collider;
+            return new DefaultMove(mover, speed);
         }
-
-        // Rigidbody
-        public Rigidbody2D SetRigidbody(EntityBase entity)
+        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
         {
-            Rigidbody2D rigidbody = entity.gameObject.GetComponent<Rigidbody2D>();
-            rigidbody.freezeRotation = true;
-            rigidbody.angularDrag = 1f;
-            return rigidbody;
+            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
+
+            Gun pistol      = WeaponGenerator.CreateGun(attacker, GunType.Pistol, "DesertEagle");
+            Gun shotgun     = WeaponGenerator.CreateGun(attacker, GunType.ShotGun, "Winchester");
+            Gun machinegun  = WeaponGenerator.CreateGun(attacker, GunType.MachineGun, "M16");
+
+            attackBehaviors.Add(new AttackWithWeapon(pistol));
+            attackBehaviors.Add(new AttackWithWeapon(shotgun));
+            attackBehaviors.Add(new AttackWithWeapon(machinegun));
+
+            return attackBehaviors;
         }
     }
-    #endregion
+}
 
-    #region NormalMonsterFactory
+namespace Entity
+{
+    using Weapon;
     public class NormalMonsterFactory : IEntityFactory
     {
-        public int SetHp() { return 10; }
-        public int SetDamage() { return 1; }
-        public float SetAttackRange() { return 0.2f; }
-        public float SetSpeed() { return 0.2f; }
+        const int hp = 10;
+        const float speed = 5f;
+        const int damage = 1;
+        const float delay = 0.5f;
+        const float range = 1f;
 
-
-        static Vector2 eyePosition = new Vector2(0.02f, 0.04f);
-        public EntitySight SetSight(EntityBase entity)
+        public IHealth GetNewHealth()
         {
-            GameObject eye = new GameObject("Eye");
-            eye.transform.SetParent(entity.transform);
-            eye.transform.localPosition = eyePosition;
-            EntitySight sight = new MonsterSight(eye.transform,0.5f,Layers.PlayerMask,Layers.GroundMask);
-
-            return sight;
+            return new DefaultHealth(hp);
         }
-
-        static float size = 0.05f;
-        public Collider2D SetCollider(EntityBase entity)
+        public IMoveBehavior GetNewMoveBehavior(Transform mover)
         {
-            CircleCollider2D collider = entity.gameObject.AddComponent<CircleCollider2D>();
-
-            collider.radius = size;
-            collider.isTrigger = false;
-
-            return collider;
+            return new DefaultMove(mover, speed);
         }
-
-
-        public Rigidbody2D SetRigidbody(EntityBase entity)
+        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
         {
-            Rigidbody2D rigidbody = entity.gameObject.GetComponent<Rigidbody2D>();
-            rigidbody.freezeRotation = true;
-            rigidbody.angularDrag = 1f;
-            return rigidbody;
+            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
+            IWeapon weapon = new MeleeWeapon(attacker);
+
+            attackBehaviors.Add(new AttackWithWeapon(weapon));
+
+            return attackBehaviors;
         }
     }
-    #endregion
 
-    #region UpgradeMonsterFactory
     public class UpgradeMonsterFactory : IEntityFactory
     {
-        public int SetHp() { return 10; }
-        public int SetDamage() { return 1; }
-        public float SetAttackRange() { return 0.2f; }
-        public float SetSpeed() { return 0.1f; }
-        
+        const int hp = 10;
+        const float speed = 5f;
+        const int damage = 1;
+        const float delay = 0.5f;
+        const float range = 1f;
 
-        static Vector2 eyePosition = new Vector2(0.02f, 0.04f);
-        public EntitySight SetSight(EntityBase entity)
+        public IHealth GetNewHealth()
         {
-            GameObject eye = new GameObject("Eye");
-            eye.transform.SetParent(entity.transform);
-            eye.transform.localPosition = eyePosition;
-            EntitySight sight = new MonsterSight(eye.transform, 0.5f, Layers.PlayerMask, Layers.GroundMask);
-
-            return sight;
+            return new DefaultHealth(hp);
         }
-
-        public Collider2D SetCollider(EntityBase entity)
+        public IMoveBehavior GetNewMoveBehavior(Transform mover)
         {
-            return entity.gameObject.AddComponent<BoxCollider2D>();
+            return new DefaultMove(mover, speed);
         }
-
-
-        public Rigidbody2D SetRigidbody(EntityBase entity)
+        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
         {
-            Rigidbody2D rigidbody = entity.gameObject.GetComponent<Rigidbody2D>();
-            rigidbody.freezeRotation = true;
-            rigidbody.angularDrag = 1f;
-            return rigidbody;
+            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
+            IWeapon weapon = new MeleeWeapon(attacker);
+
+            attackBehaviors.Add(new AttackWithWeapon(weapon));
+
+            return attackBehaviors;
         }
     }
-    #endregion
 }

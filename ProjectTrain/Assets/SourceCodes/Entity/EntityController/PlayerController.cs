@@ -5,8 +5,17 @@ using System.Collections.Generic;
 using Weapon;
 namespace Entity.Controller
 {
-    public partial class PlayerController : EntityController
+    public class PlayerController : EntityController
     {
+        //생성자
+        public PlayerController(EntityBase entity, float routineDelay) : base(entity, routineDelay)
+        {
+            attackBehaviors = entity.attackBehaviors;
+            ChangeWeapon(1);
+            currentMove = entity.moveBehavior;
+        }
+
+        //인터페이스
         public override IEnumerator Start()
         {
             while(isActive)
@@ -16,15 +25,22 @@ namespace Entity.Controller
                 yield return new WaitForSeconds(routineDelay);
             }
         }
+
+        //구현
         void GetInput()
         {
             Vector3 direction = Vector3.zero;
             if (Input.GetKey(KeyCode.A)) direction += Vector3.left;
             if (Input.GetKey(KeyCode.D)) direction += Vector3.right;
             if (Input.GetKeyDown(KeyCode.Space)) Jump();
-            if (Input.GetMouseButtonDown(0)) currentWeapon.Attack();
-            if (Input.GetKeyDown(KeyCode.E)) OpenDoor();
-            entity.Move(direction);
+
+            if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(2);
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(3);
+
+            if (Input.GetMouseButtonDown(0)) currentAttack.Attack();
+
+            currentMove.Move(direction);
         }
         void Look()
         {
@@ -37,33 +53,21 @@ namespace Entity.Controller
                 entity.LookAt(Direction.right);
             }
         }
-        void ChangeWeapon()
-        {
 
+        private IAttackBehavior currentAttack;
+        private List<IAttackBehavior> attackBehaviors;
+        void ChangeWeapon(int num)
+        {
+            if (num < 1) return;
+            if (num > attackBehaviors.Count) return;
+            currentAttack = attackBehaviors[num - 1];
         }
+
+        private IMoveBehavior currentMove;
         Vector2 jumpVelocity = new Vector2(0, 100);
-        public void Jump()
+        void Jump()
         {
              entity.baseRigidbody.AddForce(jumpVelocity);
-        }
-        public void OpenDoor()
-        {
-            entity.eye.Seeing();
-        }
-    }
-
-
-    public partial class PlayerController : EntityController
-    {
-        IWeapon currentWeapon;
-        List<IWeapon> weapons = new List<IWeapon>();
-        public PlayerController(EntityBase entity,float routineDelay) : base(entity,routineDelay)
-        {
-            weapons.Add(new Gun(GunType.Pistol, entity));
-            weapons.Add(new Gun(GunType.ShotGun, entity));
-            weapons.Add(new Gun(GunType.MachineGun, entity));
-
-            currentWeapon = weapons[0];
         }
     }
 }

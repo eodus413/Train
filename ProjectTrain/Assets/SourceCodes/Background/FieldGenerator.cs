@@ -6,10 +6,12 @@ namespace Background
 {
     public class FieldGenerator : MonoBehaviour
     {
+        [SerializeField]
+        private Stages stage;
         GameObject fieldPrefab;
         void Awake()
         {
-            fieldPrefab = Resources.Load<GameObject>("Colliders/Collider");
+            fieldPrefab = Resources.Load<GameObject>("Colliders/" + stage.ToString());
             Instantiate(fieldPrefab, transform);
         }
     }

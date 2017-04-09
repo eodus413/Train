@@ -6,46 +6,11 @@ namespace Entity.Controller
 {
     public partial class MonsterController : EntityController
     {
-        public bool NoTarget { get { return sight.target == null; } }
-        public bool AvalidTarget { get { return sight.target != null; } }
-        public bool isReadyForChasing
+        public bool isLive
         {
             get
             {
-                if (NoTarget) return false;
-
-                float distanceToTarget = sight.DistanceToTarget;
-
-                Debug.Log(distanceToTarget);
-                if (distanceToTarget <= attack.range)
-                {
-                    entity.Move(Direction.zero);
-                    return false;
-                }
-                if (distanceToTarget > sight.distance)
-                {
-                    sight.ReleaseTarget();
-
-                    entity.Move(Direction.zero);
-                    return false;
-                }
-                return true;
-            }
-        }
-        public bool notReadyForAttack
-        {
-            get
-            {
-                if (NoTarget) return true;
-                return sight.DistanceToTarget > entity.attackRange;
-            }
-        }
-        public bool isReadyForAttack
-        {
-            get
-            {
-                if (NoTarget) return false;
-                return sight.DistanceToTarget <= entity.attackRange;
+                return false;
             }
         }
 
@@ -53,10 +18,7 @@ namespace Entity.Controller
         {
             while (isActive)
             {
-                if (NoTarget) yield return Targeting();
-                if (isReadyForChasing) yield return Chasing();
-                if (isReadyForAttack) yield return Attack();
-
+                if (isLive) yield return Dead();
                 yield return new WaitForSeconds(routineDelay);
             }
         }
@@ -76,48 +38,42 @@ namespace Entity.Controller
         IEnumerator Targeting()
         {
             yield return new WaitForSeconds(targetingDelay);
-            sight.Seeing();
+            //targeting으로 고쳐야함
+            //sight.Seeing();
         }
         
+        //제거 혹은 수정
+        //EntityBase targetEntity
+        //{
+        //    get { return sight.target.GetComponent<EntityBase>(); }
+        //}
 
-        IEnumerator Chasing()
+        IAttackMethod attackMethod;
+        const float deadBodyRemainTime = 5f;
+        IEnumerator Dead()
         {
-            while (isReadyForChasing)
+            entity.Dead();
+            yield return new WaitForSeconds(deadBodyRemainTime);
+            Color c = Color.white;
+            for (float i = 1f; i > 0f; i -= 0.1f)
             {
-                yield return new WaitForSeconds(moveRoutineDelay);
-                
-               
-                Direction targetLocation = entityTransform.TargetLocation(sight.target);
-                entity.LookAt(targetLocation);
-                entity.Move(targetLocation);
-            }    
-        }
-        EntityBase targetEntity
-        {
-            get { return sight.target.GetComponent<EntityBase>(); }
-        }
-
-        EntityAttack attack;
-        IEnumerator Attack()
-        {
-            yield return new WaitForSeconds(attack.delay);
-            if(sight.targetIsInSight)
-            {
-                attack.Attack();
-                entity.Move(Direction.zero);
+                c.a = i;
+                entity.baseRenderer.color = c;
+                yield return new WaitForSeconds(0.1f);
             }
+            entity.gameObject.SetActive(false);
+            //죽음 애니메이션
+            //대기
+            //사라짐
         }
     }
 
 
     public partial class MonsterController : EntityController
     {
-        EntitySight sight;
         public MonsterController(EntityBase entity,float reactionVelocity = 1f) : base(entity)
         {
-            sight = entity.eye;
             this.reactionVelocity = reactionVelocity;
-            attack = new MonsterAttack(entity,1,1f,0.1f);
         }
     }
 }

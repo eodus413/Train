@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d6f623ecae21bfd4882a6afc817f6408
-timeCreated: 1490588636
+timeCreated: 1491369283
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -20,6 +20,11 @@ TextureImporter:
     21300026: monster_bird 01_13
     21300028: monster_bird 01_14
     21300030: monster_bird 01_15
+    21300032: monster_bird 01_16
+    21300034: monster_bird 01_17
+    21300036: monster_bird 01_18
+    21300038: monster_bird 01_19
+    21300040: monster_bird 01_20
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -67,7 +72,7 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 256
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -75,7 +80,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 256
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -83,7 +88,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Android
-    maxTextureSize: 2048
+    maxTextureSize: 256
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -97,12 +102,12 @@ TextureImporter:
       name: monster_bird 01_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 124
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 5
+        y: 125
+        width: 20
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -110,12 +115,12 @@ TextureImporter:
       name: monster_bird 01_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 124
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 36
+        y: 125
+        width: 20
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -123,12 +128,12 @@ TextureImporter:
       name: monster_bird 01_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 124
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 67
+        y: 125
+        width: 20
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -136,12 +141,12 @@ TextureImporter:
       name: monster_bird 01_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 124
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 98
+        y: 125
+        width: 20
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -149,12 +154,12 @@ TextureImporter:
       name: monster_bird 01_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 92
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 5
+        y: 94
+        width: 20
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -162,12 +167,12 @@ TextureImporter:
       name: monster_bird 01_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 92
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 36
+        y: 94
+        width: 20
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -175,12 +180,12 @@ TextureImporter:
       name: monster_bird 01_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 92
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 67
+        y: 94
+        width: 20
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -188,12 +193,12 @@ TextureImporter:
       name: monster_bird 01_7
       rect:
         serializedVersion: 2
-        x: 96
-        y: 92
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 98
+        y: 94
+        width: 20
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -201,12 +206,12 @@ TextureImporter:
       name: monster_bird 01_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 60
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 129
+        y: 94
+        width: 20
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -214,12 +219,12 @@ TextureImporter:
       name: monster_bird 01_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 60
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 5
+        y: 63
+        width: 20
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -227,12 +232,12 @@ TextureImporter:
       name: monster_bird 01_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 60
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 36
+        y: 63
+        width: 23
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -240,12 +245,12 @@ TextureImporter:
       name: monster_bird 01_11
       rect:
         serializedVersion: 2
-        x: 96
-        y: 60
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 67
+        y: 63
+        width: 25
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -253,12 +258,12 @@ TextureImporter:
       name: monster_bird 01_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 28
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 98
+        y: 63
+        width: 24
+        height: 12
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -266,12 +271,12 @@ TextureImporter:
       name: monster_bird 01_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 28
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 5
+        y: 32
+        width: 21
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -279,12 +284,12 @@ TextureImporter:
       name: monster_bird 01_14
       rect:
         serializedVersion: 2
-        x: 64
-        y: 28
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 35
+        y: 32
+        width: 23
+        height: 14
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -292,12 +297,77 @@ TextureImporter:
       name: monster_bird 01_15
       rect:
         serializedVersion: 2
-        x: 96
-        y: 28
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 66
+        y: 32
+        width: 24
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_bird 01_16
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 32
+        width: 21
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_bird 01_17
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1
+        width: 24
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_bird 01_18
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1
+        width: 26
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_bird 01_19
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1
+        width: 30
+        height: 13
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_bird 01_20
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 1
+        width: 30
+        height: 8
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

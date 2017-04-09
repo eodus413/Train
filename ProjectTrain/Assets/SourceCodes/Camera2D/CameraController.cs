@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Camera2D
 {
+    using Entity;
     public class CameraController : MonoBehaviour
     {
         public float dampTime = 0.15f;
         private Vector3 velocity = Vector3.zero;
         public Transform target;
         public Camera currentCamera;
+        
         void Start()
         {
             currentCamera = Camera.main;
-            target = Entity.EntityData.player.transform;
+            target = EntityManager.player.transform;
         }
         void Update()
         {

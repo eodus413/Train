@@ -75,32 +75,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\SourceCodes\Background\BackgroundLoader.cs" />
     <Compile Include="Assets\SourceCodes\Background\FieldGenerator.cs" />
     <Compile Include="Assets\SourceCodes\Background\Parallaxing.cs" />
     <Compile Include="Assets\SourceCodes\Camera2D\CameraController.cs" />
+    <Compile Include="Assets\SourceCodes\DamageSystem\DamageSystem.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\AttackData.cs" />
     <Compile Include="Assets\SourceCodes\Entity\Direction.cs" />
-    <Compile Include="Assets\SourceCodes\Entity\EntityBase.cs" />
-    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntityAttack.cs" />
-    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntityComponent.cs" />
-    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\EntitySight.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\Entities\EntityBase.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityBehavior\AttackBehavior.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityBehavior\MoveBehavior.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\AttackMethod.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\Health.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityComponent\TargetingMethod.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\EntityController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\MonsterController.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityController\PlayerController.cs" />
-    <Compile Include="Assets\SourceCodes\Entity\EntityData.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityFactory.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\EntityManager.cs" />
     <Compile Include="Assets\SourceCodes\Entity\EntityType.cs" />
+    <Compile Include="Assets\SourceCodes\Entity\Spawner\Spawner.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\EntityBaseExtension.cs" />
+    <Compile Include="Assets\SourceCodes\Extensions\EntityTypeExtension.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\GameObject2DExtension.cs" />
+    <Compile Include="Assets\SourceCodes\Extensions\SpriteRendererExtension.cs" />
     <Compile Include="Assets\SourceCodes\Extensions\TransformExtension.cs" />
     <Compile Include="Assets\SourceCodes\FieldObject\Door.cs" />
     <Compile Include="Assets\SourceCodes\FieldObject\FieldObjectBase.cs" />
     <Compile Include="Assets\SourceCodes\Layers\Layers.cs" />
+    <Compile Include="Assets\SourceCodes\LineRenderer2D\LineRenderer2D.cs" />
+    <Compile Include="Assets\SourceCodes\Loaders\GameObjectLoader.cs" />
+    <Compile Include="Assets\SourceCodes\Loaders\ResourceLoader.cs" />
+    <Compile Include="Assets\SourceCodes\ObjectPool\ObjectPool.cs" />
     <Compile Include="Assets\SourceCodes\Raycast2DManager\Raycast2DManager.cs" />
     <Compile Include="Assets\SourceCodes\SceneManager\LoadLoadingScene.cs" />
-    <Compile Include="Assets\SourceCodes\Weapon\AmmoType.cs" />
+    <Compile Include="Assets\SourceCodes\Stage\Stages.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\AttackMethod.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\Weapon.cs" />
     <Compile Include="Assets\SourceCodes\Weapon\WeaponFactory.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\Weapons\AmmoType.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\Weapons\Guns.cs" />
+    <Compile Include="Assets\SourceCodes\Weapon\Weapons\MeleeWeapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

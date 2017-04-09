@@ -2,132 +2,116 @@
 using LayerManager;
 using Entity;
 
-namespace Weapon
+namespace Weapon.Factory
 {
-    public static class WeaponSetter
+    public static class WeaponGenerator
     {
-        public static PistolFactory pistol = new PistolFactory();
-        public static ShotGunFactory shotgun = new ShotGunFactory();
-        public static MachineGunFactory machineGun = new MachineGunFactory();
+        static PistolFactory pistolFactory = new PistolFactory();
+        static ShotGunFactory shotgunFactroy = new ShotGunFactory();
+        static MachineGunFactory machineGunFactory = new MachineGunFactory();
 
-
-        public static IWeaponFactory GetFactory(GunType type)
+        public static Gun CreateGun(EntityBase owner,GunType type,string name)
         {
-            if(type == GunType.Pistol)
-            {
-                return pistol;
-            }
-            else if(type == GunType.ShotGun)
-            {
-                return shotgun;
-            }
-            else if(type == GunType.MachineGun)
-            {
-                return machineGun;
-            }
-            return null;
+            IWeaponFactory factory;
+
+            if (type == GunType.Pistol) factory = pistolFactory;
+            else if (type == GunType.ShotGun) factory = shotgunFactroy;
+            else if (type == GunType.MachineGun) factory = machineGunFactory;
+            else return null;
+
+            GunInfo info = new GunInfo(name, type, factory.ammoType, factory.maxAmmo);
+
+            return new Gun(owner, factory.GetAttackMethod(owner), factory.damage, factory.range, factory.delay, info);
         }
     }
-    public interface IWeaponFactory
+    internal interface IWeaponFactory
     {
-        IAttackMethod SetAttackMethod(EntityBase entity);
+        IAttackMethod GetAttackMethod(EntityBase entity);
+        TargetingByRaycast GetTargetingMethod(EntityBase entity);
         
-        int SetDamage();
-        float SetAttackRange();
-        float SetAttackDelay();
+        int damage { get; }
+        float range { get; }
+        float delay { get; }
 
-        AmmoType SetAmmoType();
-        int SetMaxAmmoAmount();
+        AmmoType ammoType { get; }
+        int maxAmmo { get; }
     }
-    public class PistolFactory : IWeaponFactory
+    internal class PistolFactory : IWeaponFactory
     {
-        Vector2 shotPointPosition = new Vector2(0.06f,0.11f);
-        public IAttackMethod SetAttackMethod(EntityBase entity)
+        public IAttackMethod GetAttackMethod(EntityBase entity)
         {
-            GameObject shotPoint = new GameObject("ShotPoint");
-            shotPoint.transform.SetParent(entity.transform);
+            return new DefaultAttack(entity,damage,delay,range);
+        }
+        Vector2 shotPointPosition = new Vector2(0.04f, 0.1f);
+        public TargetingByRaycast GetTargetingMethod(EntityBase entity)
+        {
+            GameObject shotPoint = new GameObject(GunType.Pistol.ToString());
+            shotPoint.transform.SetParent(entity);
             shotPoint.transform.localPosition = shotPointPosition;
-            return new AttackToRaycast(entity,shotPoint.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask,SetDamage());
+
+            return new TargetingBlockedToGround(shotPoint.transform,range,entity.type);
         }
 
-        public int SetDamage()
-        {
-            return 1;
-        }
-        public float SetAttackRange()
-        {
-            return 1f;
-        }
-        public float SetAttackDelay()
-        {
-            return 0.1f;
-        }
+        public int damage { get { return 1; } }
 
-        public AmmoType SetAmmoType()
-        {
-            return AmmoType.Small;
-        }
-        public int SetMaxAmmoAmount()
-        {
-            return 8;
-        }
+        public float range { get { return 1f; } }
+
+        public float delay { get { return 1f; } }
+
+        public AmmoType ammoType { get { return AmmoType.Small; } }
+
+        public int maxAmmo { get { return 8; } }
     }
-    public class ShotGunFactory : IWeaponFactory
+    internal class ShotGunFactory : IWeaponFactory
     {
-        public IAttackMethod SetAttackMethod(EntityBase entity)
+        public IAttackMethod GetAttackMethod(EntityBase entity)
         {
-            return new AttackToRaycast(entity,entity.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
+            return new DefaultAttack(entity,damage,delay,range);
+        }
+        Vector2 shotPointPosition = new Vector2(0.04f, 0.1f);
+        public TargetingByRaycast GetTargetingMethod(EntityBase entity)
+        {
+            GameObject shotPoint = new GameObject(GunType.Pistol.ToString());
+            shotPoint.transform.SetParent(entity);
+            shotPoint.transform.localPosition = shotPointPosition;
+
+            return new TargetingBlockedToGround(shotPoint.transform, range, entity.type);
         }
 
-        public int SetDamage()
-        {
-            return 10;
-        }
-        public float SetAttackRange()
-        {
-            return 0.5f;
-        }
-        public float SetAttackDelay()
-        {
-            return 1f;
-        }
+        public int damage { get { return 1; } }
 
-        public AmmoType SetAmmoType()
-        {
-            return AmmoType.Scatter;
-        }
-        public int SetMaxAmmoAmount()
-        {
-            return 8;
-        }
+        public float range { get { return 1f; } }
+
+        public float delay { get { return 1f; } }
+
+        public AmmoType ammoType { get { return AmmoType.Small; } }
+
+        public int maxAmmo { get { return 8; } }
     }
-    public class MachineGunFactory : IWeaponFactory
+    internal class MachineGunFactory : IWeaponFactory
     {
-        public IAttackMethod SetAttackMethod(EntityBase entity)
+        public IAttackMethod GetAttackMethod(EntityBase entity)
         {
-            return new AttackToRaycast(entity,entity.transform, SetAttackRange(), Layers.MonsterMask, Layers.GroundMask, SetDamage());
+            return new DefaultAttack(entity,damage,range,delay);
+        }
+        Vector2 shotPointPosition = new Vector2(0.04f, 0.1f);
+        public TargetingByRaycast GetTargetingMethod(EntityBase entity)
+        {
+            GameObject shotPoint = new GameObject(GunType.MachineGun.ToString());
+            shotPoint.transform.SetParent(entity);
+            shotPoint.transform.localPosition = shotPointPosition;
+
+            return new TargetingBlockedToGround(shotPoint.transform, range, entity.type);
         }
 
-        public int SetDamage()
-        {
-            return 2;
-        }
-        public float SetAttackRange()
-        {
-            return 3f;
-        }
-        public float SetAttackDelay()
-        {
-            return 0.1f;
-        }
+        public int damage { get { return 1; } }
 
-        public AmmoType SetAmmoType()
-        {
-            return AmmoType.Normal;
-        }
-        public int SetMaxAmmoAmount()
-        {
-            return 100;
-        }
+        public float range { get { return 1f; } }
+
+        public float delay { get { return 1f; } }
+
+        public AmmoType ammoType { get { return AmmoType.Small; } }
+
+        public int maxAmmo { get { return 8; } }
     }
 }
