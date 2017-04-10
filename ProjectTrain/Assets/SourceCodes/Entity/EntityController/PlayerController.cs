@@ -12,7 +12,6 @@ namespace Entity.Controller
         {
             attackBehaviors = entity.attackBehaviors;
             ChangeWeapon(1);
-            currentMove = entity.moveBehavior;
         }
 
         //인터페이스
@@ -38,9 +37,9 @@ namespace Entity.Controller
             else if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(2);
             else if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(3);
 
-            if (Input.GetMouseButtonDown(0)) currentAttack.Attack();
+            if (Input.GetMouseButtonDown(0)) entity.currentAttack.Attack();
 
-            currentMove.Move(direction);
+            entity.Move(direction);
         }
         void Look()
         {
@@ -53,17 +52,13 @@ namespace Entity.Controller
                 entity.LookAt(Direction.right);
             }
         }
-
-        private IAttackBehavior currentAttack;
+        
         private List<IAttackBehavior> attackBehaviors;
-        void ChangeWeapon(int num)
+        void ChangeWeapon(int number)
         {
-            if (num < 1) return;
-            if (num > attackBehaviors.Count) return;
-            currentAttack = attackBehaviors[num - 1];
+            entity.ChangeAttackBehavior(--number);
         }
-
-        private IMoveBehavior currentMove;
+        
         Vector2 jumpVelocity = new Vector2(0, 100);
         void Jump()
         {

@@ -6,6 +6,13 @@ namespace Entity.Controller
 {
     public partial class MonsterController : EntityController
     {
+        //생성자
+        public MonsterController(EntityBase entity, float reactionVelocity = 1f) : base(entity)
+        {
+            this.reactionVelocity = reactionVelocity;
+        }
+        //인터페이스
+        //구현
         public bool isLive
         {
             get
@@ -47,8 +54,7 @@ namespace Entity.Controller
         //{
         //    get { return sight.target.GetComponent<EntityBase>(); }
         //}
-
-        IAttackMethod attackMethod;
+        
         const float deadBodyRemainTime = 5f;
         IEnumerator Dead()
         {
@@ -65,15 +71,6 @@ namespace Entity.Controller
             //죽음 애니메이션
             //대기
             //사라짐
-        }
-    }
-
-
-    public partial class MonsterController : EntityController
-    {
-        public MonsterController(EntityBase entity,float reactionVelocity = 1f) : base(entity)
-        {
-            this.reactionVelocity = reactionVelocity;
         }
     }
 }

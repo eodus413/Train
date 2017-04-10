@@ -20,15 +20,17 @@ namespace Entity
     public class DefaultMove : IMoveBehavior
     {
         //생성자
-        public DefaultMove(Transform mover,float speed)
+        public DefaultMove(EntityBase entity,float speed)
         {
             isMoving = false;
 
             this.speed = speed;
             moveDirection = Direction.zero;
 
-            this.mover = mover;
+            this.mover = entity.transform;
+            this.entity = entity;
         }
+
 
         //인터페이스
         public bool isMoving { get; private set; }
@@ -49,11 +51,16 @@ namespace Entity
             mover.position += moveDirection * moveSpeed;
         }
 
-        
+
         //구현
+        private EntityBase entity;
         private float moveSpeed
         {
-            get { return speed * Time.deltaTime; }
+            get
+            {
+                if (entity.lookDirection != moveDirection) return speed * Time.deltaTime * 0.5f;
+                return speed * Time.deltaTime;
+            }
         }
     }
 }

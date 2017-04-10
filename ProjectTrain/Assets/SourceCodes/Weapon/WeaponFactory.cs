@@ -10,18 +10,34 @@ namespace Weapon.Factory
         static ShotGunFactory shotgunFactroy = new ShotGunFactory();
         static MachineGunFactory machineGunFactory = new MachineGunFactory();
 
-        public static Gun CreateGun(EntityBase owner,GunType type,string name)
+        public static Gun CreateGun(EntityBase owner,GunType gunType,string name)
         {
             IWeaponFactory factory;
 
-            if (type == GunType.Pistol) factory = pistolFactory;
-            else if (type == GunType.ShotGun) factory = shotgunFactroy;
-            else if (type == GunType.MachineGun) factory = machineGunFactory;
+            if (gunType == GunType.Pistol) factory = pistolFactory;
+            else if (gunType == GunType.ShotGun) factory = shotgunFactroy;
+            else if (gunType == GunType.MachineGun) factory = machineGunFactory;
             else return null;
 
-            GunInfo info = new GunInfo(name, type, factory.ammoType, factory.maxAmmo);
+            GunInfo info = new GunInfo(name, gunType, factory.ammoType, factory.maxAmmo);
 
-            return new Gun(owner, factory.GetAttackMethod(owner), factory.damage, factory.range, factory.delay, info);
+            return new Gun(
+                owner,
+                factory.GetAttackMethod(owner),
+                factory.damage, 
+                factory.range,
+                factory.delay,
+                info,
+                GetShotPoint(owner,gunType,factory.shotPosition).transform);
+        }
+        static GameObject GetShotPoint(EntityBase owner,GunType gunType, Vector2 position)
+        {
+            GameObject instance = new GameObject(gunType.ToString());
+
+            instance.transform.SetParent(owner);
+            instance.transform.localPosition = position;
+
+            return instance;
         }
     }
     internal interface IWeaponFactory
@@ -35,6 +51,8 @@ namespace Weapon.Factory
 
         AmmoType ammoType { get; }
         int maxAmmo { get; }
+        
+        Vector2 shotPosition { get; }
     }
     internal class PistolFactory : IWeaponFactory
     {
@@ -61,6 +79,12 @@ namespace Weapon.Factory
         public AmmoType ammoType { get { return AmmoType.Small; } }
 
         public int maxAmmo { get { return 8; } }
+
+        readonly Vector2 _shotPosition = new Vector2(0.1f,0.04f);
+        public  Vector2 shotPosition
+        {
+            get { return _shotPosition; }
+        }
     }
     internal class ShotGunFactory : IWeaponFactory
     {
@@ -87,6 +111,13 @@ namespace Weapon.Factory
         public AmmoType ammoType { get { return AmmoType.Small; } }
 
         public int maxAmmo { get { return 8; } }
+
+        
+        readonly Vector2 _shotPosition = new Vector2(0.1f, 0.04f);
+        public Vector2 shotPosition
+        {
+            get { return _shotPosition; }
+        }
     }
     internal class MachineGunFactory : IWeaponFactory
     {
@@ -113,5 +144,12 @@ namespace Weapon.Factory
         public AmmoType ammoType { get { return AmmoType.Small; } }
 
         public int maxAmmo { get { return 8; } }
+
+
+        readonly Vector2 _shotPosition = new Vector2(0.1f, 0.04f);
+        public Vector2 shotPosition
+        {
+            get { return _shotPosition; }
+        }
     }
 }

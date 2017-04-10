@@ -22,7 +22,13 @@
 
         //인터페이스
         public int baseHp { get { return _baseHp; } }
-        public int hp { get; private set; }
+
+        public int hp
+        {
+            get { return _hp; }
+            private set { _hp = value; }
+        }
+
         public void TakeDamage(int damage)
         {
             if (damage <= 0) return;
@@ -36,5 +42,6 @@
 
         //구현
         private readonly int _baseHp;
+        private int _hp;
     }
 }

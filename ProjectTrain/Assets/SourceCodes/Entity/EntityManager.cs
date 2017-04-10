@@ -22,6 +22,10 @@ namespace Entity
         {
             if (entity == null) return;
 
+            entity.gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
+
+            entity.gameObject.layer = entity.type.GetLayer();
+
             entities.Add(entity);
             SetDetailType(entity);
         }
@@ -30,8 +34,7 @@ namespace Entity
         const string EntityCategoryName = " (Entity)";
         static void SetDetailType(EntityBase entity)
         {
-            entity.gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
-
+            
             if (entity.type == EntityType.Player)
             {
                 player = entity;

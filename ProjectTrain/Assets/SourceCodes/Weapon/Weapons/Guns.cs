@@ -32,7 +32,7 @@ namespace Weapon
     public class Gun : IWeapon
     {
         //생성자
-        public Gun(EntityBase owner,IAttackMethod attackMethod,int damage,float attackRange,float attackDelay,GunInfo info)
+        public Gun(EntityBase owner,IAttackMethod attackMethod,int damage,float attackRange,float attackDelay,GunInfo info,Transform shotPoint)
         {
             this.owner = owner;
             this.attackMethod = attackMethod;
@@ -42,7 +42,7 @@ namespace Weapon
 
             this.info = info;
 
-            targetingMethod = new TargetingBlockedToGround(owner, attackRange, owner.type);
+            targetingMethod = new TargetingBlockedToGround(shotPoint, attackRange, owner.type);
         }
 
         //IWeapon 인터페이스
@@ -61,10 +61,11 @@ namespace Weapon
 
         public void Attack()
         {
+            targetingMethod.Targeting();
             if (targetEntity == null) return;
             if (isReadyForAttack)
             {
-                DoShot();
+                owner.StartCoroutine(attackMethod.Attack(targetEntity));
             }
         }
 
@@ -82,14 +83,13 @@ namespace Weapon
         }
 
         //ToString
-        //고치기
-        public string GunInfos()
+        public string GunInfosToString()
         {
             return " Type : " + info.gunType.ToString();
         }
         public override string ToString()
         {
-            return base.ToString() + GunInfos();
+            return base.ToString() + GunInfosToString();
         }
 
 
@@ -101,10 +101,6 @@ namespace Weapon
                 if (targetingMethod.target == null) return null;
                 return targetingMethod.target.GetComponent<EntityBase>();
             }
-        }
-        private void DoShot()
-        {
-            owner.StartCoroutine(attackMethod.Attack(targetEntity));
         }
     }
 }

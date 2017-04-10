@@ -33,22 +33,6 @@ namespace Entity
             return null;
         }
 
-        public static int GetLayer(EntityType type)
-        {
-            if (type == EntityType.NormalMonster)
-            {
-                return Layers.Monster;
-            }
-            else if (type == EntityType.UpgradeMonster)
-            {
-                return Layers.Monster;
-            }
-            else if(type == EntityType.Player)
-            {
-                return Layers.Player;
-            }
-            return Layers.Nothing;
-        }
 
         public static EntityController GetController(EntityBase targetEntity,EntityType type)
         {
@@ -70,9 +54,9 @@ namespace Entity
 
     public interface IEntityFactory
     {
-        IHealth             GetNewHealth();
-        IMoveBehavior       GetNewMoveBehavior(Transform mover);
-        List<IAttackBehavior>     GetNewAttackBehavior(EntityBase attacker);
+        IHealth health { get; }
+        IMoveBehavior       moveBehavior(EntityBase mover);
+        List<IAttackBehavior>     attackBehaviors(EntityBase attacker);
     }
 }
 
@@ -83,17 +67,17 @@ namespace Entity
     public class PlayerFactory : IEntityFactory
     {
         const int hp = 10;
-        const float speed = 1f;
+        const float speed = 0.2f;
 
-        public IHealth GetNewHealth()
+        public IHealth health
         {
-            return new DefaultHealth(hp);
+            get{ return new DefaultHealth(hp); }
         }
-        public IMoveBehavior GetNewMoveBehavior(Transform mover)
+        public IMoveBehavior moveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
+        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
         {
             List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
 
@@ -121,15 +105,15 @@ namespace Entity
         const float delay = 0.5f;
         const float range = 1f;
 
-        public IHealth GetNewHealth()
+        public IHealth health
         {
-            return new DefaultHealth(hp);
+            get { return new DefaultHealth(hp); }
         }
-        public IMoveBehavior GetNewMoveBehavior(Transform mover)
+        public IMoveBehavior moveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
+        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
         {
             List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
             IWeapon weapon = new MeleeWeapon(attacker);
@@ -148,15 +132,15 @@ namespace Entity
         const float delay = 0.5f;
         const float range = 1f;
 
-        public IHealth GetNewHealth()
+        public IHealth health
         {
-            return new DefaultHealth(hp);
+            get { return new DefaultHealth(hp); }
         }
-        public IMoveBehavior GetNewMoveBehavior(Transform mover)
+        public IMoveBehavior moveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> GetNewAttackBehavior(EntityBase attacker)
+        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
         {
             List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
             IWeapon weapon = new MeleeWeapon(attacker);

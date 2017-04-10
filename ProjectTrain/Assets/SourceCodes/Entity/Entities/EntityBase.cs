@@ -19,10 +19,13 @@ namespace Entity
         public IHealth health { get; private set; }
 
         public IMoveBehavior moveBehavior { get; private set; }
+
+        public IAttackBehavior currentAttack { get; private set; }
         public List<IAttackBehavior> attackBehaviors { get; private set; }
 
         const string id_isLive = "IsLive";
         const string id_lookFoward = "LookFoward";
+        const string id_isMoving = "IsMoving";
                 
 
         public Collider2D       bodyCollider    { get; private set; }
@@ -69,15 +72,31 @@ namespace Entity
         public void LookAt(Direction direction)
         {
             lookDirection = direction;
-            gameObject.Turn2D(direction);
+            lookFoward = lookDirection == moveBehavior.moveDirection;
         }
+
+        public void ChangeAttackBehavior(int number)
+        {
+            if (number < 0) return;
+            if (number >= attackBehaviors.Count) return;
+
+            currentAttack = attackBehaviors[number];
+        }
+
+
         public void Dead()
         {
             gameObject.layer = Layers.Dead;
             animator.Play("Dead");
             animator.SetBool(id_isLive, false);
         }
-
+        
+        public void Move(Direction direction)
+        {
+            bool isMoving = direction != Direction.zero;
+            animator.SetBool(id_isMoving,isMoving);
+            moveBehavior.Move(direction);
+        }
         //구현
         void OnEnable()
         {
@@ -108,13 +127,12 @@ namespace Entity
         {
             factory = EntitySetter.GetFactory(type);
 
-            health = factory.GetNewHealth();
-            moveBehavior = factory.GetNewMoveBehavior(this);
-            attackBehaviors = factory.GetNewAttackBehavior(this);
+            health = factory.health;
+            moveBehavior = factory.moveBehavior(this);
+            attackBehaviors = factory.attackBehaviors(this);
 
-            gameObject.layer = EntitySetter.GetLayer(_type);
 
-            controller = EntitySetter.GetController(this,_type);
+            controller = EntitySetter.GetController(this,type);
 
         }
 
