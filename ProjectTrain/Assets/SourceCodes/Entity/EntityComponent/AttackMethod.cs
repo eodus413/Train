@@ -18,7 +18,6 @@ namespace Entity
 
         int damage { get; }
         float delay { get; }
-        float range { get; }
 
         AttackData currentAttackData { get; }
 
@@ -28,19 +27,18 @@ namespace Entity
     public class DefaultAttack : IAttackMethod
     {
         // 생성자
-        public DefaultAttack(EntityBase attaker,int damage,float delay,float range = 0.05f)
+        public DefaultAttack(EntityBase attaker,int damage,float delay)
         {
             this.attacker = attaker;
             this.damage = damage;
             this.delay = delay;
-            this.range = range;
         }
 
         //인터페이스
         public EntityBase attacker { get; private set; }
         public int      damage { get; private set; }
         public float    delay { get; private set; }
-        public float    range { get; private set; }
+        
         public  AttackData currentAttackData
         {
             get { return new AttackData(attacker, damage, attacker.lookDirection); }

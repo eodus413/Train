@@ -9,20 +9,24 @@ namespace Raycast2DManager
         static Transform Raycast(Vector2 origin, Vector2 direction, float distance , LayerMask layerMask)
         {
             hit = Physics2D.Raycast(origin, direction, distance, layerMask);
-            if(hit) Debug.DrawLine(origin, hit.point,Color.red,1f);
+            if (hit) Debug.DrawLine(origin, hit.point, Color.red, 1f);
+            else Debug.DrawRay(origin, direction, Color.blue, 1f);
 
             return hit.transform;
         }
         static Transform Raycast(Vector2 origin, Vector2 direction, float distance)
         {
             hit = Physics2D.Raycast(origin, direction, distance);
-            if (hit) Debug.DrawLine(origin, hit.point, Color.red, 1f); return hit.transform;
+            if(hit) Debug.DrawLine(origin, hit.point, Color.red, 1f);
+            else Debug.DrawRay(origin,direction, Color.blue, 1f);
+
+            return hit.transform;
         }
 
         public static GameObject CastObject(Vector2 origin,Vector2 direction,float distance , LayerMask detectMask,LayerMask denyMask)
         {
             Transform hit = Raycast(origin, direction, distance, detectMask + denyMask);
-            
+            Debug.Log(direction);
             if (hit == null) return null;
 
             bool isDenyLayer = (Layers.ToMask(hit.gameObject.layer) & denyMask) > 0;

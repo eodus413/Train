@@ -12,7 +12,7 @@ namespace Weapon
 
         int damage { get; }
         float attackRange { get; }
-        float attackDelay { get; }
+        float startDelay { get; }
 
         EntityBase owner { get; }
 

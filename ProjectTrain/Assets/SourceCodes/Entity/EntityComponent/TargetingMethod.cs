@@ -41,14 +41,13 @@ namespace Entity
         public float sightRange { get; private set; }
         public float distanceToTarget
         {
-            get { return distance; }
+            get { return Vector2.Distance(target.transform.position, origin.position); }
         }
 
         public GameObject Targeting()
         {
-            GameObject hitObj = Ray2DManager.CastObject(origin.position, direction, sightRange, detect, deny);
-
-            return hitObj;
+            target = Ray2DManager.CastObject(origin.position, direction, sightRange, detect, deny); ;
+            return target;
         }
         public void Release()
         {
@@ -59,44 +58,31 @@ namespace Entity
         private LayerMask detect { get; set; }
         private LayerMask deny { get; set; }
 
-        protected virtual Direction direction
+        protected virtual Vector3 direction
         {
             get { return origin.right; }
         }
-        protected virtual float distance
-        {
-            get { return Vector2.Distance(target.transform.position, origin.position); }
-        }
     }
-
-    //GroundMask 빼고 Raycast
-    public class TargetingBlockedToGround : TargetingByRaycast
+    public class TargetingToLookDirection : TargetingByRaycast
     {
-        //생성자
-        public TargetingBlockedToGround(Transform origin, float sightRange, LayerMask detect)
-            : base(origin, sightRange, detect, Layers.GroundMask)
+        public TargetingToLookDirection(Transform origin, float sightRange, LayerMask detect, LayerMask deny, EntityBase owner)
+        : base(origin, sightRange, detect, deny)
         {
+            this.owner = owner;
         }
-        public TargetingBlockedToGround(Transform origin,float sightRange,EntityType type)
-            : base(origin,sightRange,type.GetEnemyLayerMask(),Layers.GroundMask)
+        public TargetingToLookDirection(Transform origin, float sightRange, EntityType type, LayerMask deny, EntityBase owner)
+            :base(origin,sightRange,type,deny)
         {
-
-        }
-    }
-
-    public class TargetingDirection : TargetingByRaycast
-    {
-        //생성자
-        public TargetingDirection(Transform origin, float sightRange, LayerMask detect, LayerMask deny,Direction lookDirection) : base(origin,sightRange,detect,deny)
-        {
-            _direction = lookDirection;
+            this.owner = owner;
         }
 
-        //구현
-        Direction _direction;
-        protected override Direction direction
+        private EntityBase owner;
+        protected override Vector3 direction
         {
-            get { return _direction; }
+            get
+            {
+                return owner.lookDirection;
+            }
         }
     }
 }

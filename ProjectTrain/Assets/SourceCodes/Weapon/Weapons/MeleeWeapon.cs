@@ -25,7 +25,7 @@ namespace Weapon
 
         public int damage { get; private set; }
         public float attackRange { get; private set; }
-        public float attackDelay { get; private set; }
+        public float startDelay { get; private set; }
         
         public EntityBase owner { get; private set; }
 

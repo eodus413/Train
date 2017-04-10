@@ -38,7 +38,7 @@ namespace Entity.Controller
             else if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(3);
 
             if (Input.GetMouseButtonDown(0)) entity.currentAttack.Attack();
-
+            
             entity.Move(direction);
         }
         void Look()
@@ -57,6 +57,8 @@ namespace Entity.Controller
         void ChangeWeapon(int number)
         {
             entity.ChangeAttackBehavior(--number);
+
+            Debug.Log(entity.currentAttack);
         }
         
         Vector2 jumpVelocity = new Vector2(0, 100);

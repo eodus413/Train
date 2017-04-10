@@ -45,6 +45,7 @@ namespace Entity
         public void Attacked(AttackData data)
         {
             health.TakeDamage(data.damage);
+            if (health.hp <= 0) Dead();
         }
 
         bool _lookFoward;

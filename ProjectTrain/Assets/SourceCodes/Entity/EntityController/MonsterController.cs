@@ -10,6 +10,8 @@ namespace Entity.Controller
         public MonsterController(EntityBase entity, float reactionVelocity = 1f) : base(entity)
         {
             this.reactionVelocity = reactionVelocity;
+
+            targetingMethod = new TargetingToLookDirection(entity, 1f, entity.type, LayerManager.Layers.GroundMask, entity);
         }
         //인터페이스
         //구현
@@ -25,7 +27,7 @@ namespace Entity.Controller
         {
             while (isActive)
             {
-                if (isLive) yield return Dead();
+                yield return Targeting();
                 yield return new WaitForSeconds(routineDelay);
             }
         }
@@ -41,12 +43,12 @@ namespace Entity.Controller
             get { return reactionVelocity; }
         }
 
-
+        ITargetingMethod targetingMethod;
         IEnumerator Targeting()
         {
             yield return new WaitForSeconds(targetingDelay);
             //targeting으로 고쳐야함
-            //sight.Seeing();
+            entity.Move(Direction.right);
         }
         
         //제거 혹은 수정
@@ -64,7 +66,7 @@ namespace Entity.Controller
             for (float i = 1f; i > 0f; i -= 0.1f)
             {
                 c.a = i;
-                entity.baseRenderer.color = c;
+                entity.baseRenderer.color = c; 
                 yield return new WaitForSeconds(0.1f);
             }
             entity.gameObject.SetActive(false);
