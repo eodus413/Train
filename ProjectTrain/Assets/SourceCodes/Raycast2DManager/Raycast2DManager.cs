@@ -26,7 +26,6 @@ namespace Raycast2DManager
         public static GameObject CastObject(Vector2 origin,Vector2 direction,float distance , LayerMask detectMask,LayerMask denyMask)
         {
             Transform hit = Raycast(origin, direction, distance, detectMask + denyMask);
-            Debug.Log(direction);
             if (hit == null) return null;
 
             bool isDenyLayer = (Layers.ToMask(hit.gameObject.layer) & denyMask) > 0;

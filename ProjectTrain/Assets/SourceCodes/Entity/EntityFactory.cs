@@ -4,150 +4,168 @@ using Entity.Controller;
 using LayerManager;
 using System.Collections.Generic;
 
-namespace Entity
+namespace Entity.Factory
 {
-    public static class EntitySetter
+    using Entity.Factory.Player;
+    using Entity.Factory.Monster;
+
+    public static class EntityFactoryMethod
     {
-        #region Factorys
+        public static PlayerCatFactory playerCat = new PlayerCatFactory();
 
-        static PlayerFactory player = new PlayerFactory();
-        static NormalMonsterFactory normalMonster = new NormalMonsterFactory();
-        static UpgradeMonsterFactory upgradeMonster = new UpgradeMonsterFactory();
 
-        #endregion
+        public static NormalMonsterFactory normal = new NormalMonsterFactory();
+        public static BirdMonsterFactory bird = new BirdMonsterFactory();
+        public static GreenMonsterFactory greenBird = new GreenMonsterFactory();
+        public static FrogMonsterFactory frog = new FrogMonsterFactory();
+        public static RatMonsterFactory rat = new RatMonsterFactory();
 
-        public static IEntityFactory GetFactory(EntityType type)
+
+        public static IEntityFactory GetFactory(PlayerType type)
         {
-            if(type == EntityType.Player)
+            if(type == PlayerType.Cat)
             {
-                return player;
+                return playerCat;
             }
-            else if(type == EntityType.NormalMonster)
-            {
-                return normalMonster;
-            }
-            else if(type == EntityType.UpgradeMonster)
-            {
-                return upgradeMonster;
-            }
-            return null;
+            Debug.Log("Type이 잘못됐습니다.");
+            return null;    
         }
-
-
-        public static EntityController GetController(EntityBase targetEntity,EntityType type)
+        public static IEntityFactory GetFactory(MonsterType type)
         {
-            if(type == EntityType.Player)
+            if (type == MonsterType.Normal)
             {
-                return new PlayerController(targetEntity,0.01f);
+                return normal;
             }
-            else if(type == EntityType.NormalMonster)
+            else if(type == MonsterType.Bird)
             {
-                return new MonsterController(targetEntity);
+                return bird;
             }
-            else if(type == EntityType.UpgradeMonster)
+            else if(type == MonsterType.GreenBird)
             {
-                return new MonsterController(targetEntity);
+                return greenBird;
             }
-            return null;   
+            else if(type == MonsterType.Frog)
+            {
+                return frog;
+            }
+            else if(type == MonsterType.Rat)
+            {
+                return rat;
+            }
+            Debug.Log("Type이 잘못됐습니다.");
+            return null;
         }
     }
 
     public interface IEntityFactory
     {
-        IHealth health { get; }
-        IMoveBehavior       moveBehavior(EntityBase mover);
-        List<IAttackBehavior>     attackBehaviors(EntityBase attacker);
+        int hp { get; }
+        float speed { get; }
+        IMoveBehavior GetMoveBehavior(EntityBase mover);
+
+        EntityController GetController(EntityBase entity);
     }
 }
 
-namespace Entity
+namespace Entity.Factory.Player
 {
     using Weapon;
     using Weapon.Factory;
-    public class PlayerFactory : IEntityFactory
+    public class PlayerCatFactory : IEntityFactory
     {
-        const int hp = 10;
-        const float speed = 0.2f;
-
-        public IHealth health
-        {
-            get{ return new DefaultHealth(hp); }
-        }
-        public IMoveBehavior moveBehavior(EntityBase mover)
+        public int hp { get { return 10; } }
+        public float speed { get { return 0.3f; } }
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
+        public EntityController GetController(EntityBase entity)
         {
-            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
+            PlayerBase player = entity as PlayerBase;
+            if (player != null)
+                return new PlayerController(player, 0.02f);
 
-            Gun pistol      = WeaponGenerator.CreateGun(attacker, GunType.Pistol, "DesertEagle");
-            Gun shotgun     = WeaponGenerator.CreateGun(attacker, GunType.ShotGun, "Winchester");
-            Gun machinegun  = WeaponGenerator.CreateGun(attacker, GunType.MachineGun, "M16");
-
-            attackBehaviors.Add(new AttackWithWeapon(pistol));
-            attackBehaviors.Add(new AttackWithWeapon(shotgun));
-            attackBehaviors.Add(new AttackWithWeapon(machinegun));
-
-            return attackBehaviors;
+            //else
+            Debug.Log("Player 오류");
+            return null;
         }
     }
+
 }
 
-namespace Entity
+namespace Entity.Factory.Monster
 {
     using Weapon;
     public class NormalMonsterFactory : IEntityFactory
     {
-        const int hp = 10;
-        const float speed = 5f;
-        const int damage = 1;
-        const float delay = 0.5f;
-        const float range = 1f;
+        public int hp { get { return 10; } }
+        public float speed { get { return 0.1f; } }
 
-        public IHealth health
-        {
-            get { return new DefaultHealth(hp); }
-        }
-        public IMoveBehavior moveBehavior(EntityBase mover)
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
+        public EntityController GetController(EntityBase entity)
         {
-            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
-            IWeapon weapon = new MeleeWeapon(attacker);
-
-            attackBehaviors.Add(new AttackWithWeapon(weapon));
-
-            return attackBehaviors;
+            return new MonsterController(entity);
         }
     }
 
-    public class UpgradeMonsterFactory : IEntityFactory
+    public class BirdMonsterFactory : IEntityFactory
     {
-        const int hp = 10;
-        const float speed = 5f;
-        const int damage = 1;
-        const float delay = 0.5f;
-        const float range = 1f;
-
-        public IHealth health
-        {
-            get { return new DefaultHealth(hp); }
-        }
-        public IMoveBehavior moveBehavior(EntityBase mover)
+        public int hp { get { return 20; } }
+        public float speed { get { return 0.1f; } }
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);
         }
-        public List<IAttackBehavior> attackBehaviors(EntityBase attacker)
+        public EntityController GetController(EntityBase entity)
         {
-            List<IAttackBehavior> attackBehaviors = new List<IAttackBehavior>();
-            IWeapon weapon = new MeleeWeapon(attacker);
+            return new MonsterController(entity);
+        }
+    }
+    
+    public class GreenMonsterFactory : IEntityFactory
+    {
+        public int hp { get { return 30; } }
+        public float speed { get { return 0.2f; } }
 
-            attackBehaviors.Add(new AttackWithWeapon(weapon));
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
+        {
+            return new DefaultMove(mover, speed);
+        }
+        public EntityController GetController(EntityBase entity)
+        {
+            return new MonsterController(entity);
+        }
+    }
 
-            return attackBehaviors;
+
+    public class FrogMonsterFactory : IEntityFactory
+    {
+        public int hp { get { return 15; } }
+        public float speed { get { return 0.3f; } }
+
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
+        {
+            return new DefaultMove(mover, speed);
+        }
+        public EntityController GetController(EntityBase entity)
+        {
+            return new MonsterController(entity);
+        }
+    }
+    public class RatMonsterFactory : IEntityFactory
+    {
+        public int hp { get { return 50; } }
+        public float speed { get { return 0.5f; } }
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
+        {
+            return new DefaultMove(mover, speed);
+        }
+        public EntityController GetController(EntityBase entity)
+        {
+            return new MonsterController(entity);
         }
     }
 }

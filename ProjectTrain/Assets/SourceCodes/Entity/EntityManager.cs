@@ -11,11 +11,7 @@ namespace Entity
 
         //세부 리스트
         // - 플레이어
-        public static EntityBase player { get; private set; }
-        // - Normal 몬스터들
-        public static List<EntityBase> normalMonsters = new List<EntityBase>();
-        // - Upgrade 몬스터들
-        public static List<EntityBase> upgradeMonsters = new List<EntityBase>();
+        public static PlayerBase player { get; private set; }
         
 
         public static void AddEntity(EntityBase entity)
@@ -24,32 +20,20 @@ namespace Entity
 
             entity.gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
 
-            entity.gameObject.layer = entity.type.GetLayer();
+            entity.gameObject.layer = entity.entityType.GetLayer();
 
             entities.Add(entity);
-            SetDetailType(entity);
+        }
+        public static void RemoveEntity(EntityBase entity)
+        {
+            entities.Remove(entity);
+        }
+        public static void SetPlayer(PlayerBase newPlayer)
+        {
+            player = newPlayer;
         }
 
         //구현
         const string EntityCategoryName = " (Entity)";
-        static void SetDetailType(EntityBase entity)
-        {
-            
-            if (entity.type == EntityType.Player)
-            {
-                player = entity;
-                entity.gameObject.tag = "Player";
-            }
-            else if (entity.type == EntityType.NormalMonster)
-            {
-                normalMonsters.Add(entity);
-                entity.gameObject.tag = "Monster";
-            }
-            else if (entity.type == EntityType.UpgradeMonster)
-            {
-                upgradeMonsters.Add(entity);
-                entity.gameObject.tag = "Monster";
-            }
-        }
     }
 }

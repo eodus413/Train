@@ -7,48 +7,13 @@
     {
         public static LayerMask GetLayer(this EntityType type)
         {
-            if (type == EntityType.Player)
-            {
-                return Layers.Player;
-            }
-            else if (type == EntityType.NormalMonster)
-            {
-                return Layers.Monster;
-            }
-            else if (type == EntityType.UpgradeMonster)
-            {
-                return Layers.Monster;
-            }
-            else
-            {
-                return Layers.Nothing;
-            }
+            if (type == EntityType.Player) return Layers.Player;
+            else return Layers.Monster;
         }
-
         public static LayerMask GetEnemyLayerMask(this EntityType type)
         {
-            if(type == EntityType.Player)
-            {
-                return Layers.MonsterMask;
-            }
-            else if(type == EntityType.NormalMonster)
-            {
-                return Layers.PlayerMask;
-            }
-            else if(type == EntityType.UpgradeMonster)
-            {
-                return Layers.PlayerMask;
-            }
-            else
-            {
-                return Layers.Nothing;
-            }
+            if (type == EntityType.Player) return Layers.MonsterMask;
+            else return Layers.PlayerMask;
         }
-
-        public static LayerMask GetDenyLayerMask(this EntityType type)
-        {
-            return Layers.GroundMask;
-        }
-
     }
 }

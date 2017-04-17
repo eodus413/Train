@@ -3,7 +3,20 @@
     public enum EntityType
     {
         Player,
-        NormalMonster,
-        UpgradeMonster
+        Monster,
+    }
+    public enum PlayerType
+    {
+        Cat,
+        
+    }
+
+    public enum MonsterType
+    {
+        Normal,
+        Bird,
+        GreenBird,
+        Frog,
+        Rat
     }
 }

@@ -2,19 +2,24 @@
 using Entity;
 using System.Collections;
 using System.Collections.Generic;
-using Weapon;
+
 namespace Entity.Controller
 {
-    public class PlayerController : EntityController
+    public partial class PlayerController : EntityController
     {
         //생성자
-        public PlayerController(EntityBase entity, float routineDelay) : base(entity, routineDelay)
+        public PlayerController(PlayerBase entity, float routineDelay) : base(entity, routineDelay)
         {
-            attackBehaviors = entity.attackBehaviors;
-            ChangeWeapon(1);
+            player = entity;
+            animator = entity.animator;
+            transform = entity.transform;
+            rigidbody = entity.baseRigidbody;
+
         }
 
         //인터페이스
+        public PlayerBase player { get; private set; }
+
         public override IEnumerator Start()
         {
             while(isActive)
@@ -28,17 +33,15 @@ namespace Entity.Controller
         //구현
         void GetInput()
         {
+            if (Input.GetMouseButton(0)) player.Attack();
+            if (Input.GetKeyDown(KeyCode.R)) player.Reload();
             Vector3 direction = Vector3.zero;
+            if (Input.GetKeyDown("1")) player.ChangeWeapon(0);
+            if (Input.GetKeyDown("2")) player.ChangeWeapon(1);
+            if (Input.GetKeyDown("3")) player.ChangeWeapon(2);
             if (Input.GetKey(KeyCode.A)) direction += Vector3.left;
             if (Input.GetKey(KeyCode.D)) direction += Vector3.right;
             if (Input.GetKeyDown(KeyCode.Space)) Jump();
-
-            if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(1);
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(2);
-            else if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeWeapon(3);
-
-            if (Input.GetMouseButtonDown(0)) entity.currentAttack.Attack();
-            
             entity.Move(direction);
         }
         void Look()
@@ -52,19 +55,16 @@ namespace Entity.Controller
                 entity.LookAt(Direction.right);
             }
         }
-        
-        private List<IAttackBehavior> attackBehaviors;
-        void ChangeWeapon(int number)
-        {
-            entity.ChangeAttackBehavior(--number);
 
-            Debug.Log(entity.currentAttack);
-        }
         
         Vector2 jumpVelocity = new Vector2(0, 100);
         void Jump()
         {
              entity.baseRigidbody.AddForce(jumpVelocity);
         }
+        
+        private Animator animator;
+        private Transform transform;
+        private Rigidbody2D rigidbody;
     }
 }

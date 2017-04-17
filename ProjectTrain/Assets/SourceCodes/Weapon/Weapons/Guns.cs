@@ -3,7 +3,6 @@ using Entity;
 
 namespace Weapon
 {
-    using LayerManager;
     public struct GunInfo
     {
         //생성자
@@ -27,71 +26,83 @@ namespace Weapon
             return infoToString;
         }
     }
-
+}
+namespace Weapon
+{
+    using LayerManager;
+    using System.Collections;
+    using Raycast2DManager;
     public class Gun : IWeapon
     {
         //생성자
-        public Gun(EntityBase owner, IAttackMethod attackMethod, int damage, float attackRange, float startDelay/*float recharge delay*/,int maxAmmo, GunInfo info, Transform shotPoint)
+        public Gun(EntityBase owner, int damage, float distance, float startDelay, float cooltime, float reloadDelay, int maxAmmo, GunInfo info, Transform shotPoint)
         {
             this.owner = owner;
-            this.attackMethod = attackMethod;
             this.damage = damage;
-            this.attackRange = attackRange;
+            this.distance = distance;
             this.startDelay = startDelay;
-            
+            this.cooltime = cooltime;
+
+            this.reloadDelay = reloadDelay;
             this.info = info;
+
             this.maxAmmo = maxAmmo;
             ammoAmount = maxAmmo;
 
-            targetingMethod = new TargetingToLookDirection
-                (shotPoint.transform
-                , attackRange
-                , owner.type
-                , Layers.GroundMask,
-                owner);
+            this.shotPoint = shotPoint;
+
+            detect = owner.entityType.GetEnemyLayerMask();
+            deny = Layers.GroundMask;
         }
 
         //IWeapon 인터페이스
-        public IAttackMethod attackMethod { get; private set; }
+        public WeaponType weaponType { get { return WeaponType.Gun; } }
 
         public bool isReadyForAttack
         {
-            get { return !noAmmo; }
+            get
+            {
+                if (isShoting) return false;
+                if (isReloading) return false;
+                return !noAmmo;
+            }
         }
 
         public int damage { get; private set; }
-        public float attackRange { get; private set; }
+        public float distance { get; private set; }
         public float startDelay { get; private set; }
+        public float cooltime { get; private set; }
 
         public EntityBase owner { get; private set; }
 
         public void Attack()
         {
-            DoShot();
-            targetingMethod.Targeting();
-            Debug.Log("ammo : " + ammoAmount);
-            if (targetEntity == null) return;
-            owner.StartCoroutine(attackMethod.Attack(targetEntity));
+            if (isReadyForAttack == false) return;
+            Debug.Log("Attack => ammo : " + ammoAmount);
+            owner.StartCoroutine(DoShot());
         }
 
         //Gun 인터페이스
+        public float reloadDelay { get; private set; }
+
         public GunInfo info { get; private set; }
 
         public int ammoAmount { get; private set; }
         public readonly int maxAmmo;
 
-        public ITargetingMethod targetingMethod { get; private set; }
+        public Transform shotPoint { get; private set; }
 
         public void Reload()
         {
-            ammoAmount = maxAmmo;
-            Debug.Log("ammo : " + ammoAmount);
+            if (isReloading) return;
+
+            owner.StartCoroutine(DoReload());
         }
 
         //ToString
         public string GunInfosToString()
         {
-            return " Type : " + info.gunType.ToString();
+            return "Name : " + info.name + " Type : " + info.gunType.ToString();
         }
         public override string ToString()
         {
@@ -100,22 +111,47 @@ namespace Weapon
 
 
         //구현
-        private EntityBase targetEntity
-        {
-            get
-            {
-                if (targetingMethod.target == null) return null;
-                return targetingMethod.target.GetComponent<EntityBase>();
-            }
-        }
-        private void DoShot()
-        {
-            --ammoAmount;
-            //Sound
-        }
         private bool noAmmo
         {
             get { return ammoAmount <= 0; }
+        }
+
+        private bool isReloading = false;
+        private IEnumerator DoReload()
+        {
+            isReloading = true;
+            Debug.Log("Reload Start");
+            yield return new WaitForSeconds(reloadDelay);
+            ammoAmount = maxAmmo;
+            Debug.Log("Reload End");
+            Debug.Log("Reload => ammo : " + ammoAmount);
+
+            isReloading = false;
+        }
+        private bool isShoting = false;
+        private IEnumerator DoShot()
+        {
+            isShoting = true;
+            --ammoAmount;
+            yield return new WaitForSeconds(startDelay);
+            //Sound
+            EntityBase target = TargetingTarget();
+            if (target)
+            {
+                target.Attacked(new AttackData(owner, damage, owner.lookDirection));
+            }
+            yield return new WaitForSeconds(cooltime);
+            isShoting = false;
+        }
+        LayerMask detect;
+        LayerMask deny;
+        private EntityBase TargetingTarget()
+        {
+            GameObject hitObj = Ray2DManager.CastObject(shotPoint.position, owner.lookDirection, distance, detect, deny);
+
+            if (hitObj == null) return null;
+
+            return hitObj.GetComponent<EntityBase>();
         }
     }
 }

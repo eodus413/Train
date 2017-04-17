@@ -12,7 +12,7 @@ namespace Weapon.Factory
 
         public static Gun CreateGun(EntityBase owner,GunType gunType,string name)
         {
-            IWeaponFactory factory;
+            IGunFactory factory;
 
             if (gunType == GunType.Pistol) factory = pistolFactory;
             else if (gunType == GunType.ShotGun) factory = shotgunFactroy;
@@ -23,10 +23,11 @@ namespace Weapon.Factory
 
             return new Gun(
                 owner,
-                factory.GetAttackMethod(owner),
                 factory.damage, 
-                factory.range,
-                factory.delay,
+                factory.distance,
+                factory.startDelay,
+                factory.cooltime,
+                factory.reloadDelay,
                 factory.maxAmmo,
                 info,
                 GetShotPoint(owner,gunType,factory.shotPosition).transform);
@@ -43,38 +44,40 @@ namespace Weapon.Factory
     }
     internal interface IWeaponFactory
     {
-        IAttackMethod GetAttackMethod(EntityBase entity);
         TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType);
         
         int damage { get; }
-        float range { get; }
-        float delay { get; }
+        float distance { get; }
+        float startDelay { get; }
+        float cooltime { get; }
 
         AmmoType ammoType { get; }
         int maxAmmo { get; }
         
         Vector2 shotPosition { get; }
     }
-    internal class PistolFactory : IWeaponFactory
+    internal interface IGunFactory : IWeaponFactory
     {
-        public IAttackMethod GetAttackMethod(EntityBase entity)
-        {
-            return new DefaultAttack(entity,damage,delay);
-        }
+        float reloadDelay { get; }
+    }
+    internal class PistolFactory : IGunFactory
+    {
         public TargetingByRaycast GetTargetingMethod(Transform shotPoint,EntityType entityType)
         {
             return new TargetingByRaycast
                 (shotPoint
-                ,range
+                ,distance
                 ,entityType
                 ,Layers.GroundMask);
         }
 
-        public int damage { get { return 1; } }
+        public int damage { get { return 2; } }
 
-        public float range { get { return 1f; } }
+        public float distance { get { return 1f; } }
 
-        public float delay { get { return 0f; } }
+        public float startDelay { get { return 0f; } }
+
+        public float cooltime { get { return 1f; } }
 
         public AmmoType ammoType { get { return AmmoType.Small; } }
 
@@ -85,27 +88,27 @@ namespace Weapon.Factory
         {
             get { return _shotPosition; }
         }
+
+        public float reloadDelay { get { return 1f; } }
     }
-    internal class ShotGunFactory : IWeaponFactory
+    internal class ShotGunFactory : IGunFactory
     {
-        public IAttackMethod GetAttackMethod(EntityBase entity)
-        {
-            return new DefaultAttack(entity,damage,delay);
-        }
         public TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType)
         {
             return new TargetingByRaycast
                 (shotPoint
-                , range
+                , distance
                 , entityType
                 , Layers.GroundMask);
         }
 
-        public int damage { get { return 10; } }
+        public int damage { get { return 25; } }
 
-        public float range { get { return 0.5f; } }
+        public float distance { get { return 0.5f; } }
 
-        public float delay { get { return 0f; } }
+        public float startDelay { get { return 0.3f; } }
+
+        public float cooltime { get { return 2f; } }
 
         public AmmoType ammoType { get { return AmmoType.Scatter; } }
 
@@ -117,27 +120,27 @@ namespace Weapon.Factory
         {
             get { return _shotPosition; }
         }
+
+        public float reloadDelay { get { return 1f; } }
     }
-    internal class MachineGunFactory : IWeaponFactory
+    internal class MachineGunFactory : IGunFactory
     {
-        public IAttackMethod GetAttackMethod(EntityBase entity)
-        {
-            return new DefaultAttack(entity,damage,delay);
-        }
         public TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType)
         {
             return new TargetingByRaycast
                 (shotPoint
-                , range
+                , distance
                 , entityType
                 , Layers.GroundMask);
         }
 
-        public int damage { get { return 1; } }
+        public int damage { get { return 3; } }
 
-        public float range { get { return 1f; } }
+        public float distance { get { return 1f; } }
 
-        public float delay { get { return 0f; } }
+        public float startDelay { get { return 0f; } }
+
+        public float cooltime { get { return 0.1f; } }
 
         public AmmoType ammoType { get { return AmmoType.Small; } }
 
@@ -149,5 +152,7 @@ namespace Weapon.Factory
         {
             get { return _shotPosition; }
         }
+
+        public float reloadDelay { get { return 1f; } }
     }
 }

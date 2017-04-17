@@ -6,23 +6,57 @@ using System.Collections.Generic;
 
 namespace Entity
 {
-    public class EntityBase : MonoBehaviour
+    public abstract class EntityBase : MonoBehaviour
     {
-        //필드,컴포넌트등
-        [SerializeField]
-        EntityType _type;
+        //초기화
+        void OnEnable()
+        {
+            ComponentInitialize();
 
-        IEntityFactory factory;
+
+            Initialize();
+
+            StartCoroutine(controller.Start());
+
+            EntityManager.AddEntity(this);
+        }
+        protected virtual void ComponentInitialize()
+        {
+            baseRenderer = GetComponent<SpriteRenderer>();
+            if (baseRenderer == null) Debug.Log("SpriteRenderer 추가 못함");
+
+            baseRigidbody = GetComponent<Rigidbody2D>();
+            if (baseRigidbody == null) Debug.Log("Rigidbody2 추가 못함");
+            baseRigidbody.freezeRotation = true;
+
+            bodyCollider = GetComponent<Collider2D>();
+            if (bodyCollider == null) Debug.Log("Collider2D 추가 못함");
+
+            animator = GetComponent<Animator>();
+            if (animator == null) Debug.Log("Animator 추가 못함");
+        }
+        protected virtual void Initialize()
+        {
+            Factory.IEntityFactory factory = SetFactory();
+
+            moveBehavior = factory.GetMoveBehavior(this);
+            controller = factory.GetController(this);
+
+            hp = factory.hp;
+            
+        }
+        protected abstract Factory.IEntityFactory SetFactory();
+
+        //필드,컴포넌트등
+        protected EntityType _entityType;
+
+        [SerializeField]
+        private int _hp;
 
         private EntityController controller;
-
-        public IHealth health { get; private set; }
-
+        
         public IMoveBehavior moveBehavior { get; private set; }
-
-        public IAttackBehavior currentAttack { get; private set; }
-        public List<IAttackBehavior> attackBehaviors { get; private set; }
-
+        
         const string id_isLive = "IsLive";
         const string id_lookFoward = "LookFoward";
         const string id_isMoving = "IsMoving";
@@ -33,19 +67,26 @@ namespace Entity
         public SpriteRenderer   baseRenderer    { get; private set; }
         public Animator         animator        { get; private set; }
 
-        
 
         //인터페이스
-        public EntityType type
+        public EntityType entityType
         {
-            get { return _type;}
+            get { return _entityType;}
         }
-        
+        public int hp
+        {
+            get { return _hp; }
+            private set
+            {
+                _hp = value;
+                if (_hp <= 0)
+                    Dead();
+            }
+        }
         
         public void Attacked(AttackData data)
         {
-            health.TakeDamage(data.damage);
-            if (health.hp <= 0) Dead();
+            hp -= data.damage;
         }
 
         bool _lookFoward;
@@ -70,26 +111,11 @@ namespace Entity
                 gameObject.Turn2D(_lookDirection);
             }
         }
+
         public void LookAt(Direction direction)
         {
             lookDirection = direction;
             lookFoward = lookDirection == moveBehavior.moveDirection;
-        }
-
-        public void ChangeAttackBehavior(int number)
-        {
-            if (number < 0) return;
-            if (number >= attackBehaviors.Count) return;
-
-            currentAttack = attackBehaviors[number];
-        }
-
-
-        public void Dead()
-        {
-            gameObject.layer = Layers.Dead;
-            animator.Play("Dead");
-            animator.SetBool(id_isLive, false);
         }
         
         public void Move(Direction direction)
@@ -99,42 +125,31 @@ namespace Entity
             moveBehavior.Move(direction);
         }
         //구현
-        void OnEnable()
+        void Dead()
         {
-            ComponentInitialize();
-
-            Initialize();
-
-            StartCoroutine(controller.Start());
-
-            EntityManager.AddEntity(this);
+            gameObject.layer = Layers.Dead;
+            animator.Play("Dead");
+            animator.SetBool(id_isLive, false);
+            EntityManager.RemoveEntity(this);
+            controller.Inactive();
+            StartCoroutine(DoDead());
         }
-        void ComponentInitialize()
+
+        const float deadBodyRemainTime = 5f;
+        IEnumerator DoDead()
         {
-            baseRenderer = GetComponent<SpriteRenderer>();
-            if (baseRenderer == null) Debug.Log("SpriteRenderer 추가 못함");
-
-            baseRigidbody = GetComponent<Rigidbody2D>();
-            if (baseRigidbody == null) Debug.Log("Rigidbody2 추가 못함");
-            baseRigidbody.freezeRotation = true;
-
-            bodyCollider = GetComponent<Collider2D>();
-            if (bodyCollider == null) Debug.Log("Collider2D 추가 못함");
-
-            animator = GetComponent<Animator>();
-            if (animator == null) Debug.Log("Animator 추가 못함");
-        }
-        void Initialize()
-        {
-            factory = EntitySetter.GetFactory(type);
-
-            health = factory.health;
-            moveBehavior = factory.moveBehavior(this);
-            attackBehaviors = factory.attackBehaviors(this);
-
-
-            controller = EntitySetter.GetController(this,type);
-
+            yield return new WaitForSeconds(deadBodyRemainTime);
+            Color c = Color.white;
+            for (float i = 1f; i > 0f; i -= 0.1f)
+            {
+                c.a = i;
+                baseRenderer.color = c;
+                yield return new WaitForSeconds(0.1f);
+            }
+            gameObject.SetActive(false);
+            //죽음 애니메이션
+            //대기
+            //사라짐
         }
 
         //사용자 정의 연산자들

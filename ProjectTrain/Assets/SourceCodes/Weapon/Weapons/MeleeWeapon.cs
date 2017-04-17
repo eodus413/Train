@@ -19,14 +19,15 @@ namespace Weapon
 
         }
         //인터페이스
-        public IAttackMethod attackMethod { get; private set; }
+        public WeaponType weaponType { get { return WeaponType.Sword; } }
 
         public bool isReadyForAttack { get; private set; }
 
         public int damage { get; private set; }
         public float attackRange { get; private set; }
         public float startDelay { get; private set; }
-        
+        public float cooltime { get; private set; }
+
         public EntityBase owner { get; private set; }
 
         public void Attack()

@@ -4,15 +4,20 @@ using Raycast2DManager;
 
 namespace Weapon
 {
+    public enum WeaponType
+    {
+        Gun,
+        Sword
+    }
     public interface IWeapon
     {
-        IAttackMethod attackMethod { get; }
+        WeaponType weaponType { get; }
 
         bool isReadyForAttack { get; }
 
         int damage { get; }
-        float attackRange { get; }
         float startDelay { get; }
+        float cooltime { get; }
 
         EntityBase owner { get; }
 
