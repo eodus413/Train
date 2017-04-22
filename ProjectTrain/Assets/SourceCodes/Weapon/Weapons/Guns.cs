@@ -78,7 +78,6 @@ namespace Weapon
         public void Attack()
         {
             if (isReadyForAttack == false) return;
-            Debug.Log("Attack => ammo : " + ammoAmount);
             owner.StartCoroutine(DoShot());
         }
 
@@ -133,6 +132,7 @@ namespace Weapon
         {
             isShoting = true;
             --ammoAmount;
+            
             yield return new WaitForSeconds(startDelay);
             //Sound
             EntityBase target = TargetingTarget();
@@ -147,7 +147,7 @@ namespace Weapon
         LayerMask deny;
         private EntityBase TargetingTarget()
         {
-            GameObject hitObj = Ray2DManager.CastObject(shotPoint.position, owner.lookDirection, distance, detect, deny);
+            GameObject hitObj = Ray2DManager.StartCasting(shotPoint.position, owner.lookDirection, distance, detect, deny);
 
             if (hitObj == null) return null;
 

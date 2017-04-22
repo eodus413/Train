@@ -14,7 +14,9 @@ namespace Entity
         Spawner spawner;
         void Awake()
         {
-            GameObject prefab = Resources.Load<GameObject>("Prefabs/Monsters/" + monsterType.ToString());
+            gameObject.name = monsterType.ToString() + " : Spawner";
+
+            GameObject prefab = Loaders.PrefabLoader.GetMonsterPrefab(monsterType);
 
             spawner = new Spawner(prefab,10,transform);
 
@@ -33,6 +35,10 @@ namespace Entity
             }
         }
     }
+}
+
+namespace Entity
+{
     public class Spawner
     {
         //생성자

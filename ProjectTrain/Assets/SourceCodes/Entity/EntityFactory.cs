@@ -83,8 +83,10 @@ namespace Entity.Factory.Player
         {
             PlayerBase player = entity as PlayerBase;
             if (player != null)
-                return new PlayerController(player, 0.02f);
-
+            {
+                if (Platform.isPC()) return new PlayerController(player, 0.02f);
+                else return new PlayerMobileController(player, 0.02f);
+            }
             //else
             Debug.Log("Player 오류");
             return null;

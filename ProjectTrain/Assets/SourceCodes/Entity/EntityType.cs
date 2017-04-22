@@ -17,6 +17,6 @@
         Bird,
         GreenBird,
         Frog,
-        Rat
+        Rat,
     }
 }

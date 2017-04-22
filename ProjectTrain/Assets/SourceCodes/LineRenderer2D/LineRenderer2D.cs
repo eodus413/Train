@@ -20,7 +20,7 @@ namespace LineRenderer2D
         }
         public void Render()
         {
-            GameObject hitObj = Ray2DManager.CastObject(center,distance);
+            GameObject hitObj = Ray2DManager.StartCasting(center,distance);
             
         }
     }

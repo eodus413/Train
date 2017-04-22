@@ -12,8 +12,6 @@ namespace Entity
         void OnEnable()
         {
             ComponentInitialize();
-
-
             Initialize();
 
             StartCoroutine(controller.Start());
@@ -43,7 +41,9 @@ namespace Entity
             controller = factory.GetController(this);
 
             hp = factory.hp;
-            
+
+            if (transform.localScale.x < 0) lookDirection = Direction.left;
+            else lookDirection = Direction.right;
         }
         protected abstract Factory.IEntityFactory SetFactory();
 
@@ -118,7 +118,7 @@ namespace Entity
             lookFoward = lookDirection == moveBehavior.moveDirection;
         }
         
-        public void Move(Direction direction)
+        public virtual void Move(Direction direction)
         {
             bool isMoving = direction != Direction.zero;
             animator.SetBool(id_isMoving,isMoving);

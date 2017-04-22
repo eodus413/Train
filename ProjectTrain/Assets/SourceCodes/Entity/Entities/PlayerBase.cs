@@ -13,7 +13,7 @@ namespace Entity
         {
             base.Initialize();
             EntityManager.SetPlayer(this);
-            weapons.Add(WeaponGenerator.CreateGun(this,GunType.Pistol,"DesertEagle"));
+            weapons.Add(WeaponGenerator.CreateGun(this, GunType.Pistol, "DesertEagle"));
             weapons.Add(WeaponGenerator.CreateGun(this, GunType.ShotGun, "Winchester"));
             weapons.Add(WeaponGenerator.CreateGun(this, GunType.MachineGun, "MG3"));
             ChangeWeapon(0);
@@ -28,6 +28,7 @@ namespace Entity
         [SerializeField]
         PlayerType _playerType;
 
+        private int currentNumber = 0;
         public IWeapon currentWeapon { get; private set; }
         List<IWeapon> weapons = new List<IWeapon>();
 
@@ -37,6 +38,7 @@ namespace Entity
             get { return _playerType; }
         }
 
+        private bool isAttacking = false;
         public void Attack()
         {
             if (currentWeapon.isReadyForAttack)
@@ -50,7 +52,7 @@ namespace Entity
             if (currentWeapon.weaponType != WeaponType.Gun) return;
 
             Gun gun = currentWeapon as Gun;
-            if(gun != null)
+            if (gun != null)
             {
                 animator.Play("Reload");
                 gun.Reload();
@@ -61,12 +63,47 @@ namespace Entity
             if (number < 0) return;
             if (number >= weapons.Count) return;
 
+            currentNumber = number;
             currentWeapon = weapons[number];
         }
-        public void Move(int num)
+        public void ChangeWeapon()
         {
-            if (num == 1) Move(Direction.left);
-            if (num == 2) Move(Direction.right);
+            int num = ++currentNumber;
+            num %= weapons.Count;
+
+            ChangeWeapon(num);
+
+            Debug.Log(currentWeapon.ToString());
+        }
+        public override void Move(Direction direction)
+        {
+            if(direction != Direction.zero)LookAt(direction);
+            base.Move(direction);
+        }
+
+
+        Vector2 jumpVelocity = new Vector2(0, 100);
+        public void Jump()
+        {
+            baseRigidbody.AddForce(jumpVelocity);
+        }
+
+
+        private float lookArea = Screen.height * 0.3f;
+        private float screenHalf = Screen.width * 0.5f;
+        void Look()
+        {
+            if (Input.mousePosition.y > lookArea)
+            {
+                if (Input.mousePosition.x < screenHalf)
+                {
+                    LookAt(Direction.left);
+                }
+                else
+                {
+                    LookAt(Direction.right);
+                }
+            }
         }
     }
 }

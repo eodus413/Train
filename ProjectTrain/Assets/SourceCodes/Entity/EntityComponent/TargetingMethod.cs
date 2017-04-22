@@ -46,7 +46,7 @@ namespace Entity
 
         public GameObject Targeting()
         {
-            target = Ray2DManager.CastObject(origin.position, direction, sightRange, detect, deny); ;
+            target = Ray2DManager.StartCasting(origin.position, direction, sightRange, detect, deny); ;
             return target;
         }
         public void Release()
