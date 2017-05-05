@@ -15,7 +15,7 @@ namespace Background
         private Transform[] backgrounds;
         [SerializeField]
         private float[] parallaxScales;
-        [SerializeField]  
+        [SerializeField]
         private float smooting = 1f;
 
         int backgroundsCount;
@@ -29,9 +29,9 @@ namespace Background
             loader = new BackgroundLoader(transform);
 
             fieldLayers = loader.CreateBackgrounds(stage, "FieldLayer");
-            overLayers  = loader.CreateBackgrounds(stage, "OverLayer");
+            overLayers = loader.CreateBackgrounds(stage, "OverLayer");
             backgrounds = loader.CreateBackgrounds(stage, "Background");
-            
+
             backgroundsCount = backgrounds.Length;
 
             parallaxScales = new float[backgroundsCount];
@@ -44,7 +44,7 @@ namespace Background
         }
         void Update()
         {
-            for(int i=0 ;i<backgroundsCount;++i)    // 0, 1은 over,field layer
+            for (int i = 0; i < backgroundsCount; ++i)    // 0, 1은 over,field layer
             {
                 float parallax = (previousCamPos.x - cam.position.x) * parallaxScales[i];
 

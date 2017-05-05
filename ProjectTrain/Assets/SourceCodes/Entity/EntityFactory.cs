@@ -74,7 +74,7 @@ namespace Entity.Factory.Player
     public class PlayerCatFactory : IEntityFactory
     {
         public int hp { get { return 10; } }
-        public float speed { get { return 0.3f; } }
+        public float speed { get { return 0.5f; } }
         public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, speed);

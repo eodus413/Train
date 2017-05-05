@@ -98,6 +98,8 @@ namespace Weapon
             owner.StartCoroutine(DoReload());
         }
 
+        public float remainAmmoPercent { get { return (float)ammoAmount / maxAmmo; } }
+
         //ToString
         public string GunInfosToString()
         {
@@ -115,6 +117,7 @@ namespace Weapon
             get { return ammoAmount <= 0; }
         }
 
+
         private bool isReloading = false;
         private IEnumerator DoReload()
         {
@@ -127,6 +130,8 @@ namespace Weapon
 
             isReloading = false;
         }
+
+
         private bool isShoting = false;
         private IEnumerator DoShot()
         {
@@ -135,14 +140,21 @@ namespace Weapon
             
             yield return new WaitForSeconds(startDelay);
             //Sound
+            AttackProcess();
+
+            yield return new WaitForSeconds(cooltime);
+            isShoting = false;
+        }
+        protected virtual void AttackProcess()
+        {
             EntityBase target = TargetingTarget();
             if (target)
             {
                 target.Attacked(new AttackData(owner, damage, owner.lookDirection));
             }
-            yield return new WaitForSeconds(cooltime);
-            isShoting = false;
         }
+
+
         LayerMask detect;
         LayerMask deny;
         private EntityBase TargetingTarget()

@@ -9,7 +9,9 @@ namespace Entity
         [SerializeField]
         private MonsterType monsterType;
         [SerializeField]
-        private float[] spawnDelay;
+        int spawnAmount;
+        [SerializeField]
+        float spawnDelay;
 
         Spawner spawner;
         void Awake()
@@ -18,21 +20,9 @@ namespace Entity
 
             GameObject prefab = Loaders.PrefabLoader.GetMonsterPrefab(monsterType);
 
-            spawner = new Spawner(prefab,10,transform);
+            spawner = new Spawner(prefab, spawnAmount, transform);
 
-            gameObject.SetActive(false);
-        }
-        void OnEnable()
-        {
-            StartCoroutine(Spawning());
-        }
-        IEnumerator Spawning()
-        {
-            int count = spawnDelay.Length;
-            for (int i = 0; i < count; ++i)
-            {
-                yield return spawner.DoSpawn(3 + i, spawnDelay[i]);
-            }
+            StartCoroutine(spawner.DoSpawn(spawnAmount, spawnDelay));
         }
     }
 }
@@ -49,12 +39,13 @@ namespace Entity
         //구현
         GameObjectPool pool;
         public IEnumerator DoSpawn(int amount, float delay)
-        {
+        {   
             GameObject instance;
             for (int i = 0; i < amount; ++i)
             {
                 yield return new WaitForSeconds(delay);
                 instance = pool.Get(false);
+                if (instance == null) Debug.Log("오브젝트가 없다");
                 instance.SetActive(true);
             }
         }

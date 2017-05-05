@@ -19,8 +19,7 @@ namespace ObjectPool
         public void ChangeObject(GameObject newPrefab,int amount,Transform parent = null)
         {
             if (newPrefab == null) return;
-
-
+            
             this.poolingPrefab = newPrefab;
             this.parent = parent;
 
@@ -28,7 +27,8 @@ namespace ObjectPool
             for (int i = 0; i < amount; ++i)
             {
                 instance = GameObject.Instantiate(newPrefab, parent);
-
+                instance.transform.position = parent.position;
+                instance.SetActive(false);
                 pool.Add(instance);
             }
         }

@@ -7,23 +7,19 @@ namespace Entity
         public static Direction left = new Direction(Vector3.left);
         public static Direction right = new Direction(Vector3.right);
         public static Direction zero = new Direction(Vector3.zero);
-        private Vector3 _direction;
-        public Vector3 direction
-        {
-            get { return _direction; }
-            private set
-            {
-                _direction = value.normalized;
-            }
-        }
+        private Vector3 direction;
 
         public Direction(Vector2 value)
         {
-            _direction = value.normalized;
+            if (value.x > 0) direction = Vector2.right;
+            else if (value.x < 0) direction = Vector2.left;
+            else direction = Vector2.zero;
         }
         public Direction(Vector3 value)
         {
-            _direction = value.normalized;
+            if (value.x > 0) direction = Vector2.right;
+            else if (value.x < 0) direction = Vector2.left;
+            else direction = Vector2.zero;
         }
         public bool isLeft
         {

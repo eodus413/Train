@@ -8,15 +8,24 @@ namespace Entity
     using Factory;
     public class PlayerBase : EntityBase
     {
+        [SerializeField]
+        LayerMask layer;
         //초기화
         protected override void Initialize()
         {
             base.Initialize();
+
             EntityManager.SetPlayer(this);
-            weapons.Add(WeaponGenerator.CreateGun(this, GunType.Pistol, "DesertEagle"));
-            weapons.Add(WeaponGenerator.CreateGun(this, GunType.ShotGun, "Winchester"));
-            weapons.Add(WeaponGenerator.CreateGun(this, GunType.MachineGun, "MG3"));
+
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.Pistol, "DesertEagle"));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.ShotGun, "Winchester"));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.MachineGun, "MG3"));
+
             ChangeWeapon(0);
+
+            jumpBehavior = new JumpBehavior(transform, baseRigidbody, 100f);
+
+            gameObject.layer = LayerManager.Layers.Player;
         }
         protected override IEntityFactory SetFactory()
         {
@@ -38,6 +47,9 @@ namespace Entity
             get { return _playerType; }
         }
 
+        public delegate void AmmoDelegate(PlayerBase player);
+        public event AmmoDelegate attackEvent;
+        public event AmmoDelegate reloadEvent;
         private bool isAttacking = false;
         public void Attack()
         {
@@ -45,6 +57,7 @@ namespace Entity
             {
                 animator.Play("Attack");
                 currentWeapon.Attack();
+                attackEvent(this);
             }
         }
         public void Reload()
@@ -62,9 +75,9 @@ namespace Entity
         {
             if (number < 0) return;
             if (number >= weapons.Count) return;
-
             currentNumber = number;
             currentWeapon = weapons[number];
+            if(reloadEvent != null) reloadEvent(this);
         }
         public void ChangeWeapon()
         {
@@ -75,17 +88,21 @@ namespace Entity
 
             Debug.Log(currentWeapon.ToString());
         }
+        public void AddWeapon(IWeapon newWeapon)
+        {
+            weapons.Add(newWeapon);
+        }
+
         public override void Move(Direction direction)
         {
             if(direction != Direction.zero)LookAt(direction);
             base.Move(direction);
         }
-
-
-        Vector2 jumpVelocity = new Vector2(0, 100);
+        
+        JumpBehavior jumpBehavior;
         public void Jump()
         {
-            baseRigidbody.AddForce(jumpVelocity);
+            jumpBehavior.Jump();
         }
 
 

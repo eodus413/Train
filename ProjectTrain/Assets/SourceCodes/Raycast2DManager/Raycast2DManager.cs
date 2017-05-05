@@ -30,10 +30,15 @@ namespace Raycast2DManager
         public static GameObject StartCasting(Transform transform, float distance)
         {
             Transform hit = Raycast(transform.position, transform.right, distance);
-            
+            if (hit == null) return null;
             return hit.gameObject;
         }
-
+        public static GameObject StartCasting(Vector2 origin,Vector2 direction,float distance,LayerMask detectMask)
+        {
+            Transform hit = Raycast(origin, direction, distance,detectMask);
+            if (hit == null) return null;
+            return hit.gameObject;
+        }
 
         //implemented
         static RaycastHit2D hit = new RaycastHit2D();

@@ -11,12 +11,14 @@ namespace LayerManager
         public static int Monster = LayerMask.NameToLayer("Monster");
         public static int Object = LayerMask.NameToLayer("Object");
         public static int Dead = LayerMask.NameToLayer("Dead");
+        public static int TargetingArea = LayerMask.NameToLayer("TargetingArea");
 
         public static LayerMask GroundMask = 1 << Ground;
         public static LayerMask PlayerMask = 1 << Player;
         public static LayerMask MonsterMask = 1 << Monster;
         public static LayerMask ObjectMask = 1 << Object;
         public static LayerMask DeadMask = 1 << Dead;
+        public static LayerMask TargetingAreaMask = 1 << TargetingArea;
 
         public static int ToMask(LayerMask layerMask)
         {

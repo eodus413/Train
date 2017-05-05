@@ -8,15 +8,20 @@ namespace Entity
 {
     public abstract class EntityBase : MonoBehaviour
     {
+        void Awake()
+        {
+            gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
+
+            gameObject.layer = entityType.GetLayer();
+        }
         //초기화
         void OnEnable()
         {
             ComponentInitialize();
             Initialize();
 
-            StartCoroutine(controller.Start());
-
             EntityManager.AddEntity(this);
+            StartCoroutine(controller.Start());
         }
         protected virtual void ComponentInitialize()
         {
@@ -40,6 +45,7 @@ namespace Entity
             moveBehavior = factory.GetMoveBehavior(this);
             controller = factory.GetController(this);
 
+            baseHp = factory.hp;
             hp = factory.hp;
 
             if (transform.localScale.x < 0) lookDirection = Direction.left;
@@ -50,28 +56,29 @@ namespace Entity
         //필드,컴포넌트등
         protected EntityType _entityType;
 
+        private int baseHp;
         [SerializeField]
         private int _hp;
 
         private EntityController controller;
-        
+
         public IMoveBehavior moveBehavior { get; private set; }
-        
+
         const string id_isLive = "IsLive";
         const string id_lookFoward = "LookFoward";
         const string id_isMoving = "IsMoving";
-                
 
-        public Collider2D       bodyCollider    { get; private set; }
-        public Rigidbody2D      baseRigidbody   { get; private set; }
-        public SpriteRenderer   baseRenderer    { get; private set; }
-        public Animator         animator        { get; private set; }
+
+        public Collider2D bodyCollider { get; private set; }
+        public Rigidbody2D baseRigidbody { get; private set; }
+        public SpriteRenderer baseRenderer { get; private set; }
+        public Animator animator { get; private set; }
 
 
         //인터페이스
         public EntityType entityType
         {
-            get { return _entityType;}
+            get { return _entityType; }
         }
         public int hp
         {
@@ -83,10 +90,17 @@ namespace Entity
                     Dead();
             }
         }
-        
+        public float remainHpPercent
+        {
+            get { return (float)baseHp / hp; }
+        }
+
+        public delegate void HpDelegate(EntityBase player);
+        public event HpDelegate attackedEvent;
         public void Attacked(AttackData data)
         {
             hp -= data.damage;
+            if(attackedEvent != null) attackedEvent(this);
         }
 
         bool _lookFoward;
@@ -117,12 +131,25 @@ namespace Entity
             lookDirection = direction;
             lookFoward = lookDirection == moveBehavior.moveDirection;
         }
-        
+
         public virtual void Move(Direction direction)
         {
             bool isMoving = direction != Direction.zero;
-            animator.SetBool(id_isMoving,isMoving);
+
+            animator.SetBool(id_isMoving, isMoving);
+
+            if (!isMoving) return;
             moveBehavior.Move(direction);
+        }
+        public void Stop()
+        {
+            Move(Direction.zero);
+        }
+        public void ClimbTheStair(bool isUp)
+        {
+            float fixX = transform.position.x;
+            if (isUp) transform.position += Vector3.up;
+            else transform.position += Vector3.down;
         }
         //구현
         void Dead()
@@ -151,6 +178,7 @@ namespace Entity
             //대기
             //사라짐
         }
+        const string EntityCategoryName = " (Entity)";
 
         //사용자 정의 연산자들
         public static implicit operator Transform(EntityBase entity)

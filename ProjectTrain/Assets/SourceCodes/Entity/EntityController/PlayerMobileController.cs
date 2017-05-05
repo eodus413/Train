@@ -5,57 +5,71 @@ namespace Entity.Controller
 {
     using UnityEngine;
     using Entity;
-    public partial class PlayerMobileController : EntityController
+    public partial class PlayerMobileController : PlayerController
     {
-        //생성자
-        public PlayerMobileController(PlayerBase entity, float routineDelay) : base(entity, routineDelay)
+        public PlayerMobileController(PlayerBase player,float routineDelay) : base(player,routineDelay)
         {
-            player = entity;
-            animator = entity.animator;
-            transform = entity.transform;
-            rigidbody = entity.baseRigidbody;
         }
-
-        //인터페이스
-        public PlayerBase player { get; private set; }
-
-        public override IEnumerator Start()
-        {
-            InitializeJoyStick();
-            while (isActive)
-            {
-                GetInput();
-                yield return new WaitForSeconds(routineDelay);
-            }
-        }
-
         //구현
-        void GetInput()
+        protected override void DoInitialize()
         {
-            Vector3 direction = Vector3.zero;
-            if (joyStick.isMoving)
-            {
-                if (joyStick.GetHorizontalValue() < 0) direction += Vector3.left;
-                else direction += Vector3.right;
-            }
-            
-            player.Move(direction);
+            base.DoInitialize();
+            InitializeButton();
+            InitializeJoyStick();
         }
-        private Animator animator;
-        private Transform transform;
-        private Rigidbody2D rigidbody;
+        protected override void GetInput()
+        {
+            //Buttons
+        }
+        protected override void GetMoveInput()
+        {
+            if (joyStick.GetHorizontalValue() > 0) entity.Move(Direction.right);
+            else if (joyStick.GetHorizontalValue() < 0) entity.Move(Direction.left);
+            else entity.Stop();
+        }
     }
 }
+
+
 
 namespace Entity.Controller
 {
     using VirtualJoyStick;
-    public partial class PlayerMobileController : EntityController
+    public partial class PlayerMobileController : PlayerController
     {
         JoyStick joyStick;
         void InitializeJoyStick()
         {
             joyStick = JoyStickManager.GetJoyStick(0);
+        }
+    }
+}
+
+namespace Entity.Controller
+{
+    using UnityEngine;
+    using UnityEngine.UI;
+    public partial class PlayerMobileController : PlayerController
+    {
+        Button attackButton;
+        Button reloadButton;
+        Button changeWeaponButton;
+        Button jumpButton;
+
+        void InitializeButton()
+        {
+            Transform parent = GameObject.Find("Buttons").transform;
+
+            attackButton        = parent.GetChild(0).GetComponent<Button>();
+            reloadButton        = parent.GetChild(1).GetComponent<Button>();
+            changeWeaponButton  = parent.GetChild(2).GetComponent<Button>();
+            jumpButton          = parent.GetChild(3).GetComponent<Button>();
+
+            attackButton.onClick.       AddListener(player.Attack);
+            reloadButton.onClick.       AddListener(player.Reload);
+            changeWeaponButton.onClick. AddListener(player.ChangeWeapon);
+            jumpButton.onClick.         AddListener(player.Jump);
+
         }
     }
 }

@@ -18,10 +18,6 @@ namespace Entity
         {
             if (entity == null) return;
 
-            entity.gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
-
-            entity.gameObject.layer = entity.entityType.GetLayer();
-
             entities.Add(entity);
         }
         public static void RemoveEntity(EntityBase entity)
@@ -33,7 +29,5 @@ namespace Entity
             player = newPlayer;
         }
 
-        //구현
-        const string EntityCategoryName = " (Entity)";
     }
 }
