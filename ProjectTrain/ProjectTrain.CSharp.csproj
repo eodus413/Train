@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.5.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -83,21 +85,23 @@
     <Compile Include="Assets\SourceCodes\InGame\Effect\EffectManager.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\AttackData.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\AttackableEntity\AttackableEntity.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Controller\TowerController.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\Direction.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\Entities\EntityBase.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\Entities\MonsterBase.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\Entities\PlayerBase.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityBehavior\JumpBehavior.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityBehavior\MoveBehavior.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityComponent\TargetingMethod.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityController\EntityController.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityController\MonsterController.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityController\PlayerController.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityController\PlayerMobileController.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\EntityFactory.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Entities\TowerBase.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Behavior\JumpBehavior.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Behavior\MoveBehavior.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Component\TargetingMethod.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Controller\EntityController.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Controller\MonsterController.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Controller\PlayerController.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Controller\PlayerMobileController.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Factory\EntityFactory.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\EntityManager.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\EntityType.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\Entity\MoveDirectionSetter.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Entity\Factory\TowerFactory.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\Spawner\SpawnerObject.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\UI\MonsterUI.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Entity\UI\PlayerUI.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="Assets\SourceCodes\Public\Extensions\IntExtension.cs" />
     <Compile Include="Assets\SourceCodes\Public\Extensions\LayerMaskExtension.cs" />
     <Compile Include="Assets\SourceCodes\Public\Extensions\TransformExtension.cs" />
+    <Compile Include="Assets\SourceCodes\Public\FadeEffect\FadeEffect.cs" />
     <Compile Include="Assets\SourceCodes\Public\Layers\Layers.cs" />
     <Compile Include="Assets\SourceCodes\Public\LineRenderer2D\LineRenderer2D.cs" />
     <Compile Include="Assets\SourceCodes\Public\Loaders\GameObjectLoader.cs" />
@@ -128,8 +133,12 @@
     <Compile Include="Assets\SourceCodes\Public\Platform\Platform.cs" />
     <Compile Include="Assets\SourceCodes\Public\Platform\PlatformSetting.cs" />
     <Compile Include="Assets\SourceCodes\Public\Raycast2DManager\Raycast2DManager.cs" />
-    <Compile Include="Assets\SourceCodes\Public\SceneManager\LoadLoadingScene.cs" />
+    <Compile Include="Assets\SourceCodes\Public\SceneManager\SceneController.cs" />
+    <Compile Include="Assets\SourceCodes\Public\Singleton\DontDestroy.cs" />
+    <Compile Include="Assets\SourceCodes\Public\Singleton\MonoSingleton.cs" />
+    <Compile Include="Assets\SourceCodes\Public\StaticCoroutine\StaticCoroutine.cs" />
     <Compile Include="Assets\SourceCodes\Start\TouchToStart.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

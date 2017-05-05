@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Singleton;
 
-public class PlatformSetting : MonoBehaviour
+public class PlatformSetting : MonoSingleton<PlatformSetting>
 {
     [SerializeField]
     private bool isPC;
@@ -9,13 +10,12 @@ public class PlatformSetting : MonoBehaviour
     [SerializeField]
     private float height;
 
-    void Awake()
+    void Start()
     {
         if (isPC) Platform.SetPC();
         else Platform.SetMobile();
 
         width = Screen.width;
         height = Screen.height;
-        DontDestroyOnLoad(gameObject);
     }
 }

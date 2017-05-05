@@ -45,8 +45,8 @@ namespace Entity
             moveBehavior = factory.GetMoveBehavior(this);
             controller = factory.GetController(this);
 
-            baseHp = factory.hp;
-            hp = factory.hp;
+            baseHp = factory.GetHp;
+            hp = factory.GetHp;
 
             if (transform.localScale.x < 0) lookDirection = Direction.left;
             else lookDirection = Direction.right;

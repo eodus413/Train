@@ -2,6 +2,7 @@
 
 namespace Loaders
 {
+    //게임오브젝트 생성해서 번호 붙임
     public class GameObjectLoader
     {
         public GameObject[] gameObjects { get; private set; }

@@ -5,6 +5,8 @@
     {
         void Update()
         {
+            if (Input.GetMouseButtonDown(0))
+            SceneController.LoadScene("InGame");
         }
     }
 }
