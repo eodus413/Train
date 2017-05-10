@@ -10,21 +10,16 @@ namespace Entity
         protected override void Initialize()
         {
             base.Initialize();
-
-            gameObject.layer = LayerManager.Layers.Monster;
-
             CreateTargetingArea();
         }
         protected override IEntityFactory SetFactory()
         {
-            _entityType = EntityType.Monster;
+            entityType = EntityType.Monster;
             return EntityFactoryMethod.GetFactory(monsterType);
         }
         //필드, 컴포넌트 등
         [SerializeField]
         MonsterType _monsterType;
-        [SerializeField]
-
        
         //인터페이스
         public MonsterType monsterType
@@ -43,12 +38,32 @@ namespace Entity
         Transform targetingAreaTransform;
         TargetingArea targetingArea;
 
+        public bool isAbleToAttack { get { return targetingArea.isDetectedTarget; } }
+        public EntityBase target { get { return targetingArea.target; } }
+
         void CreateTargetingArea()
         {
             targetingAreaTransform = new GameObject().transform;
             targetingAreaTransform.SetParent(transform);
             targetingAreaTransform.localPosition = Vector2.zero;
             targetingArea = targetingAreaTransform.gameObject.AddComponent<TargetingArea>();
+        }
+    }
+}
+
+namespace Entity
+{
+    using UnityEngine;
+    using Weapon;
+    using Weapon.Factory;
+    public partial class MonsterBase : EntityBase
+    {
+        IWeapon currentWeaopn;
+        void InitializeWeapon()
+        { 
+        }
+        public void AttackTarget()
+        {
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace Entity.Factory
 {
     using Controller;
-    public abstract class TowerBaseFactory : IEntityFactory
+   
+    public class MachineGunTowerFactory : IEntityFactory
     {
         public int GetHp { get { return 10; } }
         public float GetSpeed { get { return 0f; } }
@@ -14,4 +15,5 @@
             return new TowerController(entity);
         }
     }
+
 }

@@ -38,4 +38,24 @@ public class FadeEffect
             fadeImage.color = color;
         }
     }
+    public static IEnumerator DoFadeIn(SpriteRenderer renderer)
+    {
+        Color color = renderer.color;
+        for (float i = 0; i <= 1; i += 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            color.a = i;
+            renderer.color = color;
+        }
+    }
+    public static IEnumerator DoFadeOut(SpriteRenderer renderer)
+    {
+        Color color = renderer.color;
+        for (float i = 1; i >= 0; i -= 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            color.a = i;
+            renderer.color = color;
+        }
+    }
 }

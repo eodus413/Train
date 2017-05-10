@@ -21,6 +21,6 @@ namespace Weapon
 
         EntityBase owner { get; }
 
-        void Attack();
+        void AttackTarget();
     }
 }

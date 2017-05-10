@@ -8,11 +8,11 @@ namespace Entity
         bool isMoving { get; }
 
         float speed { get; }
-        Direction moveDirection { get; }
+        Vector2 moveDirection { get; }
 
         Transform mover { get; }
 
-        void Move(Direction direction);
+        void Move(Vector2 direction);
     }
 
     //기본 이동
@@ -24,7 +24,7 @@ namespace Entity
             isMoving = false;
 
             this.speed = speed;
-            moveDirection = Direction.zero;
+            moveDirection = Vector2.zero;
 
             this.mover = entity.transform;
             this.entity = entity;
@@ -35,19 +35,19 @@ namespace Entity
         public bool isMoving { get; private set; }
 
         public float speed { get; private set; }
-        public Direction moveDirection { get; private set; }
+        public Vector2 moveDirection { get; private set; }
 
         public Transform mover { get; private set; }
 
-        public void Move(Direction direction)
+        public void Move(Vector2 direction)
         {
             moveDirection = direction;
 
-            isMoving = moveDirection != Direction.zero;
+            isMoving = moveDirection != Vector2.zero;
 
             if (!isMoving) return;
 
-            mover.position += moveDirection * moveSpeed;
+            mover.Translate(moveDirection * moveSpeed);
         }
 
 
@@ -76,11 +76,11 @@ namespace Entity
         public bool isMoving { get { return false; } }
 
         public float speed { get { return 0f; } }
-        public Direction moveDirection { get { return Direction.zero; } }
+        public Vector2 moveDirection { get { return Vector2.zero; } }
 
         public Transform mover { get; private set; }
 
-        public void Move(Direction direction)
+        public void Move(Vector2 direction)
         {
         }
 

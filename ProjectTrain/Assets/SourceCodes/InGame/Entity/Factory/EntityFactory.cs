@@ -20,6 +20,7 @@ namespace Entity.Factory
         public static FrogMonsterFactory frog = new FrogMonsterFactory();
         public static RatMonsterFactory rat = new RatMonsterFactory();
 
+        public static MachineGunTowerFactory machineGunTower = new MachineGunTowerFactory();
 
         public static IEntityFactory GetFactory(PlayerType type)
         {
@@ -55,6 +56,15 @@ namespace Entity.Factory
             Debug.Log("Type이 잘못됐습니다.");
             return null;
         }
+        public static IEntityFactory GetFactory(TowerType type)
+        {
+            if (type == TowerType.MachineGunTower)
+            {
+                return rat;
+            }
+            Debug.Log("Type이 잘못됐습니다.");
+            return null;
+        }
     }
 
     public interface IEntityFactory
@@ -69,8 +79,6 @@ namespace Entity.Factory
 
 namespace Entity.Factory.Player
 {
-    using Weapon;
-    using Weapon.Factory;
     public class PlayerCatFactory : IEntityFactory
     {
         public int GetHp { get { return 10; } }

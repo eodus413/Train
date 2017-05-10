@@ -1,37 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Entity.Controller
+﻿namespace Entity.Controller
 {
+    using System.Collections;
     using UnityEngine;
     using Entity;
+    using UI;
     public partial class PlayerController : EntityController
     {
         //생성자
         public PlayerController(PlayerBase player, float routineDelay) : base(player, routineDelay)
         {
-            this.player = player; 
+            this.player = player;
+            playerUI = new PlayerUI(player);
         }
 
         //인터페이스
         public PlayerBase player { get; private set; }
-
-        public override IEnumerator Start()
+        public PlayerUI playerUI { get; private set; }
+        //Base 재정의
+        protected override IEnumerator Inititliaze()
         {
-            DoInitialize();
-            while (isActive)
-            {
-                GetInput();
-                GetMoveInput();
-                yield return new WaitForSeconds(routineDelay);
-            }
+            yield return null;
+        }
+        protected override IEnumerator Update()
+        {
+            GetInput();
+            GetMoveInput();
+            yield return new WaitForSeconds(routineDelay);
+        }
+        protected override IEnumerator Release()
+        {
+            yield return null;
         }
 
         //구현
-        protected virtual void DoInitialize()
-        {
-            playerUI = new UI.PlayerUI(player);
-        }
         protected virtual void GetInput()
         {
             if (Input.GetMouseButton(0)) player.Attack();
@@ -52,15 +53,5 @@ namespace Entity.Controller
             if (direction != Vector3.zero) entity.Move(direction);
             else entity.Stop();
         }
-    }
-}
-
-namespace Entity.Controller
-{
-    using Entity.UI;
-
-    public partial class PlayerController : EntityController
-    {
-        PlayerUI playerUI;
     }
 }

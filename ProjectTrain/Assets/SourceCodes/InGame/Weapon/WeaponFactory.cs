@@ -30,7 +30,8 @@ namespace Weapon.Factory
                 factory.reloadDelay,
                 factory.maxAmmo,
                 info,
-                GetShotPoint(owner,gunType,factory.shotPosition).transform);
+                GetShotPoint(owner,gunType,factory.shotPosition).transform,
+                info.ammoType.GetBulletPrefab());
         }
         static GameObject GetShotPoint(EntityBase owner,GunType gunType, Vector2 position)
         {
@@ -43,9 +44,7 @@ namespace Weapon.Factory
         }
     }
     internal interface IWeaponFactory
-    {
-        TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType);
-        
+    {    
         int damage { get; }
         float distance { get; }
         float startDelay { get; }
@@ -62,15 +61,6 @@ namespace Weapon.Factory
     }
     internal class PistolFactory : IGunFactory
     {
-        public TargetingByRaycast GetTargetingMethod(Transform shotPoint,EntityType entityType)
-        {
-            return new TargetingByRaycast
-                (shotPoint
-                ,distance
-                ,entityType
-                ,Layers.GroundMask);
-        }
-
         public int damage { get { return 2; } }
 
         public float distance { get { return 1f; } }
@@ -93,15 +83,6 @@ namespace Weapon.Factory
     }
     internal class ShotGunFactory : IGunFactory
     {
-        public TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType)
-        {
-            return new TargetingByRaycast
-                (shotPoint
-                , distance
-                , entityType
-                , Layers.GroundMask);
-        }
-
         public int damage { get { return 25; } }
 
         public float distance { get { return 0.5f; } }
@@ -125,15 +106,6 @@ namespace Weapon.Factory
     }
     internal class MachineGunFactory : IGunFactory
     {
-        public TargetingByRaycast GetTargetingMethod(Transform shotPoint, EntityType entityType)
-        {
-            return new TargetingByRaycast
-                (shotPoint
-                , distance
-                , entityType
-                , Layers.GroundMask);
-        }
-
         public int damage { get { return 3; } }
 
         public float distance { get { return 1f; } }

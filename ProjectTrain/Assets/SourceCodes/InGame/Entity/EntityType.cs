@@ -4,13 +4,12 @@
     {
         Player,
         Monster,
+        Tower,
     }
     public enum PlayerType
     {
         Cat,
-        
     }
-
     public enum MonsterType
     {
         Normal,
@@ -18,5 +17,10 @@
         GreenBird,
         Frog,
         Rat,
+    }
+    public enum TowerType
+    {
+        MachineGunTower,
+
     }
 }

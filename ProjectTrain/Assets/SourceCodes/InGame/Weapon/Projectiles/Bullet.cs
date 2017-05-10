@@ -7,25 +7,30 @@ namespace Weapon.Projectile
     using LayerManager;
     public class Bullet : MonoBehaviour
     {
-        public void Initialize()
+        const float bulletDefaultSpeed = 5f;
+        const float bulletLifeTime = 2f;
+        public void Initialize(EntityBase owner, Gun gun)
         {
+            this.owner = owner;
+            this.gun = gun;
+
             gameObject.layer = Layers.Bullet;
             Collider2D col = GetComponent<Collider2D>();
             if (col == null) col = gameObject.AddComponent<CircleCollider2D>();
             col.isTrigger = true;
+
+            speed = bulletDefaultSpeed;
         }
 
         EntityBase owner;
-        int damage;
+        Gun gun;
         Vector2 direction;
         float speed;
         
-        public void Fire(EntityBase owner, int damage, Vector2 direction,float speed)
+        public void Fire()
         {
-            this.owner = owner;
-            this.damage = damage;
-            this.direction = direction;
-            this.speed = speed;
+            this.direction = owner.lookDirection;
+            transform.position = gun.shotPoint.position;
             StartCoroutine(Move());
         }
         bool isMoving;
@@ -38,12 +43,19 @@ namespace Weapon.Projectile
                 transform.Translate(moveVector * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
+            gameObject.SetActive(false);
+        }
+        IEnumerator LifeTime()
+        {
+            yield return new WaitForSeconds(bulletLifeTime);
+            isMoving = false;
         }
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.IsTouchingLayers(owner.entityType.GetEnemyLayerMask()))
+            isMoving = false;
+            if (other.gameObject.layer == (Layers.Entities))
             {
-                other.GetComponent<EntityBase>().Attacked(new AttackData(owner,damage,direction));
+                Attack.To(other.GetComponent<EntityBase>(), new AttackData(owner, gun.damage, direction));
             }
         }
     }

@@ -13,18 +13,18 @@ public static class TransformExtension
     {
         lv.localScale = turnRight;
     }
-    public static void Turn2D(this Transform lv, Direction direction)
+    public static void Turn2D(this Transform lv, Vector2 direction)
     {
-        if (direction.isLeft) lv.TurnLeft();
-        else if (direction.isRight) lv.TurnRight();
+        if (direction == Vector2.left) lv.TurnLeft();
+        else if (direction == Vector2.right) lv.TurnRight();
         else return;
     }
 
-    public static Direction TargetLocation(this Transform center, GameObject target)
+    public static Vector2 TargetLocation(this Transform center, GameObject target)
     {
         bool isLeft = target.transform.position.x < center.transform.position.x;
-        if (isLeft) return Direction.left;
-        else return Direction.right;
+        if (isLeft) return Vector2.left;
+        else return Vector2.right;
     }
     
 }

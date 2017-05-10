@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using LayerManager;
 using Entity.Controller;
-using System.Collections.Generic;
 
 namespace Entity
 {
@@ -12,16 +10,16 @@ namespace Entity
         {
             gameObject.name += EntityCategoryName;  //게임 오브젝트 이름에 (Entity) tag추가
 
-            gameObject.layer = entityType.GetLayer();
+            gameObject.layer = Layers.Entities;
+
+            ComponentInitialize();
         }
         //초기화
         void OnEnable()
         {
-            ComponentInitialize();
             Initialize();
-
             EntityManager.AddEntity(this);
-            StartCoroutine(controller.Start());
+            controller.Active();
         }
         protected virtual void ComponentInitialize()
         {
@@ -48,14 +46,13 @@ namespace Entity
             baseHp = factory.GetHp;
             hp = factory.GetHp;
 
-            if (transform.localScale.x < 0) lookDirection = Direction.left;
-            else lookDirection = Direction.right;
+            if (transform.localScale.x < 0) lookDirection = Vector2.left;
+            else lookDirection = Vector2.right;
         }
         protected abstract Factory.IEntityFactory SetFactory();
 
         //필드,컴포넌트등
-        protected EntityType _entityType;
-
+        public int teamNumber { get; private set; }
         private int baseHp;
         [SerializeField]
         private int _hp;
@@ -76,10 +73,7 @@ namespace Entity
 
 
         //인터페이스
-        public EntityType entityType
-        {
-            get { return _entityType; }
-        }
+        public EntityType entityType { get; protected set; }
         public int hp
         {
             get { return _hp; }
@@ -94,13 +88,10 @@ namespace Entity
         {
             get { return (float)baseHp / hp; }
         }
-
-        public delegate void HpDelegate(EntityBase player);
-        public event HpDelegate attackedEvent;
+        
         public void Attacked(AttackData data)
         {
             hp -= data.damage;
-            if(attackedEvent != null) attackedEvent(this);
         }
 
         bool _lookFoward;
@@ -114,8 +105,8 @@ namespace Entity
             }
         }
 
-        Direction _lookDirection = Direction.zero;
-        public Direction lookDirection
+        Vector2 _lookDirection = Vector2.zero;
+        public Vector2 lookDirection
         {
             get { return _lookDirection; }
             private set
@@ -126,15 +117,15 @@ namespace Entity
             }
         }
 
-        public void LookAt(Direction direction)
+        public void LookAt(Vector2 direction)
         {
             lookDirection = direction;
             lookFoward = lookDirection == moveBehavior.moveDirection;
         }
 
-        public virtual void Move(Direction direction)
+        public virtual void Move(Vector2 direction)
         {
-            bool isMoving = direction != Direction.zero;
+            bool isMoving = direction != Vector2.zero;
 
             animator.SetBool(id_isMoving, isMoving);
 
@@ -143,13 +134,20 @@ namespace Entity
         }
         public void Stop()
         {
-            Move(Direction.zero);
+            Move(Vector2.zero);
         }
+        public bool isClimbing { get; private set; }
         public void ClimbTheStair(bool isUp)
         {
+            isClimbing = true;
             float fixX = transform.position.x;
             if (isUp) transform.position += Vector3.up;
             else transform.position += Vector3.down;
+        }
+
+        public void GetItem(Item item)
+        {
+
         }
         //구현
         void Dead()
@@ -157,27 +155,9 @@ namespace Entity
             gameObject.layer = Layers.Dead;
             animator.Play("Dead");
             animator.SetBool(id_isLive, false);
-            EntityManager.RemoveEntity(this);
             controller.Inactive();
-            StartCoroutine(DoDead());
         }
 
-        const float deadBodyRemainTime = 5f;
-        IEnumerator DoDead()
-        {
-            yield return new WaitForSeconds(deadBodyRemainTime);
-            Color c = Color.white;
-            for (float i = 1f; i > 0f; i -= 0.1f)
-            {
-                c.a = i;
-                baseRenderer.color = c;
-                yield return new WaitForSeconds(0.1f);
-            }
-            gameObject.SetActive(false);
-            //죽음 애니메이션
-            //대기
-            //사라짐
-        }
         const string EntityCategoryName = " (Entity)";
 
         //사용자 정의 연산자들

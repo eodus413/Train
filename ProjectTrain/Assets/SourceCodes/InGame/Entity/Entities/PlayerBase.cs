@@ -8,13 +8,10 @@ namespace Entity
     using Factory;
     public class PlayerBase : EntityBase
     {
-        [SerializeField]
-        LayerMask layer;
         //초기화
         protected override void Initialize()
         {
             base.Initialize();
-
             EntityManager.SetPlayer(this);
 
             AddWeapon(WeaponGenerator.CreateGun(this, GunType.Pistol, "DesertEagle"));
@@ -24,12 +21,10 @@ namespace Entity
             ChangeWeapon(0);
 
             jumpBehavior = new JumpBehavior(transform, baseRigidbody, 100f);
-
-            gameObject.layer = LayerManager.Layers.Player;
         }
         protected override IEntityFactory SetFactory()
         {
-            _entityType = EntityType.Player;
+            entityType = EntityType.Player;
             return EntityFactoryMethod.GetFactory(playerType);
         }
 
@@ -46,18 +41,13 @@ namespace Entity
         {
             get { return _playerType; }
         }
-
-        public delegate void AmmoDelegate(PlayerBase player);
-        public event AmmoDelegate attackEvent;
-        public event AmmoDelegate reloadEvent;
-        private bool isAttacking = false;
+        
         public void Attack()
         {
             if (currentWeapon.isReadyForAttack)
             {
                 animator.Play("Attack");
-                currentWeapon.Attack();
-                attackEvent(this);
+                currentWeapon.AttackTarget();
             }
         }
         public void Reload()
@@ -71,32 +61,30 @@ namespace Entity
                 gun.Reload();
             }
         }
-        public void ChangeWeapon(int number)
+        public IWeapon ChangeWeapon(int number)
         {
-            if (number < 0) return;
-            if (number >= weapons.Count) return;
+            if (number < 0) return null;
+            if (number >= weapons.Count) return null;
             currentNumber = number;
             currentWeapon = weapons[number];
-            if(reloadEvent != null) reloadEvent(this);
+
+            return currentWeapon;
         }
-        public void ChangeWeapon()
+        public IWeapon ChangeWeapon()
         {
             int num = ++currentNumber;
             num %= weapons.Count;
 
-            ChangeWeapon(num);
-
-            Debug.Log(currentWeapon.ToString());
+            return ChangeWeapon(num);
         }
         public void AddWeapon(IWeapon newWeapon)
         {
             weapons.Add(newWeapon);
-
         }
 
-        public override void Move(Direction direction)
+        public override void Move(Vector2 direction)
         {
-            if(direction != Direction.zero)LookAt(direction);
+            if(direction != Vector2.zero)LookAt(direction);
             base.Move(direction);
         }
         
@@ -115,11 +103,11 @@ namespace Entity
             {
                 if (Input.mousePosition.x < screenHalf)
                 {
-                    LookAt(Direction.left);
+                    LookAt(Vector2.left);
                 }
                 else
                 {
-                    LookAt(Direction.right);
+                    LookAt(Vector2.right);
                 }
             }
         }

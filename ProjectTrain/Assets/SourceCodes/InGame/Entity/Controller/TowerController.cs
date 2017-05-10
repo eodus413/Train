@@ -10,13 +10,18 @@ namespace Entity.Controller
         public TowerController(EntityBase entity) : base(entity)
         {
         }
-        //인터페이스
-        public override IEnumerator Start()
+        //Base 재정의
+        protected override IEnumerator Inititliaze()
         {
-            while (isActive)
-            {
-                yield return null;
-            }
+            yield return null;
+        }
+        protected override IEnumerator Update()
+        {
+            yield return null;
+        }
+        protected override IEnumerator Release()
+        {
+            yield return null;
         }
         //구현
     }

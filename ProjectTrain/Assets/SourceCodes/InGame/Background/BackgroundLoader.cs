@@ -15,11 +15,11 @@ namespace Background
 
 
         GameObjectLoader gameObjectLoader;
-        ResourceLoader resourceLoader;
+        MultiplySpriteLoader resourceLoader;
 
         public Transform[] CreateBackgrounds(Stages stage,string loadName)
         {
-            resourceLoader = new ResourceLoader("Sprites/Backgrounds/" + stage.ToString() + '/' + loadName);
+            resourceLoader = new MultiplySpriteLoader("Sprites/Backgrounds/" + stage.ToString() + '/' + loadName);
             gameObjectLoader = new GameObjectLoader(loadName, resourceLoader.Lenght, parent);
 
             Transform[] backgrounds = new Transform[resourceLoader.Lenght];
