@@ -10,12 +10,11 @@
         public PlayerController(PlayerBase player, float routineDelay) : base(player, routineDelay)
         {
             this.player = player;
-            playerUI = new PlayerUI(player);
         }
 
         //인터페이스
         public PlayerBase player { get; private set; }
-        public PlayerUI playerUI { get; private set; }
+
         //Base 재정의
         protected override IEnumerator Inititliaze()
         {
@@ -35,7 +34,7 @@
         //구현
         protected virtual void GetInput()
         {
-            if (Input.GetMouseButton(0)) player.Attack();
+            if (Input.GetMouseButton(0)) player.UseWeapon();
             if (Input.GetKeyDown(KeyCode.R)) player.Reload();
             
             if (Input.GetKeyDown("1")) player.ChangeWeapon(0);

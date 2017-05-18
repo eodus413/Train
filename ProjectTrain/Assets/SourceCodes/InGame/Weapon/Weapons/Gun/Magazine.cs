@@ -4,51 +4,49 @@
     using UnityEngine;
     using ObjectPool;
     using System.Collections.Generic;
-    public class Magazine : GameObjectPool
+    public class Magazine
     {
-        public Magazine(Gun gun,GameObject prefab) : base(prefab, 5, null, true)
+        //생성자
+        public Magazine(Gun gun)
         {
             this.gun = gun;
-            int count = pool.Count;
-            for(int i=0;i<count;++i)
-            {
-                AddBullet(pool[i]);
-            }
-        } 
 
+            bulletObjPool = new GameObjectPool(GetPrefab(gun.ammoType), (int)(Bullet.lifeTIme / gun.cooltime), null, true);
+
+            int count = bulletObjPool.Lenght;
+            for (int i = 0; i < count; ++i)
+            {
+                AddBullet(bulletObjPool.pool[i]);
+            }
+        }
+
+        //인터페이스
+        public Bullet GetBullet()
+        {
+            int i = 0;
+            while(bulletList[i].gameObject.activeInHierarchy)
+            {
+                ++i;
+            }
+            return bulletList[i];
+        }
+
+        //구현
+        private GameObjectPool bulletObjPool;
         private Gun gun;
         private List<Bullet> bulletList = new List<Bullet>();
 
-        private Bullet AddBullet(GameObject bulletObj)
+        GameObject GetPrefab(AmmoType type)
+        {
+            return Resources.Load<GameObject>("Prefabs/Bullets/" + type.ToString());
+        }
+
+        Bullet AddBullet(GameObject bulletObj)
         {
             Bullet newBullet = bulletObj.GetComponent<Bullet>();
             bulletList.Add(newBullet);
-            newBullet.Initialize(gun.owner,gun);
+            newBullet.Initialize(gun.owner, gun);
             return newBullet;
-        }
-
-        public Bullet GetBullet()
-        {
-            Bullet bullet = null;
-            int count = pool.Count;
-
-            for (int i = 0; i < count; ++i)
-            {
-                if (!bulletList[i].gameObject.activeInHierarchy)
-                {
-                    bullet = bulletList[i];
-                }
-            }
-            if (isGrow) bullet = AddBullet(AddObject(poolingPrefab));
-            if (bullet)
-            {
-                bullet.gameObject.SetActive(true);
-                return bullet;
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }

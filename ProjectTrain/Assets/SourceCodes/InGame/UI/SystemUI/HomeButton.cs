@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class HomeButton : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+﻿namespace UI
+{
+    using UnityEngine;
+    using UnityEngine.UI;
+    
+    public class HomeButton : MonoBehaviour
+    {
+        Button UI;
+        void Start()
+        {
+        }
+    }
 }

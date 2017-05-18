@@ -40,6 +40,23 @@ namespace Raycast2DManager
             return hit.gameObject;
         }
 
+        public static GameObject[] StartMultiCasting(Vector2 origin,Vector2 direction,float distance,LayerMask detectMask,LayerMask denyMask)
+        {
+            Transform[] trs = RaycastAll(origin, direction, distance, detectMask);
+            GameObject[] gams = new GameObject[trs.Length];
+            int count = gams.Length;
+
+            for(int i=0;i<count;++i)
+            {
+                bool isDenyLayer = (Layers.ToMask(trs[i].gameObject.layer) & denyMask) > 0;
+                if (isDenyLayer) return null;
+
+
+                gams[i] = trs[i].gameObject;
+            }
+            return gams;
+        }
+
         //implemented
         static RaycastHit2D hit = new RaycastHit2D();
         static Transform Raycast(Vector2 origin, Vector2 direction, float distance, LayerMask layerMask)
@@ -56,6 +73,17 @@ namespace Raycast2DManager
             else Debug.DrawRay(origin, direction, Color.blue, 1f);
 
             return hit.transform;
+        }
+        static Transform[] RaycastAll(Vector2 origin,Vector2 direction,float distance,LayerMask layerMask)
+        {
+            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance, layerMask);
+            Transform[] trs = new Transform[hits.Length];
+            int count = trs.Length;
+            for(int i=0;i<count;++i)
+            {
+                trs[i] = hits[i].transform;
+            }
+            return trs;
         }
     }
 }

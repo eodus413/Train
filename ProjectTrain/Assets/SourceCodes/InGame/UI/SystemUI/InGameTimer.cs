@@ -1,16 +1,27 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Text;
+public class InGameTimer : MonoBehaviour
+{
+    [SerializeField]
+    private float playTime;
+    private int minute { get { return (int)(playTime * 0.016666666f); } }
+    private int second { get { return (int)playTime % 60; } }
 
-public class InGameTimer : MonoBehaviour {
+    Text UI;
+    StringBuilder builder = new StringBuilder("00 : 00");
+    void Start()
+    {
+        UI = GetComponentInChildren<Text>();
+    }
+    void Update()
+    {
+        playTime += Time.deltaTime;
+        
+        builder.Remove(0, builder.Length);
+        builder.Append(minute).Append(" : ").Append(second);
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        UI.text = builder.ToString();
+    }
 }

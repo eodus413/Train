@@ -15,6 +15,14 @@ public static class SceneController
         if (isSceneMoving) return;
         StartCoroutine(DoLoadScene(scene));
     }
+    public static void LoadInGameScene()
+    {
+        LoadScene("InGame");
+    }
+    public static void LoadMainScene()
+    {
+        LoadScene("Main");
+    }
 
     static IEnumerator DoLoadScene(string scene)
     {

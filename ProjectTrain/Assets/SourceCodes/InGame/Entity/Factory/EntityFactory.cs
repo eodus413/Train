@@ -19,8 +19,10 @@ namespace Entity.Factory
         public static GreenMonsterFactory greenBird = new GreenMonsterFactory();
         public static FrogMonsterFactory frog = new FrogMonsterFactory();
         public static RatMonsterFactory rat = new RatMonsterFactory();
+        public static BottleMonsterFactory bottle = new BottleMonsterFactory();
 
-        public static MachineGunTowerFactory machineGunTower = new MachineGunTowerFactory();
+
+        public static MachineGunTowerFactory machineGunTurret = new MachineGunTowerFactory();
 
         public static IEntityFactory GetFactory(PlayerType type)
         {
@@ -53,14 +55,19 @@ namespace Entity.Factory
             {
                 return rat;
             }
+            else if(type == MonsterType.Bottle)
+            {
+                return bottle;
+            }
+
             Debug.Log("Type이 잘못됐습니다.");
             return null;
         }
-        public static IEntityFactory GetFactory(TowerType type)
+        public static IEntityFactory GetFactory(TurretType type)
         {
-            if (type == TowerType.MachineGunTower)
+            if (type == TurretType.MachineGun)
             {
-                return rat;
+                return machineGunTurret;
             }
             Debug.Log("Type이 잘못됐습니다.");
             return null;
@@ -117,7 +124,12 @@ namespace Entity.Factory.Monster
         }
         public EntityController GetController(EntityBase entity)
         {
-            return new MonsterController(entity);
+            MonsterBase monster = entity as MonsterBase;
+            if(monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
         }
     }
 
@@ -131,7 +143,12 @@ namespace Entity.Factory.Monster
         }
         public EntityController GetController(EntityBase entity)
         {
-            return new MonsterController(entity);
+            MonsterBase monster = entity as MonsterBase;
+            if (monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
         }
     }
     
@@ -146,7 +163,12 @@ namespace Entity.Factory.Monster
         }
         public EntityController GetController(EntityBase entity)
         {
-            return new MonsterController(entity);
+            MonsterBase monster = entity as MonsterBase;
+            if (monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
         }
     }
 
@@ -162,7 +184,12 @@ namespace Entity.Factory.Monster
         }
         public EntityController GetController(EntityBase entity)
         {
-            return new MonsterController(entity);
+            MonsterBase monster = entity as MonsterBase;
+            if (monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
         }
     }
     public class RatMonsterFactory : IEntityFactory
@@ -175,7 +202,30 @@ namespace Entity.Factory.Monster
         }
         public EntityController GetController(EntityBase entity)
         {
-            return new MonsterController(entity);
+            MonsterBase monster = entity as MonsterBase;
+            if (monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
+        }
+    }
+    public class BottleMonsterFactory : IEntityFactory
+    {
+        public int GetHp { get { return 5; } }
+        public float GetSpeed { get { return 0.5f; } }
+        public IMoveBehavior GetMoveBehavior(EntityBase mover)
+        {
+            return new DefaultMove(mover, GetSpeed);
+        }
+        public EntityController GetController(EntityBase entity)
+        {
+            MonsterBase monster = entity as MonsterBase;
+            if (monster != null)
+            {
+                return new MonsterController(monster);
+            }
+            return null;
         }
     }
 }

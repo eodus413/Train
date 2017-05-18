@@ -4,6 +4,9 @@
     {
         Pistol,
         ShotGun,
-        MachineGun
+        SubMachine,
+        MachineGun,
+        Sniper,
+        Rifle
     }
 }

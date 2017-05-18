@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4ef51f91ebdc55b4d9194b9a469f77cd
-timeCreated: 1494430880
+timeCreated: 1494483140
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -20,6 +20,23 @@ TextureImporter:
     21300026: INGMAE_UI_13
     21300028: INGMAE_UI_14
     21300030: INGMAE_UI_15
+    21300032: InGameUI_0
+    21300034: InGameUI_1
+    21300036: InGameUI_2
+    21300038: InGameUI_3
+    21300040: InGameUI_4
+    21300042: InGameUI_5
+    21300044: InGameUI_6
+    21300046: InGameUI_8
+    21300048: InGameUI_9
+    21300050: InGameUI_10
+    21300052: InGameUI_11
+    21300054: InGameUI_12
+    21300056: InGameUI_13
+    21300058: InGameUI_14
+    21300060: InGameUI_15
+    21300062: InGameUI_16
+    21300064: InGameUI_17
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -94,7 +111,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: INGMAE_UI_0
+      name: InGameUI_0
       rect:
         serializedVersion: 2
         x: 86
@@ -102,12 +119,12 @@ TextureImporter:
         width: 474
         height: 143
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_1
+      name: InGameUI_1
       rect:
         serializedVersion: 2
         x: 90
@@ -115,12 +132,12 @@ TextureImporter:
         width: 56
         height: 26
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_2
+      name: InGameUI_2
       rect:
         serializedVersion: 2
         x: 91
@@ -128,12 +145,12 @@ TextureImporter:
         width: 443
         height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_3
+      name: InGameUI_3
       rect:
         serializedVersion: 2
         x: 65
@@ -141,12 +158,12 @@ TextureImporter:
         width: 378
         height: 378
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_4
+      name: InGameUI_4
       rect:
         serializedVersion: 2
         x: 504
@@ -154,12 +171,12 @@ TextureImporter:
         width: 188
         height: 188
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_5
+      name: InGameUI_5
       rect:
         serializedVersion: 2
         x: 107
@@ -167,17 +184,17 @@ TextureImporter:
         width: 191
         height: 187
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_6
+      name: InGameUI_6
       rect:
         serializedVersion: 2
         x: 421
         y: 988
-        width: 196
+        width: 201
         height: 125
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -185,7 +202,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_7
+      name: InGameUI_8
       rect:
         serializedVersion: 2
         x: 748
@@ -198,7 +215,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_8
+      name: InGameUI_9
       rect:
         serializedVersion: 2
         x: 64
@@ -206,12 +223,12 @@ TextureImporter:
         width: 328
         height: 327
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_9
+      name: InGameUI_10
       rect:
         serializedVersion: 2
         x: 469
@@ -219,85 +236,98 @@ TextureImporter:
         width: 188
         height: 188
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_10
+      name: InGameUI_11
       rect:
         serializedVersion: 2
-        x: 748
-        y: 551
-        width: 278
-        height: 278
+        x: 64
+        y: 93
+        width: 248
+        height: 374
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_11
+      name: InGameUI_12
       rect:
         serializedVersion: 2
-        x: 81
-        y: 276
+        x: 407
+        y: 118
         width: 173
         height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_12
+      name: InGameUI_13
       rect:
         serializedVersion: 2
-        x: 282
-        y: 276
+        x: 608
+        y: 118
         width: 173
         height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_13
+      name: InGameUI_14
       rect:
         serializedVersion: 2
-        x: 483
-        y: 276
+        x: 809
+        y: 118
         width: 173
         height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_14
+      name: InGameUI_15
       rect:
         serializedVersion: 2
-        x: 685
-        y: 276
+        x: 1011
+        y: 118
         width: 172
         height: 172
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: INGMAE_UI_15
+      name: InGameUI_16
       rect:
         serializedVersion: 2
-        x: 882
-        y: 275
+        x: 1208
+        y: 117
         width: 173
         height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: InGameUI_17
+      rect:
+        serializedVersion: 2
+        x: 1447
+        y: 110
+        width: 246
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

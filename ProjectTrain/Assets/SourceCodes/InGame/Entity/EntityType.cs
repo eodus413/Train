@@ -17,10 +17,11 @@
         GreenBird,
         Frog,
         Rat,
+        Bottle
     }
-    public enum TowerType
+    public enum TurretType
     {
-        MachineGunTower,
+        MachineGun,
 
     }
 }

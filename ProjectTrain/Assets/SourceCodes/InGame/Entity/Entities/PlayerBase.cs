@@ -14,17 +14,19 @@ namespace Entity
             base.Initialize();
             EntityManager.SetPlayer(this);
 
-            AddWeapon(WeaponGenerator.CreateGun(this, GunType.Pistol, "DesertEagle"));
-            AddWeapon(WeaponGenerator.CreateGun(this, GunType.ShotGun, "Winchester"));
-            AddWeapon(WeaponGenerator.CreateGun(this, GunType.MachineGun, "MG3"));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.Pistol));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.ShotGun));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.Rifle));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.Sniper));
+            AddWeapon(WeaponGenerator.CreateGun(this, GunType.SubMachine));
+            //AddWeapon(WeaponGenerator.CreateGun(this, GunType.MachineGun, "MG3"));
 
             ChangeWeapon(0);
-
             jumpBehavior = new JumpBehavior(transform, baseRigidbody, 100f);
         }
         protected override IEntityFactory SetFactory()
         {
-            entityType = EntityType.Player;
+            type = EntityType.Player;
             return EntityFactoryMethod.GetFactory(playerType);
         }
 
@@ -33,7 +35,16 @@ namespace Entity
         PlayerType _playerType;
 
         private int currentNumber = 0;
-        public IWeapon currentWeapon { get; private set; }
+        private IWeapon _currentWeapon;
+        public IWeapon currentWeapon
+        {
+            get { return _currentWeapon; }
+            private set
+            {
+                _currentWeapon = value;
+            }
+        }
+        public Gun currentGun { get; private set; }
         List<IWeapon> weapons = new List<IWeapon>();
 
         //인터페이스
@@ -42,8 +53,9 @@ namespace Entity
             get { return _playerType; }
         }
         
-        public void Attack()
+        public void UseWeapon()
         {
+            if (!isLive) return;
             if (currentWeapon.isReadyForAttack)
             {
                 animator.Play("Attack");
@@ -52,40 +64,38 @@ namespace Entity
         }
         public void Reload()
         {
-            if (currentWeapon.weaponType != WeaponType.Gun) return;
+            if (currentGun == null) return;
 
-            Gun gun = currentWeapon as Gun;
-            if (gun != null)
-            {
-                animator.Play("Reload");
-                gun.Reload();
-            }
+            currentGun.Reload();
         }
-        public IWeapon ChangeWeapon(int number)
-        {
-            if (number < 0) return null;
-            if (number >= weapons.Count) return null;
-            currentNumber = number;
-            currentWeapon = weapons[number];
 
-            return currentWeapon;
-        }
-        public IWeapon ChangeWeapon()
+        //ChangeWeapon(int)로 구현
+        public void ChangeWeapon()
         {
+            if (!isLive) return;
             int num = ++currentNumber;
             num %= weapons.Count;
 
-            return ChangeWeapon(num);
+            ChangeWeapon(num);
         }
-        public void AddWeapon(IWeapon newWeapon)
+        public void ChangeWeapon(int number)
         {
-            weapons.Add(newWeapon);
+            if (!isLive) return;
+            if (number < 0) return;
+            if (number >= weapons.Count) return;
+            currentNumber = number;
+            currentWeapon = weapons[number];
+            if(currentWeapon.weaponType == WeaponType.Gun)
+            {
+                currentGun = currentWeapon as Gun;
+            }
         }
 
-        public override void Move(Vector2 direction)
+        public void AddWeapon(IWeapon newWeapon)
         {
-            if(direction != Vector2.zero)LookAt(direction);
-            base.Move(direction);
+            if (!isLive) return;
+            if (newWeapon == null) return;
+            weapons.Add(newWeapon);
         }
         
         JumpBehavior jumpBehavior;
@@ -94,21 +104,24 @@ namespace Entity
             jumpBehavior.Jump();
         }
 
-
-        private float lookArea = Screen.height * 0.3f;
-        private float screenHalf = Screen.width * 0.5f;
-        void Look()
+        public void SetTurret(TurretType turretType)
         {
-            if (Input.mousePosition.y > lookArea)
+            if(turretType == TurretType.MachineGun)
             {
-                if (Input.mousePosition.x < screenHalf)
-                {
-                    LookAt(Vector2.left);
-                }
-                else
-                {
-                    LookAt(Vector2.right);
-                }
+
+            }
+        }
+
+        const string valueName = "WeaponNumber";
+        void ChangeBody(IWeapon weapon)
+        {
+            if(weapon.weaponType == WeaponType.Gun)
+            {
+                if (currentGun.gunType == GunType.Pistol) animator.SetInteger(valueName, (int)GunType.Pistol);
+                else if (currentGun.gunType == GunType.ShotGun) animator.SetInteger(valueName, (int)GunType.ShotGun);
+                else if (currentGun.gunType == GunType.Rifle) animator.SetInteger(valueName, (int)GunType.Rifle);
+                else if (currentGun.gunType == GunType.Sniper) animator.SetInteger(valueName, (int)GunType.Sniper);
+                else if (currentGun.gunType == GunType.SubMachine) animator.SetInteger(valueName, (int)GunType.SubMachine);
             }
         }
     }

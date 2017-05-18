@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using LayerManager;
 using Entity.Controller;
+using System.Collections;
 
 namespace Entity
 {
@@ -13,25 +14,32 @@ namespace Entity
             gameObject.layer = Layers.Entities;
 
             ComponentInitialize();
+
+            Initialize();
         }
         //초기화
         void OnEnable()
         {
-            Initialize();
-            EntityManager.AddEntity(this);
+            isLive = true;
+            baseRenderer.color = Color.white;
+            gameObject.layer = Layers.Entities;
+
+            hp = baseHp;
+
+            EntityManager.Add(this);
             controller.Active();
         }
         protected virtual void ComponentInitialize()
         {
             baseRenderer = GetComponent<SpriteRenderer>();
-            if (baseRenderer == null) Debug.Log("SpriteRenderer 추가 못함");
+            if (baseRenderer == null) baseRenderer = gameObject.AddComponent<SpriteRenderer>();
 
             baseRigidbody = GetComponent<Rigidbody2D>();
-            if (baseRigidbody == null) Debug.Log("Rigidbody2 추가 못함");
+            if (baseRigidbody == null) baseRigidbody = gameObject.AddComponent<Rigidbody2D>();
             baseRigidbody.freezeRotation = true;
 
             bodyCollider = GetComponent<Collider2D>();
-            if (bodyCollider == null) Debug.Log("Collider2D 추가 못함");
+            if (bodyCollider == null) bodyCollider = gameObject.AddComponent<BoxCollider2D> ();
 
             animator = GetComponent<Animator>();
             if (animator == null) Debug.Log("Animator 추가 못함");
@@ -52,14 +60,13 @@ namespace Entity
         protected abstract Factory.IEntityFactory SetFactory();
 
         //필드,컴포넌트등
-        public int teamNumber { get; private set; }
         private int baseHp;
         [SerializeField]
         private int _hp;
 
         private EntityController controller;
 
-        public IMoveBehavior moveBehavior { get; private set; }
+        IMoveBehavior moveBehavior { get; set; }
 
         const string id_isLive = "IsLive";
         const string id_lookFoward = "LookFoward";
@@ -73,7 +80,9 @@ namespace Entity
 
 
         //인터페이스
-        public EntityType entityType { get; protected set; }
+        public EntityType type { get; protected set; }
+        public Team team { get; set; }
+
         public int hp
         {
             get { return _hp; }
@@ -81,17 +90,32 @@ namespace Entity
             {
                 _hp = value;
                 if (_hp <= 0)
-                    Dead();
+                    StartCoroutine(Dead());
             }
         }
         public float remainHpPercent
         {
-            get { return (float)baseHp / hp; }
+            get { return (float)hp / baseHp; }
         }
-        
+        public bool isUnderAttack { get; private set; }
         public void Attacked(AttackData data)
         {
+            if (!isLive) return;
             hp -= data.damage;
+                animator.Play("Attacked");
+            KnockBack(data.direction, data.damage);
+            StartCoroutine(Attacked());
+        }
+        const float delayAfterDamaged = 0.5f;
+        IEnumerator Attacked()
+        {
+            isUnderAttack = true;
+            yield return new WaitForSeconds(delayAfterDamaged);
+            isUnderAttack = false;
+        }
+        void KnockBack(Vector2 direction,float power)
+        {
+            baseRigidbody.AddForce(direction * power);
         }
 
         bool _lookFoward;
@@ -119,13 +143,19 @@ namespace Entity
 
         public void LookAt(Vector2 direction)
         {
+            if (!isLive) return;
             lookDirection = direction;
             lookFoward = lookDirection == moveBehavior.moveDirection;
         }
 
         public virtual void Move(Vector2 direction)
         {
+            if (!isLive) return;
+            if (isUnderAttack) return; //공격받는 중이라면
+
             bool isMoving = direction != Vector2.zero;
+                
+            if (direction != Vector2.zero) LookAt(direction);
 
             animator.SetBool(id_isMoving, isMoving);
 
@@ -139,6 +169,7 @@ namespace Entity
         public bool isClimbing { get; private set; }
         public void ClimbTheStair(bool isUp)
         {
+            if (!isLive) return;
             isClimbing = true;
             float fixX = transform.position.x;
             if (isUp) transform.position += Vector3.up;
@@ -150,13 +181,29 @@ namespace Entity
 
         }
         //구현
-        void Dead()
+        const float bodyRemainTime = 5f;
+        private bool _isLive = true;
+        public bool isLive
         {
+            get { return _isLive; }
+            private set { _isLive = value;}
+        }
+        IEnumerator Dead()
+        {
+            isLive = false;
             gameObject.layer = Layers.Dead;
             animator.Play("Dead");
+
             animator.SetBool(id_isLive, false);
+
             controller.Inactive();
+            yield return new WaitForSeconds(bodyRemainTime);
+            yield return FadeEffect.DoFadeOut(baseRenderer);
+
+            gameObject.SetActive(false);
         }
+
+
 
         const string EntityCategoryName = " (Entity)";
 

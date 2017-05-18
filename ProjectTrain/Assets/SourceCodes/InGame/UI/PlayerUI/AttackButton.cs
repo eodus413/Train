@@ -13,7 +13,7 @@
         void Start()
         {
             isButtonDown = false;
-            attack = EntityManager.player.Attack;
+            attack = EntityManager.player.UseWeapon;
         }
         
         void Update()

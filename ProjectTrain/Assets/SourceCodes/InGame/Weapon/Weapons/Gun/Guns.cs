@@ -6,16 +6,14 @@ namespace Weapon
     public struct GunInfo
     {
         //생성자
-        public GunInfo(string name, GunType gunType, AmmoType ammoType)
+        public GunInfo(GunType gunType, AmmoType ammoType)
         {
-            this.name = name;
             this.gunType = gunType;
             this.ammoType = ammoType;
 
-            infoToString = " Name : " + name + " Type : " + gunType.ToString() + " AmmoType : " + ammoType.ToString();
+            infoToString = " Type : " + gunType.ToString() + " AmmoType : " + ammoType.ToString();
         }
         //인터페이스
-        public string name;
         public GunType gunType;
         public AmmoType ammoType;
 
@@ -36,11 +34,10 @@ namespace Weapon
     public class Gun : IWeapon
     {
         //생성자
-        public Gun(EntityBase owner, int damage, float distance, float startDelay, float cooltime, float reloadDelay, int maxAmmo, GunInfo info, Transform shotPoint,GameObject bulletPrefab)
+        public Gun(EntityBase owner, int damage, float startDelay, float cooltime, float reloadDelay, int maxAmmo, GunInfo info, Transform shotPoint)
         {
             this.owner = owner;
             this.damage = damage;
-            this.distance = distance;
             this.startDelay = startDelay;
             this.cooltime = cooltime;
 
@@ -52,7 +49,7 @@ namespace Weapon
 
             this.shotPoint = shotPoint;
 
-            magazine = new Magazine(this,bulletPrefab);
+            magazine = new Magazine(this);
         }
 
         //IWeapon 인터페이스
@@ -64,12 +61,16 @@ namespace Weapon
             {
                 if (isShoting) return false;
                 if (isReloading) return false;
-                return !noAmmo;
+                if (noAmmo)
+                {
+                    Reload();
+                    return false;
+                }
+                return true;
             }
         }
 
         public int damage { get; private set; }
-        public float distance { get; private set; }
         public float startDelay { get; private set; }
         public float cooltime { get; private set; }
 
@@ -83,6 +84,7 @@ namespace Weapon
 
         //Gun 인터페이스
         public Magazine magazine { get; private set; }
+
         public GunInfo info { get; private set; }
 
         public float reloadDelay { get; private set; }
@@ -92,10 +94,14 @@ namespace Weapon
 
         public Transform shotPoint { get; private set; }
 
+        public GunType gunType { get { return info.gunType; } }
+        public AmmoType ammoType { get { return info.ammoType; } }
+
         public void Reload()
         {
             if (isReloading) return;
 
+            owner.animator.Play("Reload");
             owner.StartCoroutine(DoReload());
         }
 
@@ -104,7 +110,7 @@ namespace Weapon
         //ToString
         public string GunInfosToString()
         {
-            return "Name : " + info.name + " Type : " + info.gunType.ToString();
+            return " Type : " + gunType.ToString();
         }
         public override string ToString()
         {
@@ -143,7 +149,10 @@ namespace Weapon
             yield return new WaitForSeconds(startDelay);
             //Sound
             Bullet bullet = magazine.GetBullet();
-            bullet.Fire();
+
+            bullet.gameObject.SetActive(true);
+            bullet.Fire(owner.lookDirection);
+            bullet.transform.position = shotPoint.position;
 
             yield return new WaitForSeconds(cooltime);
             isShoting = false;

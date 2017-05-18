@@ -35,11 +35,3 @@ namespace Loaders
     }
 
 }
-
-namespace Loaders
-{
-    public enum InGameUISprite
-    {
-
-    }
-}

@@ -7,7 +7,8 @@ namespace Weapon
     public enum WeaponType
     {
         Gun,
-        Sword
+        Melee,
+        Magic,
     }
     public interface IWeapon
     {

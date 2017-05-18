@@ -13,7 +13,10 @@ namespace ObjectPool
         }
 
         public bool isGrow { get; private set; }    //isGrow == true 라면 오브젝트를 가져올 때, 가져올 오브젝트가 없다면 새로 생성을 하고 가져옴
-        protected List<GameObject> pool = new List<GameObject>();   //오브젝트를 담는 List
+        protected List<GameObject> _pool = new List<GameObject>();   //오브젝트를 담는 List
+        public List<GameObject> pool { get { return _pool; } }
+
+        public int Lenght { get { return _pool.Count; } }
         public GameObject poolingPrefab { get; private set; }
         public Transform parent { get; private set;}
 
@@ -31,12 +34,12 @@ namespace ObjectPool
         }
         public GameObject Get(bool isActive)
         {
-            int count = pool.Count;
+            int count = _pool.Count;
             for(int i =0; i < count; ++i)
             {
-                if(pool[i].activeInHierarchy == isActive)
+                if(_pool[i].activeInHierarchy == isActive)
                 {
-                    return pool[i];
+                    return _pool[i];
                 }
             }
             Debug.Log("부족함");
@@ -49,7 +52,7 @@ namespace ObjectPool
             GameObject instance = GameObject.Instantiate(newPrefab, parent);
             if (parent) instance.transform.position = parent.position;
             instance.SetActive(false);
-            pool.Add(instance);
+            _pool.Add(instance);
 
             return instance;
         }

@@ -3,20 +3,18 @@
 namespace Weapon
 {
     using Entity;
-    using Entity.Decoration;
     //근접무기
     public partial class MeleeWeapon : IWeapon
     {
         //생성자
-        public MeleeWeapon(EntityBase owner,int damage,TargetingArea targetingArea)
+        public MeleeWeapon(EntityBase owner,int damage)
         {
             this.owner = owner;
             this.damage = damage;
-
-            this.targetingArea = targetingArea;
+            
         }
         //인터페이스
-        public WeaponType weaponType { get { return WeaponType.Sword; } }
+        public WeaponType weaponType { get { return WeaponType.Melee; } }
 
         public bool isReadyForAttack { get; private set; }
 
@@ -29,11 +27,7 @@ namespace Weapon
 
         public void AttackTarget()
         {
-            if (!isAttackableTarget()) return;  //공격가능한 타겟이 아니라면 종료
-            Attack.To(targetingArea.target,new AttackData(owner,damage,owner.lookDirection));
         }
-        //구현
-        TargetingArea targetingArea;
     }
 }
 
@@ -44,11 +38,11 @@ namespace Weapon
 
     public partial class MeleeWeapon : IWeapon
     {
-        bool isAttackableTarget()
+        bool isAttackableTarget(GameObject target)
         {
-            if (targetingArea.target)
+            if (target)
             {
-                Vector2 targetPos = targetingArea.target.transform.position;
+                Vector2 targetPos = target.transform.position;
 
                 Vector2 origin = owner.transform.position;
                 Vector2 direction = (origin - targetPos).normalized;

@@ -6,9 +6,9 @@ namespace Entity.Controller
     public partial class MonsterController : EntityController
     {
         //생성자
-        public MonsterController(EntityBase entity) : base(entity)
+        public MonsterController(MonsterBase monster) : base(monster)
         {
-            monster = entity as MonsterBase;
+            this.monster = monster;
         }
 
 
@@ -25,30 +25,73 @@ namespace Entity.Controller
         }
         protected override IEnumerator Update()
         {
-            if (isAbleToAttack) yield return AttackTarget();
-
-            else yield return Move();
+            if (isAbleToMove) yield return Move();
+            else if (isAbleToChase) yield return Chase();
+            else if (isAbleToAttack) yield return AttackTarget();
         }
         protected override IEnumerator Release()
         {
             yield return null;
         }
+    }
+}
 
-
+namespace Entity.Controller
+{
+    public partial class MonsterController : EntityController
+    {
         //구현
+        private EntityBase target;
+        private bool noTarget { get { return target == null; } }
+
         private bool isAbleToAttack
         {
-            get { return monster.isAbleToAttack; }
+            get
+            {
+                if (noTarget) return false;
+                return monster.CanAttack(target);
+            }
+        }
+        private bool isAbleToMove
+        {
+            get
+            {
+                return noTarget;
+            }
+        }
+        private bool isAbleToChase
+        {
+            get
+            {
+                if (noTarget) return false;
+                return monster.CanAttack(target) == false;
+            }
         }
 
+        bool isAttacking = false;
         IEnumerator AttackTarget()
         {
-            yield return null;
+            isAttacking = true;
+            yield return monster.AttackTarget(target);
+            isAttacking = false;
         }
         IEnumerator Move()
         {
-            entity.moveBehavior.Move(Vector2.right);
-            yield return new WaitForSeconds(moveRoutineDelay);
+            target = monster.Targeting();
+            entity.Move(Vector2.right);
+            yield return null;
+        }
+        IEnumerator Chase()
+        {
+            while (target != null)
+            {
+                float entityX = entity.transform.position.x;
+
+                if (entityX > target.transform.position.x) entity.Move(Vector2.left);   //target 이 왼쪽
+                else if (entityX < target.transform.position.x) entity.Move(Vector2.right);
+
+                yield return null;
+            }
         }
     }
 }

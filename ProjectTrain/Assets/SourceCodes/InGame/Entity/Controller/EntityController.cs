@@ -43,7 +43,6 @@ namespace Entity.Controller
             {
                 yield return Update();
             }
-            yield return Dead();
             yield return Release();
         }
 
@@ -51,18 +50,5 @@ namespace Entity.Controller
 
         protected abstract IEnumerator Update();
         protected abstract IEnumerator Release();
-
-
-        const float deadBodyRemainTime = 5f;
-        IEnumerator Dead()
-        {
-            EntityManager.RemoveEntity(entity); 
-
-            yield return new WaitForSeconds(deadBodyRemainTime);    //시체가 남아있는 시간동안 기다림
-
-            yield return FadeEffect.DoFadeOut(entity.baseRenderer); //fade out
-
-            entity.gameObject.SetActive(false);
-        }
     }
 }

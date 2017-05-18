@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
-using Entity;
-
 public static class GameObject2DExtension
 {
-    static Vector2 turnRight = new Vector2(1, 1);
-    static Vector2 turnLeft = new Vector2(-1, 1);
     public static void TurnLeft(this GameObject lv)
     {
-        lv.transform.localScale = turnLeft;
+        Vector3 vec = lv.transform.localScale;
+        vec.Set(Mathf.Abs(vec.x) * -1, vec.y, vec.z);
+        lv.transform.localScale = vec;
     }
     public static void TurnRight(this GameObject lv)
     {
-        lv.transform.localScale = turnRight;
+        Vector3 vec = lv.transform.localScale;
+        vec.Set(Mathf.Abs(vec.x), vec.y, vec.z);
+        lv.transform.localScale = vec;
     }
     public static void Turn2D(this GameObject lv, Vector2 direction)
     {
