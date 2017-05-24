@@ -81,7 +81,13 @@ namespace Entity
 
         //인터페이스
         public EntityType type { get; protected set; }
-        public Team team { get; set; }
+        [SerializeField]
+        private Team _team;
+        public Team team
+        {
+            get { return _team; }
+            set { _team = value; }
+        }
 
         public int hp
         {
@@ -97,7 +103,7 @@ namespace Entity
         {
             get { return (float)hp / baseHp; }
         }
-        public bool isUnderAttack { get; private set; }
+        public bool isAttacked { get; private set; }
         public void Attacked(AttackData data)
         {
             if (!isLive) return;
@@ -109,9 +115,9 @@ namespace Entity
         const float delayAfterDamaged = 0.5f;
         IEnumerator Attacked()
         {
-            isUnderAttack = true;
+            isAttacked = true;
             yield return new WaitForSeconds(delayAfterDamaged);
-            isUnderAttack = false;
+            isAttacked = false;
         }
         void KnockBack(Vector2 direction,float power)
         {
@@ -145,13 +151,13 @@ namespace Entity
         {
             if (!isLive) return;
             lookDirection = direction;
-            lookFoward = lookDirection == moveBehavior.moveDirection;
+            lookFoward = lookDirection == moveBehavior.direction;
         }
 
         public virtual void Move(Vector2 direction)
         {
             if (!isLive) return;
-            if (isUnderAttack) return; //공격받는 중이라면
+            if (isAttacked) return; //공격받는 중이라면
 
             bool isMoving = direction != Vector2.zero;
                 

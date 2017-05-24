@@ -13,25 +13,12 @@ namespace Entity
         {
             Initialize(transform,rigidbody,jumpVelocity);
         }
+
         void Initialize(Transform transform, Rigidbody2D rigidbody, float jumpVelocity)
         {
-            this.jumpVelocity = jumpVelocity;
+            this.jumpVelocity =  Vector2.up * jumpVelocity;
             this.transform = transform;
             this.rigidbody = rigidbody;
-            
-            this.rayDirection = Vector2.down;
-            this.rayLenght = 0.1f;
-        }
-
-        Transform transform;
-        Rigidbody2D rigidbody;
-
-        float jumpVelocity;
-        public void Jump()
-        {
-            if (isInAir) return;
-
-            rigidbody.AddForce(Vector2.up * jumpVelocity);
         }
     }
 }
@@ -42,15 +29,25 @@ namespace Entity
     using LayerManager;
     public partial class JumpBehavior
     {
-        Vector2 rayDirection;
-        float rayLenght;
+        //멤버 데이터
+        Transform transform;        //타겟 Transform
+        Rigidbody2D rigidbody;      //타겟 Rigidbody
+        
+        Vector2 jumpVelocity;
+
+        Vector2 rayDirection = Vector2.down;
+        const float raycastLenght = 0.03f;
+        //인터페이스
+        public void Jump()
+        {
+            if (isInAir) return;
+
+            rigidbody.AddForce(jumpVelocity);
+        }
 
         public bool isInAir
         {
-            get
-            {
-                return Ray2DManager.StartCasting(transform.position,rayDirection,rayLenght, Layers.GroundMask) == null;
-            }
+            get { return Ray2DManager.StartCasting(transform.position,rayDirection,raycastLenght, Layers.GroundMask) == null; }
         }
     }
 }

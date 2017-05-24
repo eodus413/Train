@@ -24,13 +24,11 @@ namespace Entity.Controller
     public abstract partial class EntityController
     {
         public EntityBase entity { get; private set; }
-        public Transform entityTransform { get; private set; }
         public EntityController(EntityBase entity,float routineDelay = 0.05f)
         {
             isActive = true;
             this.entity = entity;
             this.routineDelay = routineDelay;
-            this.entityTransform = entity.transform;
         }
     }
 

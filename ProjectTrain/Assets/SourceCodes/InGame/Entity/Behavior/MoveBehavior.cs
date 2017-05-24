@@ -8,9 +8,9 @@ namespace Entity
         bool isMoving { get; }
 
         float speed { get; }
-        Vector2 moveDirection { get; }
+        Vector2 direction { get; }
 
-        Transform mover { get; }
+        Transform transform { get; }
 
         void Move(Vector2 direction);
     }
@@ -24,9 +24,9 @@ namespace Entity
             isMoving = false;
 
             this.speed = speed;
-            moveDirection = Vector2.zero;
+            direction = Vector2.zero;
 
-            this.mover = entity.transform;
+            this.transform = entity.transform;
             this.entity = entity;
         }
 
@@ -35,19 +35,19 @@ namespace Entity
         public bool isMoving { get; private set; }
 
         public float speed { get; private set; }
-        public Vector2 moveDirection { get; private set; }
+        public Vector2 direction { get; private set; }
 
-        public Transform mover { get; private set; }
+        public Transform transform { get; private set; }
 
         public void Move(Vector2 direction)
         {
-            moveDirection = direction;
+            this.direction = direction;
 
-            isMoving = moveDirection != Vector2.zero;
+            isMoving = direction != Vector2.zero;
 
             if (!isMoving) return;
 
-            mover.Translate(moveDirection * moveSpeed);
+            transform.Translate(this.direction * moveSpeed);
         }
 
 
@@ -57,7 +57,6 @@ namespace Entity
         {
             get
             {
-                if (entity.lookDirection != moveDirection) return speed * Time.deltaTime * 0.5f;
                 return speed * Time.deltaTime;
             }
         }
@@ -67,7 +66,7 @@ namespace Entity
         //생성자
         public NoWayToMove(EntityBase entity)
         {
-            this.mover = entity.transform;
+            this.transform = entity.transform;
             this.entity = entity;
         }
 
@@ -76,12 +75,13 @@ namespace Entity
         public bool isMoving { get { return false; } }
 
         public float speed { get { return 0f; } }
-        public Vector2 moveDirection { get { return Vector2.zero; } }
+        public Vector2 direction { get { return Vector2.zero; } }
 
-        public Transform mover { get; private set; }
+        public Transform transform { get; private set; }
 
         public void Move(Vector2 direction)
         {
+            //움직일 수 없음
         }
 
         //구현

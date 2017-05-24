@@ -11,7 +11,7 @@
         {
             this.gun = gun;
 
-            bulletObjPool = new GameObjectPool(GetPrefab(gun.ammoType), (int)(Bullet.lifeTIme / gun.cooltime), null, true);
+            bulletObjPool = new GameObjectPool(GetPrefab(gun.ammoType), (int)(Bullet.lifeTIme / gun.cooltime) + 1, null, true);
 
             int count = bulletObjPool.Lenght;
             for (int i = 0; i < count; ++i)
@@ -23,12 +23,15 @@
         //인터페이스
         public Bullet GetBullet()
         {
-            int i = 0;
-            while(bulletList[i].gameObject.activeInHierarchy)
-            {
-                ++i;
-            }
+            int i = -1;
+
+            while (bulletList[++i].gameObject.activeInHierarchy) ;
+
             return bulletList[i];
+        }
+        public void Set(Gun gun)
+        {
+            this.gun = gun;
         }
 
         //구현

@@ -8,12 +8,15 @@ namespace Weapon.Projectile
     public partial class Bullet : MonoBehaviour
     {
         public AmmoType type { get; private set; }
-        [SerializeField]
         EntityBase owner;
 
         
         const float speed = 5f;
         public const float lifeTIme = 2f;
+        void OnEable()
+        {
+            isAttacking = false;
+        }
         public virtual void Initialize(EntityBase owner, Gun gun)
         {
             type = gun.ammoType;
@@ -55,16 +58,21 @@ namespace Weapon.Projectile
             yield return new WaitForSeconds(lifeTIme);
             isMoving = false;
         }
+
+
+        bool isAttacking = false;
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (isAttacking) return;
             if (other.gameObject == owner.gameObject) return;
 
             if (other.gameObject.layer == (Layers.Entities))
             {
-                EntityBase otherEntity = other.GetComponent<EntityBase>();
-                if (otherEntity.team != owner.team)
+                EntityBase target = other.GetComponent<EntityBase>();
+                if (target.team != owner.team)
                 {
-                    Attack.To(otherEntity, new AttackData(owner, gun.damage, direction));
+                    isAttacking = true;
+                    Attack.To(target, new AttackData(owner,target, gun.damage, direction));
                     gameObject.SetActive(false);
                 }
             }

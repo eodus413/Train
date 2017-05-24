@@ -25,9 +25,9 @@ namespace Entity.Controller
         }
         protected override IEnumerator Update()
         {
-            if (isAbleToMove) yield return Move();
-            else if (isAbleToChase) yield return Chase();
-            else if (isAbleToAttack) yield return AttackTarget();
+            target = monster.Targeting();
+            if (isAbleToAttack) yield return AttackTarget();
+            else yield return Move();
         }
         protected override IEnumerator Release()
         {
@@ -41,30 +41,34 @@ namespace Entity.Controller
     public partial class MonsterController : EntityController
     {
         //구현
-        private EntityBase target;
-        private bool noTarget { get { return target == null; } }
-
+        private EntityBase _target;
+        private EntityBase target
+        {
+            get
+            {
+                if (monster.isInSight(_target) == false) _target = null;
+                return _target;
+            }
+            set
+            {
+                if (monster.isInSight(value))
+                {
+                    _target = value;
+                }
+            }
+        }
+        private bool noTarget
+        {
+            get
+            {
+                return target == null;
+            }
+        }
         private bool isAbleToAttack
         {
             get
             {
-                if (noTarget) return false;
-                return monster.CanAttack(target);
-            }
-        }
-        private bool isAbleToMove
-        {
-            get
-            {
-                return noTarget;
-            }
-        }
-        private bool isAbleToChase
-        {
-            get
-            {
-                if (noTarget) return false;
-                return monster.CanAttack(target) == false;
+                return monster.IsAbleToAttack(target);
             }
         }
 
@@ -72,26 +76,22 @@ namespace Entity.Controller
         IEnumerator AttackTarget()
         {
             isAttacking = true;
+            Debug.Log("AttackStart");
             yield return monster.AttackTarget(target);
             isAttacking = false;
         }
         IEnumerator Move()
         {
-            target = monster.Targeting();
-            entity.Move(Vector2.right);
-            yield return null;
-        }
-        IEnumerator Chase()
-        {
-            while (target != null)
+            if(noTarget)
             {
-                float entityX = entity.transform.position.x;
-
-                if (entityX > target.transform.position.x) entity.Move(Vector2.left);   //target 이 왼쪽
-                else if (entityX < target.transform.position.x) entity.Move(Vector2.right);
-
-                yield return null;
+                entity.Move(Vector2.right);
             }
+            else
+            {
+                if (target.transform.isLeftTo(entity)) entity.Move(Vector2.left);
+                else if (target.transform.isRightTo(entity)) entity.Move(Vector2.right);
+            }
+            yield return null;
         }
     }
 }

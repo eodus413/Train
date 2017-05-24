@@ -27,4 +27,13 @@ public static class TransformExtension
         else return Vector2.right;
     }
     
+    public static bool isLeftTo(this Transform transform, Transform target)
+    {
+        return (transform.position.x < target.transform.position.x) ;
+    }
+    public static bool isRightTo(this Transform transform,Transform target)
+    {
+        return (transform.position.x > target.transform.position.x);
+    }
+
 }

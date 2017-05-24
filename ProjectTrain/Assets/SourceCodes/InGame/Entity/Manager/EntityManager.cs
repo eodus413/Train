@@ -12,7 +12,19 @@ namespace Entity
         //세부 리스트
         // - 플레이어
         public static PlayerBase player { get; private set; }
-        
+
+        //플레이어가 바뀌는 이벤트
+        public delegate void DataUpdate();
+        public static event DataUpdate PlayerUpdate;
+        public static void AddPlayerUpdate(DataUpdate newUpdate)
+        {
+            if(newUpdate == null)   //예외처리
+            {
+                Debug.LogError("Wrong NewUpdate Function");
+                return;
+            }
+            PlayerUpdate += newUpdate;
+        }
 
         public static void Add(EntityBase entity)
         {

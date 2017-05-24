@@ -14,6 +14,10 @@ namespace Entity
             if(eye == null) eye = NewEye();
             else eye = transform.GetChild(0);
 
+            BoxCollider2D box = bodyCollider as BoxCollider2D;
+
+            bodyWidth = box.size.x + box.offset.x;
+
         }
         protected override IEntityFactory SetFactory()
         {
@@ -40,19 +44,28 @@ namespace Entity
     public partial class MonsterBase : EntityBase
     {
         const int damage = 1;
-        const float attackRange = 0.1f;
+        [SerializeField]
+        float bodyWidth;
+        public float attackRange
+        {
+            get
+            {
+                return bodyWidth + 1f;
+            }
+        }
+        
         const float atttackCoolTime = 1f;
         const float startDelay = 0.1f;
 
-        const float sight = 1f;
+        public readonly float sight = 1f;
 
         Transform eye;
         Transform NewEye()
         {
             Transform newEye = new GameObject("Eye").transform;
-            newEye.position = new Vector2(bodyCollider.offset.x,bodyCollider.offset.y);
 
             newEye.SetParent(transform);
+            newEye.localPosition = new Vector2(bodyCollider.offset.x, bodyCollider.offset.y);
             return newEye;
         }
 
@@ -61,30 +74,40 @@ namespace Entity
             GameObject targetObj = Ray2DManager.StartCasting(eye.transform, sight, Layers.EntitiesMask, Layers.GroundMask);
 
             if (targetObj == null) return null;
-            else return targetObj.GetComponent<EntityBase>();
+
+            EntityBase targetEntity = targetObj.GetComponent<EntityBase>();
+
+            if (targetEntity.team == team) return null;
+            
+            return targetEntity;
         }
-        public float DistanceToTarget(EntityBase target)
+        public float DistanceTo(EntityBase target)
         {
             if (target == null) return float.Epsilon; 
             return Vector3.Distance(target.transform.position, transform.position);
         }
-        public bool CanAttack(EntityBase target)
+        public bool isInSight(EntityBase target)
+        {
+            if (target == null) return false;
+            return DistanceTo(target) <= sight;
+        }
+        public bool IsAbleToAttack(EntityBase target)
         {
             if (target == null) return false;       //타겟이 없거나
-            if (DistanceToTarget(target) > attackRange) return false;    //타겟이 공격 사거리보다 밖에 있으면
+
+            if (DistanceTo(target) > attackRange) return false;    //타겟이 공격 사거리보다 밖에 있으면
+            
             return true;
         }
 
         public IEnumerator AttackTarget(EntityBase target)
         {
             yield return new WaitForSeconds(startDelay);
-
-            if (DistanceToTarget(target) <= attackRange) yield break;
-
-            if (CanAttack(target) == false) yield break; 
+            
+            if (IsAbleToAttack(target) == false) yield break; 
 
             animator.Play("Attack");
-            Attack.To(target, new AttackData(this, damage, lookDirection));
+            Attack.To(target, new AttackData(this, target, damage, lookDirection));
 
             yield return new WaitForSeconds(atttackCoolTime);
         }

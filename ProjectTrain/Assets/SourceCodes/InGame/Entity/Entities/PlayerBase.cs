@@ -98,13 +98,13 @@ namespace Entity
             weapons.Add(newWeapon);
         }
         
-        JumpBehavior jumpBehavior;
+        [SerializeField] JumpBehavior jumpBehavior;
         public void Jump()
         {
             jumpBehavior.Jump();
         }
 
-        public void SetTurret(TurretType turretType)
+        public void BuildTurret(TurretType turretType)
         {
             if(turretType == TurretType.MachineGun)
             {
