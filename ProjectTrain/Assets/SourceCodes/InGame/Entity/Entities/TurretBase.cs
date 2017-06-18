@@ -11,6 +11,7 @@ namespace Entity
         {
             base.Initialize();
             InitializeGun();
+            InitializeUI();
         }
         protected override IEntityFactory SetFactory()
         {
@@ -37,6 +38,19 @@ namespace Entity
         {
             if (!gun.isReadyForAttack) return;
             gun.AttackTarget();
+        }
+    }
+}
+
+namespace Entity
+{
+    using UI;
+    public partial class TurretBase : EntityBase
+    {
+        HpBarUI hpBarUI;
+        void InitializeUI()
+        {
+            hpBarUI = new HpBarUI(this, ResourceLoad.hpBar);
         }
     }
 }

@@ -89,12 +89,21 @@ namespace Entity
             set { _team = value; }
         }
 
+        public delegate void DataUpdate();
+
+        private event DataUpdate hpUpdate;
+        public void AddHpUpdateEvent(DataUpdate update)
+        {
+            if (update == null) return;
+            hpUpdate += update;
+        }
         public int hp
         {
             get { return _hp; }
             private set
             {
                 _hp = value;
+                if(hpUpdate != null) hpUpdate();
                 if (_hp <= 0)
                     StartCoroutine(Dead());
             }
@@ -108,7 +117,8 @@ namespace Entity
         {
             if (!isLive) return;
             hp -= data.damage;
-                animator.Play("Attacked");
+
+            animator.Play("Attacked");
             KnockBack(data.direction, data.damage);
             StartCoroutine(Attacked());
         }

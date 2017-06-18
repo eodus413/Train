@@ -18,6 +18,7 @@ namespace Entity
 
             bodyWidth = box.size.x + box.offset.x;
 
+            InitializeUI();
         }
         protected override IEntityFactory SetFactory()
         {
@@ -50,7 +51,7 @@ namespace Entity
         {
             get
             {
-                return bodyWidth + 1f;
+                return bodyWidth ;
             }
         }
         
@@ -110,6 +111,20 @@ namespace Entity
             Attack.To(target, new AttackData(this, target, damage, lookDirection));
 
             yield return new WaitForSeconds(atttackCoolTime);
+        }
+    }
+}
+
+namespace Entity
+{
+    using UI;
+    public partial class MonsterBase : EntityBase
+    {
+        HpBarUI hpBarUI;
+        void InitializeUI()
+        {
+            Debug.Log(ResourceLoad.hpBar);
+            hpBarUI = new HpBarUI(this,ResourceLoad.hpBar);
         }
     }
 }

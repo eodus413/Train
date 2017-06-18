@@ -22,7 +22,7 @@ namespace Camera2D
         private Vector3 velocity = Vector3.zero;        
         
         //이벤트함수
-        void Start()
+        public void Start()
         {
             currentCamera = Camera.main;
             SetTarget(EntityManager.player);
@@ -30,6 +30,7 @@ namespace Camera2D
 
         void Update()
         {
+            if (target == null) return;
             targetPoint = currentCamera.WorldToViewportPoint(target.position);      //타겟의 현재 화면 좌표값을 저장
 
             Vector3 delta = target.position - currentCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, targetPoint.z)); //(new Vector3(0.5, 0.5, point.z));

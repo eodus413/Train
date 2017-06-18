@@ -88,7 +88,7 @@ namespace Entity.Factory.Player
 {
     public class PlayerCatFactory : IEntityFactory
     {
-        public int GetHp { get { return 10; } }
+        public int GetHp { get { return 30; } }
         public float GetSpeed { get { return 0.5f; } }
         public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
@@ -194,8 +194,8 @@ namespace Entity.Factory.Monster
     }
     public class RatMonsterFactory : IEntityFactory
     {
-        public int GetHp { get { return 50; } }
-        public float GetSpeed { get { return 0.5f; } }
+        public int GetHp { get { return 25; } }
+        public float GetSpeed { get { return 0.75f; } }
         public IMoveBehavior GetMoveBehavior(EntityBase mover)
         {
             return new DefaultMove(mover, GetSpeed);

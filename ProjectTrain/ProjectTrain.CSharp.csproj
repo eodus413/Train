@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.6.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -111,20 +109,27 @@
     <Compile Include="Assets\SourceCodes\InGame\FieldObject\FieldObjectBase.cs" />
     <Compile Include="Assets\SourceCodes\InGame\FieldObject\ItemObject.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Item\Item.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Stage\StageSetter.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Stage\Stages.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\EntityUI\EntityUI.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\EntityUI\HpBarUI.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\MonsterUI\MonsterUI.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\AmmoText.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\AttackButton.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\ChangeWeaponButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\AttackButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\BuildButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\BuildTurretButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\ChangeWeaponButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\JumpButton.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\Buttons\ReloadButton.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\HpBar.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\JoyStick\JoyStick.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\JoyStick\JoyStickManager.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\JumpButton.cs" />
-    <Compile Include="Assets\SourceCodes\InGame\UI\PlayerUI\ReloadButton.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\SystemUI\CoinText.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\SystemUI\HomeButton.cs" />
     <Compile Include="Assets\SourceCodes\InGame\UI\SystemUI\InGameTimer.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Weapon\Projectiles\Bullet.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Weapon\Projectiles\ProjectileBase.cs" />
+    <Compile Include="Assets\SourceCodes\InGame\Weapon\Projectiles\ProjectileManager.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Weapon\Weapon.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Weapon\Weapons\Factory\GunFactory.cs" />
     <Compile Include="Assets\SourceCodes\InGame\Weapon\Weapons\Factory\WeaponFactory.cs" />
@@ -143,15 +148,18 @@
     <Compile Include="Assets\SourceCodes\Public\LineRenderer2D\LineRenderer2D.cs" />
     <Compile Include="Assets\SourceCodes\Public\Loaders\GameObjectLoader.cs" />
     <Compile Include="Assets\SourceCodes\Public\Loaders\MultiplySpriteLoader.cs" />
+    <Compile Include="Assets\SourceCodes\Public\Loaders\ResourceList\PrefabList.cs" />
+    <Compile Include="Assets\SourceCodes\Public\Loaders\ResourceList\SpriteList.cs" />
+    <Compile Include="Assets\SourceCodes\Public\Loaders\ResourceLoad.cs" />
     <Compile Include="Assets\SourceCodes\Public\ObjectPool\ObjectPool.cs" />
     <Compile Include="Assets\SourceCodes\Public\Platform\Platform.cs" />
     <Compile Include="Assets\SourceCodes\Public\Raycast2DManager\Raycast2DManager.cs" />
     <Compile Include="Assets\SourceCodes\Public\SceneManager\SceneController.cs" />
     <Compile Include="Assets\SourceCodes\Public\Singleton\DontDestroy.cs" />
     <Compile Include="Assets\SourceCodes\Public\Singleton\MonoSingleton.cs" />
-    <Compile Include="Assets\SourceCodes\Public\SpriteList\SpriteList.cs" />
     <Compile Include="Assets\SourceCodes\Public\StaticCoroutine\StaticCoroutine.cs" />
     <Compile Include="Assets\SourceCodes\Start\TouchToStart.cs" />
+    <Compile Include="Assets\SourceCodes\UserData\UserData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

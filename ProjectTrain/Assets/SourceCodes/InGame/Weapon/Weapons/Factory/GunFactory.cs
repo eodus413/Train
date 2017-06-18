@@ -20,7 +20,7 @@ namespace Weapon.Factory
 
         public int maxAmmo { get { return 8; } }
 
-        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }
@@ -41,7 +41,7 @@ namespace Weapon.Factory
         public int maxAmmo { get { return 4; } }
 
 
-        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }
@@ -62,7 +62,7 @@ namespace Weapon.Factory
         public int maxAmmo { get { return 30; } }
 
 
-        readonly Vector2 _shotPosition = new Vector2(0.07f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.07f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }
@@ -83,7 +83,7 @@ namespace Weapon.Factory
         public int maxAmmo { get { return 3; } }
 
 
-        readonly Vector2 _shotPosition = new Vector2(0.1f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.1f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }
@@ -104,7 +104,7 @@ namespace Weapon.Factory
         public int maxAmmo { get { return 40; } }
 
 
-        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }
@@ -125,7 +125,7 @@ namespace Weapon.Factory
         public int maxAmmo { get { return 100; } }
 
 
-        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.1f);
+        readonly Vector2 _shotPosition = new Vector2(0.05f, 0.08f);
         public Vector2 shotPosition
         {
             get { return _shotPosition; }

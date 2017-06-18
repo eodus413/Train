@@ -9,8 +9,9 @@ namespace Background
         [SerializeField]
         private Stages stage;
         GameObject fieldPrefab;
-        void Awake()
+        public void Initialize(Stages stage)
         {
+            this.stage = stage;
             fieldPrefab = Resources.Load<GameObject>("Colliders/" + stage.ToString());
             Instantiate(fieldPrefab, transform);
         }

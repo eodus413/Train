@@ -23,8 +23,25 @@ namespace Background
         private Vector3 previousCamPos;
 
         BackgroundLoader loader;
-        void Awake()
+        
+        void Update()
         {
+            for (int i = 0; i < backgroundsCount; ++i)    // 0, 1은 over,field layer
+            {
+                float parallax = (previousCamPos.x - cam.position.x) * parallaxScales[i];
+
+                float backgroundTargetPosX = backgrounds[i].position.x + parallax;
+
+                Vector3 backgroundTargetPos = new Vector3(backgroundTargetPosX, backgrounds[i].position.y, backgrounds[i].position.z);
+
+                backgrounds[i].localPosition = Vector3.Lerp(backgrounds[i].position, backgroundTargetPos, smooting * Time.deltaTime);
+            }
+            previousCamPos = cam.position;
+        }
+
+        public void Initialize(Stages stage)
+        {
+            this.stage = stage;
             cam = Camera.main.transform;
             loader = new BackgroundLoader(transform);
 
@@ -41,20 +58,6 @@ namespace Background
                 backgrounds[i].position += (Vector3.forward * (i + 1));
                 parallaxScales[i] = backgrounds[i].position.z * -1;
             }
-        }
-        void Update()
-        {
-            for (int i = 0; i < backgroundsCount; ++i)    // 0, 1은 over,field layer
-            {
-                float parallax = (previousCamPos.x - cam.position.x) * parallaxScales[i];
-
-                float backgroundTargetPosX = backgrounds[i].position.x + parallax;
-
-                Vector3 backgroundTargetPos = new Vector3(backgroundTargetPosX, backgrounds[i].position.y, backgrounds[i].position.z);
-
-                backgrounds[i].localPosition = Vector3.Lerp(backgrounds[i].position, backgroundTargetPos, smooting * Time.deltaTime);
-            }
-            previousCamPos = cam.position;
         }
     }
 }

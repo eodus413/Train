@@ -22,6 +22,7 @@
     public enum TurretType
     {
         MachineGun,
+        None,
 
     }
 }
